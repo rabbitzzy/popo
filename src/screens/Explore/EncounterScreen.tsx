@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useGameStore, useParty } from '../../store/gameStore'
-import { Button, Card } from '../../components'
+import { Button, Card, Sprite } from '../../components'
 import { StatBar } from '../../components'
 import { ZoneDef, PartyMember } from '../../data/types'
 
@@ -117,12 +117,21 @@ export default function EncounterScreen({ zone, wildBerry }: EncounterScreenProp
 
         {/* Wild Berry stats */}
         <Card>
-          <div style={{ marginBottom: '0.75rem' }}>
-            <h2 style={{ margin: '0 0 0.25rem 0', fontSize: '1.25rem', fontWeight: 'bold', color: '#2d8b85' }}>
-              Berry
-            </h2>
-            <div style={{ fontSize: '0.875rem', color: '#666' }}>
-              Lv. {wildBerry.level}
+          <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+            <div style={{ height: '80px', flexShrink: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Sprite
+                spriteUrl={`/sprites/${wildBerry.defId}.svg`}
+                alt="Wild Berry"
+                size="lg"
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <h2 style={{ margin: '0 0 0.25rem 0', fontSize: '1.25rem', fontWeight: 'bold', color: '#2d8b85' }}>
+                Berry
+              </h2>
+              <div style={{ fontSize: '0.875rem', color: '#666' }}>
+                Lv. {wildBerry.level}
+              </div>
             </div>
           </div>
 
