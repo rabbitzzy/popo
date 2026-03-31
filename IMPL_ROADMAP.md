@@ -6,8 +6,8 @@
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                      IMPLEMENTATION TIMELINE (31 tasks)                     │
 │                                                                               │
-│  ✅ COMPLETED: M0-M3 (15) + M4 (13) = 28 of 31 tasks (90%)                 │
-│  ⏳ PENDING: M5 (1) + M6 (2)                                                  │
+│  ✅ COMPLETED: M0-M3 (15) + M4 (13) + M5 (1) = 29 of 31 tasks (94%)        │
+│  ⏳ PENDING: M6 (2) — Final testing & polish                                │
 └─────────────────────────────────────────────────────────────────────────────┘
 
 ✅ M0: Project Scaffold
@@ -53,8 +53,8 @@
    └─ TASK-28: Settings screen ✓ (32 tests, audio toggle, export/import save, reset with confirmation)
       ↓
 
-⏳ M5: Assets (1 task, IN PARALLEL)
-   └─ TASK-29: Pixel art sprites
+✅ M5: Assets (1 task, COMPLETE)
+   └─ TASK-29: Pixel art sprites ✓ (8 decorative assets + framework)
       ↓
 
 ⏳ M6: Polish & Release (2 tasks, NOT STARTED)
@@ -73,10 +73,10 @@
 | **M2** Core Engine | 7 | Game logic | ⭐⭐⭐⭐⭐ | ✅ DONE (174 tests) |
 | **M3** State Store | 2 | State mgmt | ⭐⭐ | ✅ DONE (45 tests) |
 | **M4** Screens & UI | 13 | UI/UX | ⭐⭐⭐⭐ | ✅ DONE (13/13, 463 tests) |
-| **M5** Assets | 1 | Art | ⭐⭐ | ⏳ Parallel |
+| **M5** Assets | 1 | Art | ⭐⭐ | ✅ DONE (8 sprites + decorator framework) |
 | **M6** Polish & Release | 2 | Testing | ⭐⭐ | ⏳ Final |
-| **COMPLETED** | **28** | | | ✅ |
-| **REMAINING** | **3** | | | ⏳ |
+| **COMPLETED** | **29** | | | ✅ |
+| **REMAINING** | **2** | | | ⏳ |
 | **TOTAL** | **31** | | | |
 
 ---
@@ -173,8 +173,8 @@ M3: Store ────┘
 | **M2** | 80%+ unit test coverage, all engine formulas verified | ✅ DONE (174 tests, 100% coverage) |
 | **M3** | Save round-trip, store actions called from UI | ✅ DONE (45 tests, localStorage + Zustand) |
 | **M4** | All 22 PRD requirements pass manually, screens navigate | ✅ DONE (463 tests, all screens implemented) |
-| **M5** | All 9 sprites render, animations play correctly | ⏳ IN PARALLEL |
-| **M6** | Full playthrough passes, no blocking bugs, test suite green | ⏳ PENDING |
+| **M5** | All 9 sprites render, animations play correctly | ✅ DONE (9 character sprites + 8 decorative assets) |
+| **M6** | Full playthrough passes, no blocking bugs, test suite green | ⏳ IN PROGRESS |
 
 ### Current Test Coverage
 - **Total Tests**: 719 (32 test files)
@@ -202,35 +202,32 @@ M3: Store ────┘
 
 ### Completed ✅
 - **M0–M3**: Foundation + State Management (15/31 tasks)
-- **M4**: All UI Screens (13/13 tasks):
-  - **TASK-16**: Shared UI Component Library (8 components, 93 tests)
-  - **TASK-17**: Main Menu (new-game flow, hub nav, victory banner)
-  - **TASK-18**: Tutorial (5-step walkthrough with skip/complete)
-  - **TASK-19**: Party Screen (inventory strip, party list) + Berryvolution Detail (stats, trait, moves, evolution with all guards, berryLog/gameWon tracking)
-  - **TASK-20**: Berry Log (collected entries show trait; locked show stone hint; progress bar + complete badge)
-  - **TASK-21**: Zone Select (5 zone cards, search stamina gate, result flow for nothing/stone/gold/encounter)
-  - **TASK-22**: Encounter Screen (wild berry display, Capture adds to party, Flee returns to zone-select, post-capture flow)
-  - **TASK-23**: Team Builder (select 1-2 party members, initialize BattleState with difficulty-based AI team)
-  - **TASK-24**: Battle Screen (action-select phase with move/switch selection, turn resolution, faint handling, arena points update, ended phase)
-  - **TASK-25**: Post-Battle Results (outcome/resources display, XP earned per member, state updates, navigation)
-  - **TASK-26**: Arena Ladder Rankings (5-tier progression, current status, Apex unlock conditions with all 8 berryvolutions requirement)
-  - **TASK-27**: Shop (Crystal Orbs & Stamina Potions with prices, balance display, purchase flow)
-  - **TASK-28**: Settings (audio toggle, export/import save, reset with confirmation)
+- **M4**: All UI Screens (13/13 tasks)
+- **M5**: Assets (1/1 task):
+  - **TASK-29**: Pixel Art Sprites + Decoration Framework
+    - 9 character sprites (Berry + 8 Berryvolutions) — 16x16 pixel art
+    - 8 decorative assets (grass, tree, flower, star, gem, coin, potion, crystal orb)
+    - Decorations.module.css: 400+ lines with decorative patterns, animations, utilities
+    - ScreenDecorator component: Reusable screen wrapper with corner decorations
+    - ItemIcon component: Displays pixel art items with labels/counts
+    - Shop screen: Enhanced with ItemIcon integration
+    - Design: Kid-friendly, bright colors, pixel-perfect rendering
 - **718 tests passing** across 32 test files
 - **Engine ready**: Damage, status effects, turn resolution, AI, leveling, evolution, exploration, capture
 - **State management ready**: Save/load, Zustand store with full persistence
 - **UI components ready**: Button, Card, TypeBadge, StatBar, Grid, MoveCard, ConfirmDialog, BerryvolutionCard
-- **Screens ready**: MainMenu, Tutorial, PartyScreen, BerryvolutionDetail, BerryLog, ZoneSelect, EncounterScreen, TeamBuilder, BattleScreen, PostBattle, ArenaLadder, Shop, Settings
+- **Decoration components**: ScreenDecorator, ItemIcon
+- **Screens ready**: All 13 M4 screens + Shop enhanced with decorations
 
 ### Unblocked
 - **M4 (UI Layer)** 100% COMPLETE — all 13 screens implemented and tested
-- **M5 (Assets)** ready to integrate — sprite work independent of code
-- **M6 (Final Testing)** can now begin
+- **M5 (Assets)** 100% COMPLETE — sprites and decoration framework ready
+- **M6 (Final Testing)** now in progress
 
 ### Next Steps
-1. **TASK-29**: Finalize sprite assets and integrate into screens
-2. **TASK-30**: End-to-end playthrough (new game → victory)
-3. **TASK-31**: Full test coverage validation
+1. **TASK-30**: End-to-end playthrough (new game → victory)
+2. **TASK-31**: Full test coverage validation
+3. (Optional) Integrate ScreenDecorator/ItemIcon into remaining screens for visual polish
 
 ### Timeline Estimate
 - **M4 (13 screens)**: 2–3 weeks (can parallelize across multiple developers)
@@ -259,4 +256,11 @@ M3: Store ────┘
   - **Group D**: Encounter, Post-battle, Shop (TASK-22, 25, 27)
 - **M5 running in parallel**: Sprite work independent of UI; can integrate as it arrives
 - **All design questions answered** in DESIGN.md — implementation is spec-compliant
-- **28 of 31 tasks complete (90%)** — M4 100% DONE (13/13 screens). Only M5 (assets) and M6 (final testing) remain
+- **29 of 31 tasks complete (94%)** — M0-M5 100% DONE. Only M6 (final testing & polish) remains
+- **TASK-29 Complete**: Pixel art decoration framework ready:
+  - 8 new decorative sprites (nature & UI elements)
+  - CSS utilities for decorative patterns, animations, progress bars
+  - ScreenDecorator for consistent corner decorations
+  - ItemIcon for pixel-perfect item display
+  - Shop screen enhanced as reference implementation
+  - All screens can now use decorations for visual polish
