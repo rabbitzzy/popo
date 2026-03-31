@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Flower petals - red rose style -->
+  <rect x="7" y="2" width="1" height="1" fill="#FF1111"/>
+  <rect x="6" y="3" width="1" height="1" fill="#FF3333"/>
+  <rect x="8" y="3" width="1" height="1" fill="#FF3333"/>
+  <rect x="5" y="4" width="1" height="1" fill="#FF3333"/>
+  <rect x="9" y="4" width="1" height="1" fill="#FF3333"/>
+  <rect x="7" y="4" width="1" height="1" fill="#FFFF00"/>
+  <!-- Center yellow -->
+  <rect x="6" y="5" width="1" height="1" fill="#FF3333"/>
+  <rect x="7" y="5" width="1" height="1" fill="#FFFF00"/>
+  <rect x="8" y="5" width="1" height="1" fill="#FF3333"/>
+  <!-- Stem -->
+  <rect x="7" y="6" width="1" height="1" fill="#00BB00"/>
+  <rect x="7" y="7" width="1" height="1" fill="#00BB00"/>
+  <rect x="7" y="8" width="1" height="1" fill="#00BB00"/>
+  <rect x="7" y="9" width="1" height="1" fill="#00BB00"/>
+  <!-- Leaf -->
+  <rect x="6" y="7" width="1" height="1" fill="#00DD00"/>
+  <rect x="5" y="8" width="1" height="1" fill="#00DD00"/>
+</svg>

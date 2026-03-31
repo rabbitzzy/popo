@@ -1,0 +1,237 @@
+/* Decorative border styles - pixel art compatible */
+
+.decoratedCard {
+  position: relative;
+  border: 2px solid #2d8b85;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #ffffff 0%, #e8f8f7 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.decoratedCard::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 1rem;
+  width: 16px;
+  height: 16px;
+  background: url('/sprites/flower.svg') no-repeat center;
+  background-size: contain;
+  opacity: 0.7;
+}
+
+.decoratedCard.withGem::before {
+  background: url('/sprites/gem.svg') no-repeat center;
+}
+
+.decoratedCard.withStar::before {
+  background: url('/sprites/star.svg') no-repeat center;
+}
+
+/* Corner decorations */
+.cornerDecoration {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+}
+
+.cornerDecoration.topLeft {
+  top: -4px;
+  left: -4px;
+  background: url('/sprites/grass.svg') no-repeat center;
+  background-size: contain;
+}
+
+.cornerDecoration.topRight {
+  top: -4px;
+  right: -4px;
+  background: url('/sprites/flower.svg') no-repeat center;
+  background-size: contain;
+  transform: scaleX(-1);
+}
+
+.cornerDecoration.bottomLeft {
+  bottom: -4px;
+  left: -4px;
+  background: url('/sprites/grass.svg') no-repeat center;
+  background-size: contain;
+  transform: scaleY(-1);
+}
+
+.cornerDecoration.bottomRight {
+  bottom: -4px;
+  right: -4px;
+  background: url('/sprites/tree.svg') no-repeat center;
+  background-size: contain;
+  opacity: 0.4;
+}
+
+/* Decorative background pattern */
+.pixelBackground {
+  position: relative;
+  background-color: #f0f9f8;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(45, 139, 133, 0.02) 10px,
+    rgba(45, 139, 133, 0.02) 20px
+  );
+}
+
+/* Decorative header with nature theme */
+.decoratedHeader {
+  position: relative;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #2d8b85 0%, #1a5050 100%);
+  color: white;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.decoratedHeader::before {
+  content: '';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background: url('/sprites/gem.svg') no-repeat center;
+  background-size: contain;
+  opacity: 0.2;
+}
+
+.decoratedHeader h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+/* Icon badges */
+.iconBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(45, 139, 133, 0.1);
+  border-radius: 0.25rem;
+  border: 1px solid #2d8b85;
+}
+
+.iconBadge img {
+  width: 16px;
+  height: 16px;
+}
+
+/* Decorative progress bar */
+.decorativeProgress {
+  position: relative;
+  height: 20px;
+  background: linear-gradient(90deg, #ffffff, #e8f8f7);
+  border: 2px solid #2d8b85;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.decorativeProgress::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background: url('/sprites/grass.svg') no-repeat center;
+  background-size: contain;
+}
+
+.decorativeProgress::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background: url('/sprites/flower.svg') no-repeat center;
+  background-size: contain;
+}
+
+.decorativeProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #4ECDC4 0%, #2d8b85 100%);
+  transition: width 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.decorativeProgressFill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 4px,
+    rgba(255, 255, 255, 0.2) 4px,
+    rgba(255, 255, 255, 0.2) 8px
+  );
+  animation: shimmer 1s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0;
+  }
+  100% {
+    background-position: 16px;
+  }
+}
+
+/* Small float animation for decorative elements */
+@keyframes floatDecoration {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.floatDecoration {
+  animation: floatDecoration 3s ease-in-out infinite;
+}
+
+/* Subtle shine effect for badges/gems */
+.shineEffect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shineEffect::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}

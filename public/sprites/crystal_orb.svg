@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Crystal orb - purple/blue magic -->
+  <rect x="6" y="2" width="4" height="1" fill="#9933FF"/>
+  <rect x="5" y="3" width="1" height="1" fill="#6600CC"/>
+  <rect x="6" y="3" width="4" height="1" fill="#BB44FF"/>
+  <rect x="10" y="3" width="1" height="1" fill="#6600CC"/>
+  <rect x="4" y="4" width="1" height="1" fill="#6600CC"/>
+  <rect x="5" y="4" width="6" height="1" fill="#BB44FF"/>
+  <rect x="11" y="4" width="1" height="1" fill="#6600CC"/>
+  <rect x="3" y="5" width="1" height="1" fill="#6600CC"/>
+  <rect x="4" y="5" width="8" height="1" fill="#BB44FF"/>
+  <rect x="12" y="5" width="1" height="1" fill="#6600CC"/>
+  <rect x="3" y="6" width="1" height="1" fill="#BB44FF"/>
+  <rect x="4" y="6" width="8" height="1" fill="#DD88FF"/>
+  <rect x="12" y="6" width="1" height="1" fill="#BB44FF"/>
+  <rect x="4" y="7" width="8" height="1" fill="#BB44FF"/>
+  <rect x="5" y="8" width="6" height="1" fill="#9933FF"/>
+  <rect x="6" y="9" width="4" height="1" fill="#6600CC"/>
+  <rect x="7" y="10" width="2" height="1" fill="#6600CC"/>
+</svg>

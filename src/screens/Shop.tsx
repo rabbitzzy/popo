@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useGameStore, useInventory } from '../store/gameStore'
-import { Button, Card, ConfirmDialog } from '../components'
+import { Button, Card, ConfirmDialog, ItemIcon } from '../components'
 import { SHOP_PRICES } from '../data/config'
 
 type ShopItem = 'crystalOrb' | 'staminaPotion'
@@ -110,18 +110,25 @@ export default function Shop() {
 
       {/* Balance card */}
       <Card style={{ marginBottom: '1.5rem', maxWidth: '600px', margin: '0 auto 1.5rem' }}>
-        <div style={{ padding: '1rem' }}>
-          <div style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem' }}>
-            Gold Dust Balance
-          </div>
-          <div
-            style={{
-              fontSize: '2rem',
-              fontWeight: 'bold',
-              color: '#f57f17',
-            }}
-          >
-            {inventory.goldDust}
+        <div style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <ItemIcon
+            type="coin"
+            size="large"
+            showBadge={false}
+          />
+          <div>
+            <div style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem' }}>
+              Gold Dust Balance
+            </div>
+            <div
+              style={{
+                fontSize: '2rem',
+                fontWeight: 'bold',
+                color: '#f57f17',
+              }}
+            >
+              {inventory.goldDust}
+            </div>
           </div>
         </div>
       </Card>
@@ -150,26 +157,31 @@ export default function Shop() {
                   alignItems: 'center',
                 }}
               >
-                <div>
-                  <div style={{ fontSize: '1rem', fontWeight: 'bold', color: '#333', marginBottom: '0.25rem' }}>
-                    {item.name}
-                  </div>
-                  <div style={{ fontSize: '0.875rem', color: '#666' }}>
-                    {item.description}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1 }}>
+                  <ItemIcon
+                    type={item.id === 'crystalOrb' ? 'crystal' : 'potion'}
+                    size="large"
+                    showBadge={false}
+                  />
+                  <div>
+                    <div style={{ fontSize: '1rem', fontWeight: 'bold', color: '#333', marginBottom: '0.25rem' }}>
+                      {item.name}
+                    </div>
+                    <div style={{ fontSize: '0.875rem', color: '#666' }}>
+                      {item.description}
+                    </div>
                   </div>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                  <div
-                    style={{
-                      fontSize: '1.25rem',
-                      fontWeight: 'bold',
-                      color: '#f57f17',
-                      marginBottom: '0.25rem',
-                    }}
-                  >
-                    {item.price}
+                <div style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                  <ItemIcon
+                    type="coin"
+                    count={item.price}
+                    size="medium"
+                    showBadge={false}
+                  />
+                  <div style={{ fontSize: '0.75rem', color: '#999', marginTop: '0.25rem' }}>
+                    {item.price} Gold Dust
                   </div>
-                  <div style={{ fontSize: '0.75rem', color: '#999' }}>Gold Dust</div>
                 </div>
               </div>
             </Card>
