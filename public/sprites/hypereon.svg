@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Dorsal fin -->
+  <rect x="7" y="1" width="1" height="1" fill="#2266CC"/>
+  <rect x="6" y="2" width="3" height="1" fill="#2266CC"/>
+  <rect x="5" y="3" width="4" height="1" fill="#2266CC"/>
+  <!-- Top arc -->
+  <rect x="4" y="4" width="7" height="1" fill="#1144AA"/>
+  <!-- Row 5: body start, highlight top-left -->
+  <rect x="3" y="5" width="1" height="1" fill="#1144AA"/>
+  <rect x="4" y="5" width="3" height="1" fill="#88CCFF"/>
+  <rect x="7" y="5" width="4" height="1" fill="#4499EE"/>
+  <rect x="11" y="5" width="1" height="1" fill="#1144AA"/>
+  <!-- Row 6 -->
+  <rect x="2" y="6" width="1" height="1" fill="#1144AA"/>
+  <rect x="3" y="6" width="2" height="1" fill="#88CCFF"/>
+  <rect x="5" y="6" width="6" height="1" fill="#4499EE"/>
+  <rect x="11" y="6" width="1" height="1" fill="#1144AA"/>
+  <!-- Row 7: eyes -->
+  <rect x="2" y="7" width="1" height="1" fill="#1144AA"/>
+  <rect x="3" y="7" width="1" height="1" fill="#88CCFF"/>
+  <rect x="4" y="7" width="1" height="1" fill="#001133"/>
+  <rect x="5" y="7" width="3" height="1" fill="#4499EE"/>
+  <rect x="8" y="7" width="1" height="1" fill="#001133"/>
+  <rect x="9" y="7" width="2" height="1" fill="#4499EE"/>
+  <rect x="11" y="7" width="1" height="1" fill="#1144AA"/>
+  <!-- Row 8 -->
+  <rect x="2" y="8" width="1" height="1" fill="#1144AA"/>
+  <rect x="3" y="8" width="8" height="1" fill="#4499EE"/>
+  <rect x="11" y="8" width="1" height="1" fill="#1144AA"/>
+  <!-- Row 9: water wave detail -->
+  <rect x="2" y="9" width="1" height="1" fill="#1144AA"/>
+  <rect x="3" y="9" width="2" height="1" fill="#4499EE"/>
+  <rect x="5" y="9" width="1" height="1" fill="#88CCFF"/>
+  <rect x="6" y="9" width="3" height="1" fill="#4499EE"/>
+  <rect x="9" y="9" width="1" height="1" fill="#88CCFF"/>
+  <rect x="10" y="9" width="1" height="1" fill="#4499EE"/>
+  <rect x="11" y="9" width="1" height="1" fill="#1144AA"/>
+  <!-- Row 10 -->
+  <rect x="3" y="10" width="1" height="1" fill="#1144AA"/>
+  <rect x="4" y="10" width="6" height="1" fill="#4499EE"/>
+  <rect x="10" y="10" width="1" height="1" fill="#1144AA"/>
+  <!-- Side fins -->
+  <rect x="2" y="10" width="1" height="1" fill="#2266CC"/>
+  <rect x="11" y="10" width="1" height="1" fill="#2266CC"/>
+  <!-- Row 11 -->
+  <rect x="4" y="11" width="1" height="1" fill="#1144AA"/>
+  <rect x="5" y="11" width="4" height="1" fill="#4499EE"/>
+  <rect x="9" y="11" width="1" height="1" fill="#1144AA"/>
+  <!-- Bottom arc -->
+  <rect x="5" y="12" width="5" height="1" fill="#1144AA"/>
+  <!-- Tail fin -->
+  <rect x="6" y="13" width="3" height="1" fill="#2266CC"/>
+  <rect x="5" y="14" width="1" height="1" fill="#2266CC"/>
+  <rect x="9" y="14" width="1" height="1" fill="#2266CC"/>
+</svg>

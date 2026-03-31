@@ -1,0 +1,19 @@
+To win the game, you have to capture all Berry's evolved forms. You should also use all the evolutions of Berry to battle other Shards and win the battles.
+
+change number of berryevolutions for arena battle from 3 -> 2
+
+what does a Berry look like? it should look something like a cat.
+
+aquareon -> hypereon
+
+what should the moves look like?
+
+------------------------------------
+
+To win the game, you have to capture all Berry's evolved forms. You should also use all the evolutions of Berry to battle other Shards and win the battles.
+
+✓ DONE: Changed arena team size from 3 -> 2 Berryvolutions (updated DESIGN.md, TECH_SPEC.md, PRD.md, USER_STORIES.md)
+
+TODO: Determine what a Berry looks like - should look something like a cat. (Design sprite in TASK-29)
+
+✓ DONE: Renamed aquareon -> hypereon in all documentation and code

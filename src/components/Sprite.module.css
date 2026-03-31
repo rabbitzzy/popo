@@ -1,0 +1,62 @@
+.sprite {
+  display: inline-block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Size variants */
+.sm {
+  width: 48px;
+  height: 48px;
+}
+
+.md {
+  width: 96px;
+  height: 96px;
+}
+
+.lg {
+  width: 128px;
+  height: 128px;
+}
+
+/* Flip for enemy side in battle */
+.flipped {
+  transform: scaleX(-1);
+}
+
+/* --- Attack flash animation --- */
+@keyframes attackFlash {
+  0%   { filter: brightness(1); }
+  20%  { filter: brightness(4) saturate(0); }
+  40%  { filter: brightness(1); }
+  60%  { filter: brightness(3) saturate(0); }
+  100% { filter: brightness(1); }
+}
+
+.attack {
+  animation: attackFlash 0.35s ease-out forwards;
+}
+
+/* --- Faint animation: fade out + drop --- */
+@keyframes faint {
+  0%   { opacity: 1; transform: translateY(0); }
+  30%  { opacity: 0.8; transform: translateY(4px); }
+  100% { opacity: 0; transform: translateY(16px); }
+}
+
+.faintFlipped {
+  animation: faint 0.7s ease-in forwards;
+  transform-origin: center;
+}
+
+/* Faint when already flipped — override transform so both apply */
+.flipped.faintFlipped {
+  animation: faintFlipped 0.7s ease-in forwards;
+}
+
+@keyframes faintFlipped {
+  0%   { opacity: 1; transform: scaleX(-1) translateY(0); }
+  30%  { opacity: 0.8; transform: scaleX(-1) translateY(4px); }
+  100% { opacity: 0; transform: scaleX(-1) translateY(16px); }
+}
