@@ -1,13 +1,14 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import React from 'react'
+
 import ReactDOM from 'react-dom'
 import BerryvolutionDetail from './BerryvolutionDetail'
 import { useGameStore } from '../../store/gameStore'
+import type { PartyMember } from '../../data/types'
 import { computeStats } from '../../engine/leveling'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function resetStore(partyOverride = [], inventoryOverride = {}, berryLogOverride = []) {
+function resetStore(partyOverride: PartyMember[] = [], inventoryOverride = {}, berryLogOverride = []) {
   const store = useGameStore.getState()
   useGameStore.setState({
     saveState: {

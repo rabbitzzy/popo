@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { getAIAction } from './ai'
 import { computeStats } from './leveling'
 import { BattleState, CombatantState } from '../data/types'

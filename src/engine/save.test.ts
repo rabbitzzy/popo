@@ -249,7 +249,7 @@ describe('Save & Load Engine', () => {
     it('should parse valid save file', async () => {
       const state = createDefaultSaveState()
       state.tutorialComplete = true
-      const json = JSON.stringify({ version: 1, ...state })
+      const json = JSON.stringify({ ...state, version: 1 })
       const file = new File([json], 'save.json', { type: 'application/json' })
 
       const imported = await importSave(file)

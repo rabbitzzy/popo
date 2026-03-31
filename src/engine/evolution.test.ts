@@ -301,7 +301,7 @@ describe('evolution engine', () => {
       expect(canEvolve(berry, 'Water Stone', ['hypereon'], 1)).toBe(false)
 
       // But can evolve into different form
-      expect(canEvolve(berry, 'Fire Stone', ['aquareon'], 1)).toBe(true)
+      expect(canEvolve(berry, 'Fire Stone', ['emberon'], 1)).toBe(true)
     })
 
     it('should handle multiple Berrys evolving into different forms', () => {

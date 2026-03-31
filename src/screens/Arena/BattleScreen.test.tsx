@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import React from 'react'
+
 import ReactDOM from 'react-dom'
 import BattleScreen from './BattleScreen'
 import { useGameStore } from '../../store/gameStore'
@@ -47,7 +47,7 @@ function resetStore(battleState = null) {
       gameWon: false,
     },
     battleState,
-    screen: { id: 'battle' },
+    screen: { id: 'battle', battleState },
     initGame: store.initGame,
     createNewGame: store.createNewGame,
     loadGame: store.loadGame,
@@ -414,7 +414,7 @@ describe('BattleScreen', () => {
   it('shows victory message when player wins', () => {
     const battleState = initializeBattle([makeEmberon()], 'Silver')
     battleState.phase = 'ended' as const
-    battleState.outcome = 'player-win'
+    battleState.outcome = 'win'
     resetStore(battleState)
     ReactDOM.render(<BattleScreen />, container)
     expect(container.textContent).toContain('You Won')
@@ -423,7 +423,7 @@ describe('BattleScreen', () => {
   it('mentions arena points on victory', () => {
     const battleState = initializeBattle([makeEmberon()], 'Silver')
     battleState.phase = 'ended' as const
-    battleState.outcome = 'player-win'
+    battleState.outcome = 'win'
     resetStore(battleState)
     ReactDOM.render(<BattleScreen />, container)
     expect(container.textContent).toContain('Arena Points')
@@ -432,7 +432,7 @@ describe('BattleScreen', () => {
   it('shows continue button in ended phase', () => {
     const battleState = initializeBattle([makeEmberon()], 'Silver')
     battleState.phase = 'ended' as const
-    battleState.outcome = 'player-win'
+    battleState.outcome = 'win'
     resetStore(battleState)
     ReactDOM.render(<BattleScreen />, container)
     const btns = Array.from(container.querySelectorAll('button'))
@@ -442,7 +442,7 @@ describe('BattleScreen', () => {
   it('navigates to post-battle on continue', () => {
     const battleState = initializeBattle([makeEmberon()], 'Silver')
     battleState.phase = 'ended' as const
-    battleState.outcome = 'player-win'
+    battleState.outcome = 'win'
     resetStore(battleState)
     ReactDOM.render(<BattleScreen />, container)
     const continueBtn = Array.from(container.querySelectorAll('button')).find(
@@ -456,7 +456,7 @@ describe('BattleScreen', () => {
   it('updates arena points on victory', () => {
     const battleState = initializeBattle([makeEmberon()], 'Silver')
     battleState.phase = 'ended' as const
-    battleState.outcome = 'player-win'
+    battleState.outcome = 'win'
     resetStore(battleState)
     const initialPoints = useGameStore.getState().saveState.arena.points
     ReactDOM.render(<BattleScreen />, container)
@@ -471,7 +471,7 @@ describe('BattleScreen', () => {
   it('does not update points on defeat', () => {
     const battleState = initializeBattle([makeEmberon()], 'Silver')
     battleState.phase = 'ended' as const
-    battleState.outcome = 'ai-win'
+    battleState.outcome = 'loss'
     resetStore(battleState)
     const initialPoints = useGameStore.getState().saveState.arena.points
     ReactDOM.render(<BattleScreen />, container)

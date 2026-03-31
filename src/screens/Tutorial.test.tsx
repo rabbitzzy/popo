@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import React from 'react'
+
 import ReactDOM from 'react-dom'
 import Tutorial from './Tutorial'
 import { useGameStore } from '../store/gameStore'

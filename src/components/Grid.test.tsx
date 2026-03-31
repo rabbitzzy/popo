@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import React from 'react'
+
 import ReactDOM from 'react-dom'
 import Grid from './Grid'
 

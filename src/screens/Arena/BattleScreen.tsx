@@ -119,7 +119,7 @@ export default function BattleScreen() {
   }
 
   const handleBattleEnd = () => {
-    const isPlayerVictory = battleState.outcome === 'player-win'
+    const isPlayerVictory = battleState.outcome === 'win'
     const points = isPlayerVictory ? 10 : 0
 
     if (isPlayerVictory) {
@@ -490,7 +490,7 @@ export default function BattleScreen() {
   }
 
   if (battleState.phase === 'ended') {
-    const isVictory = battleState.outcome === 'player-win'
+    const isVictory = battleState.outcome === 'win'
     return (
       <div
         style={{

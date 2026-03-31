@@ -1,22 +1,28 @@
 interface ConfirmDialogProps {
   title: string
-  message: string
+  description?: string
+  message?: string
   confirmText?: string
   cancelText?: string
   onConfirm: () => void
   onCancel: () => void
+  dangerous?: boolean
   isDangerous?: boolean
 }
 
 export default function ConfirmDialog({
   title,
+  description,
   message,
   confirmText = 'Confirm',
   cancelText = 'Cancel',
   onConfirm,
   onCancel,
+  dangerous = false,
   isDangerous = false,
 }: ConfirmDialogProps) {
+  const finalMessage = description || message || ''
+  const isFinalDangerous = dangerous || isDangerous
   return (
     <div
       style={{
@@ -44,7 +50,7 @@ export default function ConfirmDialog({
         onClick={e => e.stopPropagation()}
       >
         <h2 style={{ margin: '0 0 0.75rem 0', fontSize: '1.5rem' }}>{title}</h2>
-        <p style={{ margin: '0 0 1.5rem 0', color: '#666', lineHeight: '1.5' }}>{message}</p>
+        <p style={{ margin: '0 0 1.5rem 0', color: '#666', lineHeight: '1.5' }}>{finalMessage}</p>
 
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'flex-end' }}>
           <button
@@ -69,7 +75,7 @@ export default function ConfirmDialog({
               padding: '0.5rem 1.25rem',
               borderRadius: '0.25rem',
               border: 'none',
-              backgroundColor: isDangerous ? '#FF6B6B' : '#4ECDC4',
+              backgroundColor: isFinalDangerous ? '#FF6B6B' : '#4ECDC4',
               color: '#fff',
               cursor: 'pointer',
               fontSize: '1rem',

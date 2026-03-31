@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import React from 'react'
+
 import ReactDOM from 'react-dom'
 import ArenaLadder from './ArenaLadder'
 import { useGameStore } from '../../store/gameStore'
 import { computeStats } from '../../engine/leveling'
+import type { PartyMember } from '../../data/types'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -21,7 +22,7 @@ function makeBerryvolution(defId: string, instanceId = `${defId}-1`, level = 10)
 }
 
 function resetStore(
-  partyOverride = [],
+  partyOverride: PartyMember[] = [],
   arenaPoints = 150,
   arenaTier = 'Silver' as any
 ) {

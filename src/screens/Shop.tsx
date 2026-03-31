@@ -44,22 +44,23 @@ export default function Shop() {
     }
 
     // Apply purchase
+    const currentInventory = inventory
     if (selectedItem === 'crystalOrb') {
-      updateSaveState(state => ({
+      updateSaveState({
         inventory: {
-          ...state.inventory,
-          goldDust: state.inventory.goldDust - item.price,
-          crystalOrbs: state.inventory.crystalOrbs + 1,
+          ...currentInventory,
+          goldDust: currentInventory.goldDust - item.price,
+          crystalOrbs: currentInventory.crystalOrbs + 1,
         },
-      }))
+      })
     } else if (selectedItem === 'staminaPotion') {
-      updateSaveState(state => ({
+      updateSaveState({
         inventory: {
-          ...state.inventory,
-          goldDust: state.inventory.goldDust - item.price,
-          stamina: state.inventory.stamina + SHOP_PRICES.staminaPotionAmount,
+          ...currentInventory,
+          goldDust: currentInventory.goldDust - item.price,
+          stamina: currentInventory.stamina + SHOP_PRICES.staminaPotionAmount,
         },
-      }))
+      })
     }
 
     setSelectedItem(null)

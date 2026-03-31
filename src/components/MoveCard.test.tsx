@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import React from 'react'
+
 import ReactDOM from 'react-dom'
 import MoveCard from './MoveCard'
 import { MoveDefinition } from '../data/types'

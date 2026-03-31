@@ -63,6 +63,7 @@ describe('battle engine', () => {
     log: [],
     phase: 'action-select',
     outcome: null,
+    aiDifficulty: 'Rookie',
   })
 
   // =========================================================================

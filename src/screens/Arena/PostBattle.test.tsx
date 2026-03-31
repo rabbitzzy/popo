@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import React from 'react'
+
 import ReactDOM from 'react-dom'
 import PostBattle from './PostBattle'
 import { useGameStore } from '../../store/gameStore'
 import { computeStats } from '../../engine/leveling'
-import { BattleResult } from '../../data/types'
+import type { BattleResult, PartyMember } from '../../data/types'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -34,7 +34,7 @@ function makeHypereon(instanceId = 'hypereon-1', level = 8) {
   }
 }
 
-function resetStore(partyOverride = [], arenaPoints = 150) {
+function resetStore(partyOverride: PartyMember[] = [], arenaPoints = 150) {
   const store = useGameStore.getState()
   useGameStore.setState({
     saveState: {
@@ -47,7 +47,15 @@ function resetStore(partyOverride = [], arenaPoints = 150) {
       gameWon: false,
     },
     battleState: null,
-    screen: { id: 'post-battle' },
+    screen: {
+      id: 'post-battle',
+      result: {
+        outcome: 'win',
+        xpEarned: {},
+        arenaPointsChange: 10,
+        resourcesEarned: { goldDust: 50, stamina: 0 },
+      },
+    },
     initGame: store.initGame,
     createNewGame: store.createNewGame,
     loadGame: store.loadGame,

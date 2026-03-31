@@ -21,8 +21,8 @@ const SAVE_VERSION = 1
  */
 export function save(state: SaveState): void {
   const payload = {
-    version: SAVE_VERSION,
     ...state,
+    version: SAVE_VERSION,
   }
   localStorage.setItem(SAVE_KEY, JSON.stringify(payload))
 }
@@ -97,8 +97,8 @@ function migrate(oldState: any): SaveState {
  */
 export function exportSave(state: SaveState): void {
   const payload = {
-    version: SAVE_VERSION,
     ...state,
+    version: SAVE_VERSION,
   }
 
   const json = JSON.stringify(payload, null, 2)

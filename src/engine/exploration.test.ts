@@ -1,7 +1,6 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { searchZone, spawnWildBerry } from './exploration'
 import { computeStats } from './leveling'
-import { ZoneDef } from '../data/types'
 import { EMBER_CRATER, TIDE_BASIN, VERDANT_VALE, FROSTPEAK_ZONE, WANDERING_PATH } from '../data/zones'
 
 describe('exploration engine', () => {

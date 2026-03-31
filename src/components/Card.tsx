@@ -1,14 +1,13 @@
-import React from 'react'
-
 interface CardProps {
   title?: string
   children: React.ReactNode
   onClick?: () => void
   selected?: boolean
   disabled?: boolean
+  style?: React.CSSProperties
 }
 
-export default function Card({ title, children, onClick, selected = false, disabled = false }: CardProps) {
+export default function Card({ title, children, onClick, selected = false, disabled = false, style }: CardProps) {
   return (
     <div
       onClick={onClick}
@@ -20,6 +19,7 @@ export default function Card({ title, children, onClick, selected = false, disab
         cursor: onClick && !disabled ? 'pointer' : 'default',
         opacity: disabled ? 0.6 : 1,
         transition: 'all 0.2s ease',
+        ...style,
       }}
     >
       {title && <h3 style={{ margin: '0 0 0.75rem 0', fontSize: '1.125rem' }}>{title}</h3>}
