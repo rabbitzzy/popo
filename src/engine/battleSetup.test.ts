@@ -145,19 +145,51 @@ describe('Battle Setup', () => {
     })
   })
 
-  it('AI members start at level 15+', () => {
+  it('AI members start at level 3+ for Rookie tier', () => {
     const team = [makeEmberon('em-1')]
     const state = initializeBattle(team, 'Bronze')
     state.aiTeam.forEach(combatant => {
-      expect(combatant.partyMember.level).toBeGreaterThanOrEqual(15)
+      expect(combatant.partyMember.level).toBeGreaterThanOrEqual(3)
     })
   })
 
-  it('AI members start at level <= 25', () => {
+  it('AI members start at level <= 8 for Rookie tier', () => {
     const team = [makeEmberon('em-1')]
     const state = initializeBattle(team, 'Bronze')
     state.aiTeam.forEach(combatant => {
-      expect(combatant.partyMember.level).toBeLessThanOrEqual(25)
+      expect(combatant.partyMember.level).toBeLessThanOrEqual(8)
+    })
+  })
+
+  it('AI members start at level 12+ for Trainer tier', () => {
+    const team = [makeEmberon('em-1')]
+    const state = initializeBattle(team, 'Gold')
+    state.aiTeam.forEach(combatant => {
+      expect(combatant.partyMember.level).toBeGreaterThanOrEqual(12)
+    })
+  })
+
+  it('AI members start at level <= 18 for Trainer tier', () => {
+    const team = [makeEmberon('em-1')]
+    const state = initializeBattle(team, 'Gold')
+    state.aiTeam.forEach(combatant => {
+      expect(combatant.partyMember.level).toBeLessThanOrEqual(18)
+    })
+  })
+
+  it('AI members start at level 25+ for Champion tier', () => {
+    const team = [makeEmberon('em-1')]
+    const state = initializeBattle(team, 'Apex')
+    state.aiTeam.forEach(combatant => {
+      expect(combatant.partyMember.level).toBeGreaterThanOrEqual(25)
+    })
+  })
+
+  it('AI members start at level <= 30 for Champion tier', () => {
+    const team = [makeEmberon('em-1')]
+    const state = initializeBattle(team, 'Apex')
+    state.aiTeam.forEach(combatant => {
+      expect(combatant.partyMember.level).toBeLessThanOrEqual(30)
     })
   })
 

@@ -30,27 +30,26 @@ export interface WorldMapGraph {
 }
 
 // ----------------------------------------------------------------------------
-// Default world map
+// Default world map - Mobile optimized vertical layout
 // ----------------------------------------------------------------------------
 
 export const WORLD_MAP: WorldMapGraph = {
-  // Deliberately uneven — avoids a rigid grid look.
-  // Ember (top-left, pushed in), Tide (top-right, shifted down a bit),
-  // Verdant (off-center), Frostpeak (mid-left, lower), Wandering (far right, low).
+  // Vertical arrangement optimized for mobile screens
+  // Nodes arranged in a diamond/vertical pattern for better space usage
   nodes: [
-    { id: 'ember-crater',   label: 'Ember Crater',   x:  95, y:  70, color: '#e85d26' },
-    { id: 'tide-basin',     label: 'Tide Basin',      x: 400, y: 105, color: '#2e9fcc' },
-    { id: 'verdant-vale',   label: 'Verdant Vale',    x: 220, y: 205, color: '#4caf50' },
-    { id: 'frostpeak-zone', label: 'Frostpeak Zone',  x: 130, y: 320, color: '#80d8f0' },
-    { id: 'wandering-path', label: 'Wandering Path',  x: 405, y: 295, color: '#a78bfa' },
+    { id: 'ember-crater',   label: 'Ember Crater',   x: 250, y:  60, color: '#e85d26' },  // Top center
+    { id: 'tide-basin',     label: 'Tide Basin',      x: 380, y: 140, color: '#2e9fcc' },  // Upper right
+    { id: 'verdant-vale',   label: 'Verdant Vale',    x: 250, y: 200, color: '#4caf50' },  // Center
+    { id: 'frostpeak-zone', label: 'Frostpeak Zone',  x: 120, y: 280, color: '#80d8f0' },  // Lower left
+    { id: 'wandering-path', label: 'Wandering Path',  x: 380, y: 320, color: '#a78bfa' },  // Bottom right
   ],
   edges: [
-    // Winding paths — control-point offsets give each trail a unique bend
-    { from: 'ember-crater',   to: 'verdant-vale',    curve: { dx: -55, dy:  25 } },
-    { from: 'tide-basin',     to: 'verdant-vale',    curve: { dx:  40, dy: -30 } },
-    { from: 'verdant-vale',   to: 'frostpeak-zone',  curve: { dx: -45, dy:  20 } },
-    { from: 'verdant-vale',   to: 'wandering-path',  curve: { dx:  50, dy:  30 } },
-    { from: 'ember-crater',   to: 'frostpeak-zone',  curve: { dx: -50, dy:   0 } },
-    { from: 'tide-basin',     to: 'wandering-path',  curve: { dx:  55, dy:  10 } },
+    // Curved paths connecting zones
+    { from: 'ember-crater',   to: 'verdant-vale',    curve: { dx: -40, dy: -20 } },
+    { from: 'tide-basin',     to: 'verdant-vale',    curve: { dx:  30, dy: -20 } },
+    { from: 'verdant-vale',   to: 'frostpeak-zone',  curve: { dx: -30, dy:  20 } },
+    { from: 'verdant-vale',   to: 'wandering-path',  curve: { dx:  40, dy:  30 } },
+    { from: 'ember-crater',   to: 'tide-basin',      curve: { dx:  50, dy: -30 } },
+    { from: 'frostpeak-zone', to: 'wandering-path',  curve: { dx:   0, dy:  40 } },
   ],
 }

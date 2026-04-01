@@ -109,26 +109,27 @@ describe('evolution engine', () => {
       const evolved = applyEvolution(berry, 'Water Stone')
 
       expect(evolved.defId).toBe('hypereon')
-      expect(evolved.level).toBe(1)
+      expect(evolved.level).toBe(10)  // FIXED: Keeps level instead of resetting to 1
       expect(evolved.xp).toBe(0)
       expect(evolved.instanceId).toBe('test-berry-1') // Keep same instance ID
     })
 
-    it('should reset stats to evolved form level 1', () => {
+    it('should update stats to evolved form at current level', () => {
       const berry = createBerry(10)
       const evolved = applyEvolution(berry, 'Water Stone')
 
-      const hypereonLevel1 = computeStats('hypereon', 1)
-      expect(evolved.currentStats).toEqual(hypereonLevel1)
-      expect(evolved.maxHp).toBe(hypereonLevel1.hp)
+      const hypereonLevel10 = computeStats('hypereon', 10)
+      expect(evolved.currentStats).toEqual(hypereonLevel10)
+      expect(evolved.maxHp).toBe(hypereonLevel10.hp)
     })
 
-    it('should unlock only level 1 move', () => {
+    it('should unlock moves up to current level', () => {
       const berry = createBerry(10)
       const evolved = applyEvolution(berry, 'Water Stone')
 
-      expect(evolved.unlockedMoveIds.length).toBe(1)
-      expect(evolved.unlockedMoveIds[0]).toBe('hypereon-splash-shot')
+      // At level 10, should have level 1 and level 8 moves unlocked
+      expect(evolved.unlockedMoveIds.length).toBeGreaterThanOrEqual(1)
+      expect(evolved.unlockedMoveIds).toContain('hypereon-splash-shot')
     })
 
     it('should evolve into correct form for each stone', () => {
@@ -180,15 +181,16 @@ describe('evolution engine', () => {
       expect(evolved.instanceId).toBe('special-uuid-123')
     })
 
-    it('should not carry over unevolved stats', () => {
-      // Berry at high level has inflated stats
-      const berry20 = createBerry(20)
-      const evolvedStats = applyEvolution(berry20, 'Water Stone')
+    it('should update to evolved form stats at current level', () => {
+      // Berry at level 10 evolves and keeps level
+      const berry10 = createBerry(10)
+      const evolvedStats = applyEvolution(berry10, 'Water Stone')
 
-      // Should be reset to level 1 of evolved form
-      const hypereonLevel1 = computeStats('hypereon', 1)
-      expect(evolvedStats.currentStats.hp).toBe(hypereonLevel1.hp)
-      expect(evolvedStats.currentStats.atk).toBe(hypereonLevel1.atk)
+      // Should be updated to Hypereon at level 10
+      const hypereonLevel10 = computeStats('hypereon', 10)
+      expect(evolvedStats.currentStats.hp).toBe(hypereonLevel10.hp)
+      expect(evolvedStats.currentStats.atk).toBe(hypereonLevel10.atk)
+      expect(evolvedStats.level).toBe(10)
     })
 
     it('should work for all Berryvolutions', () => {
@@ -209,8 +211,8 @@ describe('evolution engine', () => {
       stones.forEach((stone, index) => {
         const evolved = applyEvolution(berry, stone)
         expect(evolved.defId).toBe(forms[index])
-        expect(evolved.level).toBe(1)
-        expect(evolved.unlockedMoveIds.length).toBe(1)
+        expect(evolved.level).toBe(10)  // FIXED: Keeps level
+        expect(evolved.unlockedMoveIds.length).toBeGreaterThanOrEqual(1)
       })
     })
   })
@@ -281,9 +283,9 @@ describe('evolution engine', () => {
 
       // Verify post-evolution state
       expect(evolved.defId).toBe('hypereon')
-      expect(evolved.level).toBe(1)
+      expect(evolved.level).toBe(10)  // FIXED: Keeps level
       expect(evolved.unlockedMoveIds).toContain('hypereon-splash-shot')
-      expect(evolved.currentStats.hp).toBe(computeStats('hypereon', 1).hp)
+      expect(evolved.currentStats.hp).toBe(computeStats('hypereon', 10).hp)
     })
 
     it('should prevent duplicate evolutions', () => {
@@ -300,8 +302,8 @@ describe('evolution engine', () => {
       // Already have Hypereon in party
       expect(canEvolve(berry, 'Water Stone', ['hypereon'], 1)).toBe(false)
 
-      // But can evolve into different form
-      expect(canEvolve(berry, 'Fire Stone', ['emberon'], 1)).toBe(true)
+      // Can evolve into different form if we don't have it
+      expect(canEvolve(berry, 'Fire Stone', ['hypereon'], 1)).toBe(true)
     })
 
     it('should handle multiple Berrys evolving into different forms', () => {

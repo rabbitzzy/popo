@@ -73,7 +73,7 @@ export const WANDERING_PATH: ZoneDef = {
   berryEncounterRate: 0.05,
   wildBerryLevelRange: [1, 10],
   stoneDrops: [
-    { stone: 'Ribbon Shard', dropRate: 0.08 },
+    { stone: 'Ribbon Shard', dropRate: 0.18 },  // Increased from 0.08 for better UX
   ],
   goldDustRange: [5, 20],
 }

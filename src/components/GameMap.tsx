@@ -9,9 +9,10 @@ interface GameMapProps {
 }
 
 const SVG_W = 500
-const SVG_H = 390
-const NODE_R = 32       // hit-area / icon half-size
-const ICON_SIZE = 44    // pixel art icon rendered width/height
+const SVG_H = 400
+const NODE_R = 36       // hit-area / icon half-size (increased for better visibility)
+const ICON_SIZE = 50    // pixel art icon rendered width/height (increased)
+const TOUCH_TARGET = 44 // Minimum touch target size (Apple HIG recommendation)
 
 /** Compute the quadratic bezier control point from a midpoint + offset */
 function controlPoint(x1: number, y1: number, x2: number, y2: number, dx: number, dy: number) {
@@ -93,6 +94,13 @@ export default function GameMap({ zones, onZoneClick }: GameMapProps) {
               aria-label={node.label}
               onKeyDown={e => e.key === 'Enter' && handleNodeClick(node)}
             >
+              {/* Invisible touch target for mobile */}
+              <circle
+                r={TOUCH_TARGET}
+                fill="transparent"
+                className={styles.touchTarget}
+              />
+
               {/* Pulse ring */}
               <circle
                 r={NODE_R + 6}
@@ -136,13 +144,13 @@ export default function GameMap({ zones, onZoneClick }: GameMapProps) {
               {hovered && zone && (
                 <g>
                   <rect
-                    x={-52} y={-(NODE_R + 38)}
-                    width={104} height={30}
+                    x={-48} y={-(NODE_R + 34)}
+                    width={96} height={28}
                     rx={5}
                     fill="rgba(0,0,0,0.62)"
                   />
                   <text
-                    y={-(NODE_R + 25)}
+                    y={-(NODE_R + 22)}
                     textAnchor="middle"
                     className={styles.statLine}
                   >
@@ -152,7 +160,7 @@ export default function GameMap({ zones, onZoneClick }: GameMapProps) {
                   </text>
                   {zone.stoneDrops[0] && (
                     <text
-                      y={-(NODE_R + 13)}
+                      y={-(NODE_R + 11)}
                       textAnchor="middle"
                       className={styles.statLine}
                     >

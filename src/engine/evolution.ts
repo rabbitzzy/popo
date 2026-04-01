@@ -71,9 +71,9 @@ export function canEvolve(
  *
  * Evolution:
  * - Replaces the Berry with the evolved form
- * - Resets level to 1 with evolved form's level-1 stats
- * - Resets XP to 0
- * - Resets unlockedMoveIds to just the level-1 move
+ * - KEEPS current level (no reset!)
+ * - Updates stats to evolved form's stats at current level
+ * - Updates unlocked moves for new form at current level
  * - Updates instance to reflect new form
  *
  * Note: Does NOT deduct the stone from inventory - caller must do that.
@@ -98,21 +98,23 @@ export function applyEvolution(member: PartyMember, stone: EvolutionStone): Part
   // Get the form definition to validate and access stats
   const formDef = getBerryvolutionById(targetFormId)
 
-  // Compute stats at level 1 of the evolved form
-  const level1Stats = computeStats(targetFormId, 1)
+  // FIXED: Keep current level instead of resetting to 1
+  const evolvedLevel = member.level
 
-  // Get level 1 moves (only the move that unlocks at level 1)
-  const level1Moves = getUnlockedMoves(targetFormId, 1)
-  const unlockedMoveIds = level1Moves.map(m => m.id)
+  // Compute stats at current level of the evolved form
+  const levelStats = computeStats(targetFormId, evolvedLevel)
+
+  // Get moves unlocked up to current level
+  const unlockedMoveIds = getUnlockedMoves(targetFormId, evolvedLevel).map(m => m.id)
 
   // Create the evolved member
   const evolved: PartyMember = {
     instanceId: member.instanceId, // Keep the same instance ID
     defId: targetFormId,
-    level: 1,
-    xp: 0,
-    currentStats: level1Stats,
-    maxHp: level1Stats.hp,
+    level: evolvedLevel, // Keep level!
+    xp: 0, // Reset XP for new level progression
+    currentStats: levelStats,
+    maxHp: levelStats.hp,
     unlockedMoveIds,
   }
 

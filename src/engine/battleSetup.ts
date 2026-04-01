@@ -35,7 +35,9 @@ export function initializeBattle(playerTeam: PartyMember[], arenaTier: ArenaTier
   )
 
   // Generate AI team (1-2 random Berryvolutions, not unevolved Berry)
-  const aiTeam = generateAiTeam(arenaTier === 'Apex' ? 2 : 1)
+  // Apex tier always has 2 team members, others have 1
+  const aiTeamSize = arenaTier === 'Apex' ? 2 : 1
+  const aiTeam = generateAiTeam(aiTeamSize, aiDifficulty)
 
   return {
     playerTeam: playerCombatants,
@@ -89,18 +91,26 @@ function createCombatant(member: PartyMember): CombatantState {
  * Generate a random AI team for the battle.
  *
  * Selects random Berryvolutions (evolved forms only, no unevolved Berry).
- * Each AI member is at a level proportional to their Berryvolution's role.
+ * AI levels scale with arena tier for fair progression.
  *
  * @param teamSize - Number of AI team members (1 or 2)
+ * @param aiDifficulty - AI difficulty tier (determines level range)
  * @returns Array of CombatantStates ready for battle
  */
-function generateAiTeam(teamSize: number): CombatantState[] {
+function generateAiTeam(teamSize: number, aiDifficulty: string): CombatantState[] {
   const shuffled = [...BERRYVOLUTION_LIST].sort(() => Math.random() - 0.5)
   const selected = shuffled.slice(0, teamSize)
 
+  // AI levels scale with arena tier
+  const levelRanges: Record<string, [number, number]> = {
+    'Rookie': [3, 8],      // Accessible for Berry Lv1-10
+    'Trainer': [12, 18],   // Requires evolved forms
+    'Champion': [25, 30],  // Endgame challenge
+  }
+  const [minLevel, maxLevel] = levelRanges[aiDifficulty] || levelRanges['Rookie']
+
   return selected.map(def => {
-    // AI Berryvolutions start at level 15-25
-    const level = 15 + Math.floor(Math.random() * 11)
+    const level = minLevel + Math.floor(Math.random() * (maxLevel - minLevel + 1))
     const stats = computeStats(def.id, level)
 
     const aiMember: PartyMember = {

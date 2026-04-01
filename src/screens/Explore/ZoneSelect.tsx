@@ -100,7 +100,9 @@ export default function ZoneSelect() {
       style={{
         minHeight: '100vh',
         backgroundColor: '#f0f9f8',
-        padding: '1.5rem',
+        padding: '1rem',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       {/* Header */}
@@ -108,14 +110,15 @@ export default function ZoneSelect() {
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '1rem',
-          marginBottom: '1.25rem',
+          gap: '0.75rem',
+          marginBottom: '0.75rem',
+          flexShrink: 0,
         }}
       >
         <Button variant="secondary" size="small" onClick={() => setScreen({ id: 'main-menu' })}>
           ← Back
         </Button>
-        <h1 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 'bold', color: '#2d8b85' }}>
+        <h1 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 'bold', color: '#2d8b85' }}>
           Explore
         </h1>
       </div>
@@ -126,9 +129,10 @@ export default function ZoneSelect() {
           backgroundColor: '#fff',
           border: '1px solid #e0e0e0',
           borderRadius: '0.5rem',
-          padding: '0.75rem 1rem',
-          marginBottom: '1.25rem',
-          fontSize: '0.875rem',
+          padding: '0.6rem 0.875rem',
+          marginBottom: '0.75rem',
+          fontSize: '0.8125rem',
+          flexShrink: 0,
         }}
       >
         <span style={{ color: '#666' }}>Stamina: </span>
@@ -136,8 +140,10 @@ export default function ZoneSelect() {
         <span style={{ color: '#777' }}> / ∞</span>
       </div>
 
-      {/* Game Map */}
-      <GameMap zones={ZONE_LIST} onZoneClick={handleSearch} />
+      {/* Game Map - fills remaining space */}
+      <div style={{ flex: 1, minHeight: 0 }}>
+        <GameMap zones={ZONE_LIST} onZoneClick={handleSearch} />
+      </div>
     </div>
   )
 }

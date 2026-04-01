@@ -128,9 +128,9 @@ export const EVOLUTION_STONE_NAMES: Record<EvolutionStone, string> = {
 export const ARENA_TIERS = {
   bronze: { tier: 'Bronze' as const, pointsRequired: 0, aiDifficulty: 'Rookie' as const },
   silver: { tier: 'Silver' as const, pointsRequired: 300, aiDifficulty: 'Rookie' as const },
-  gold: { tier: 'Gold' as const, pointsRequired: 700, aiDifficulty: 'Trainer' as const },
-  crystal: { tier: 'Crystal' as const, pointsRequired: 1200, aiDifficulty: 'Trainer' as const },
-  apex: { tier: 'Apex' as const, pointsRequired: 2000, aiDifficulty: 'Champion' as const },
+  gold: { tier: 'Gold' as const, pointsRequired: 600, aiDifficulty: 'Trainer' as const },   // Reduced from 700
+  crystal: { tier: 'Crystal' as const, pointsRequired: 900, aiDifficulty: 'Trainer' as const }, // Reduced from 1200
+  apex: { tier: 'Apex' as const, pointsRequired: 1400, aiDifficulty: 'Champion' as const }, // Reduced from 2000
 } as const
 
 // ============================================================================
