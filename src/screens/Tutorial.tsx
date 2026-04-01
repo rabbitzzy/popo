@@ -10,7 +10,7 @@ interface TutorialStep {
 
 const STEPS: TutorialStep[] = [
   {
-    icon: '🫐',
+    icon: '🐱',
     title: 'Meet Berry',
     body: "This is Berry — your unevolved companion. Berry can't evolve on its own, but with the right Evolution Stones it can transform into one of 8 powerful Berryvolutions.",
   },
