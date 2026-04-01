@@ -202,7 +202,8 @@ describe('BattleScreen', () => {
       b => b.textContent?.match(/NRG/) && !(b as HTMLButtonElement).disabled
     )
     moveButtons[0]?.click()
-    expect(container.textContent).toContain('Execute Action')
+    // Move executes immediately, check battle log updated
+    expect(container.textContent).toContain('Battle Log')
   })
 
   // ── Basic attack ──────────────────────────────────────────────────────────
@@ -222,7 +223,8 @@ describe('BattleScreen', () => {
       b => b.textContent?.includes('Basic Attack')
     )
     basicBtn?.click()
-    expect(container.textContent).toContain('Execute Action')
+    // Basic attack executes immediately, check battle log updated
+    expect(container.textContent).toContain('Battle Log')
   })
 
   // ── Switch (no teammates) ─────────────────────────────────────────────────
@@ -275,48 +277,38 @@ describe('BattleScreen', () => {
       b => b.textContent?.includes('Hypereon')
     )
     switchButtons[0]?.click()
-    expect(container.textContent).toContain('Execute Action')
+    // Switch executes immediately, check that battle state updated
+    expect(container.textContent).toContain('Battle Log')
   })
 
-  // ── Execute Action button ─────────────────────────────────────────────────
+  // ── Direct Action Execution ─────────────────────────────────────────────────
 
-  it('disables Execute Action when no action selected', () => {
+  it('executes basic attack immediately on click', () => {
     const battleState = initializeBattle([makeEmberon()], 'Silver')
-    resetStore(battleState)
-    ReactDOM.render(<BattleScreen />, container)
-    const executeBtn = Array.from(container.querySelectorAll('button')).find(
-      b => b.textContent?.includes('Execute Action')
-    ) as HTMLButtonElement
-    expect(executeBtn?.disabled).toBe(true)
-  })
-
-  it('enables Execute Action when action selected', () => {
-    const battleState = initializeBattle([makeEmberon()], 'Silver')
+    const initialTurn = battleState.turn
     resetStore(battleState)
     ReactDOM.render(<BattleScreen />, container)
     const basicBtn = Array.from(container.querySelectorAll('button')).find(
       b => b.textContent?.includes('Basic Attack')
     )
     basicBtn?.click()
-    const executeBtn = Array.from(container.querySelectorAll('button')).find(
-      b => b.textContent?.includes('Execute Action')
-    ) as HTMLButtonElement
-    expect(executeBtn?.disabled).toBe(false)
+    // Action executes immediately, turn should increment
+    const state = useGameStore.getState().battleState
+    expect(state?.turn).toBeGreaterThan(initialTurn)
   })
 
-  it('executes turn when Execute Action clicked', () => {
+  it('executes move immediately on click', () => {
     const battleState = initializeBattle([makeEmberon()], 'Silver')
+    const initialTurn = battleState.turn
     resetStore(battleState)
     ReactDOM.render(<BattleScreen />, container)
-    const basicBtn = Array.from(container.querySelectorAll('button')).find(
-      b => b.textContent?.includes('Basic Attack')
+    const moveBtn = Array.from(container.querySelectorAll('button')).find(
+      b => b.textContent?.includes('Ember')
     )
-    basicBtn?.click()
-    const executeBtn = Array.from(container.querySelectorAll('button')).find(
-      b => b.textContent?.includes('Execute Action')
-    )
-    executeBtn?.click()
-    expect(useGameStore.getState().battleState).not.toBeNull()
+    moveBtn?.click()
+    // Action executes immediately, turn should increment
+    const state = useGameStore.getState().battleState
+    expect(state?.turn).toBeGreaterThan(initialTurn)
   })
 
   // ── Error messages ────────────────────────────────────────────────────────

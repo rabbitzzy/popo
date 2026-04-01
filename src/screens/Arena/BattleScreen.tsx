@@ -16,10 +16,6 @@ export default function BattleScreen() {
 
   const initialBattleState = storeState.battleState
   const [battleState, setBattleStateLocal] = useState<BattleState | null>(initialBattleState)
-  const [selectedAction, setSelectedAction] = useState<{
-    type: 'move' | 'basic' | 'switch'
-    value?: string
-  } | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showExitConfirm, setShowExitConfirm] = useState(false)
 
@@ -79,33 +75,25 @@ export default function BattleScreen() {
       return
     }
 
-    setSelectedAction({ type: 'move', value: moveId })
-    setError(null)
+    executeAction({ type: 'move', value: moveId })
   }
 
   const handleSelectBasicAttack = () => {
-    setSelectedAction({ type: 'basic' })
-    setError(null)
+    executeAction({ type: 'basic' })
   }
 
   const handleSelectSwitch = (switchToIndex: number) => {
-    setSelectedAction({ type: 'switch', value: String(switchToIndex) })
-    setError(null)
+    executeAction({ type: 'switch', value: String(switchToIndex) })
   }
 
-  const handleExecuteAction = () => {
-    if (!selectedAction) {
-      setError('Select an action')
-      return
-    }
-
+  const executeAction = (action: { type: 'move' | 'basic' | 'switch'; value?: string }) => {
     let playerAction: import('../../data/types').BattleAction
-    if (selectedAction.type === 'basic') {
+    if (action.type === 'basic') {
       playerAction = { type: 'move', moveId: 'basic-attack' }
-    } else if (selectedAction.type === 'move') {
-      playerAction = { type: 'move', moveId: selectedAction.value! }
+    } else if (action.type === 'move') {
+      playerAction = { type: 'move', moveId: action.value! }
     } else {
-      const idx = Number(selectedAction.value)
+      const idx = Number(action.value)
       playerAction = { type: 'switch', toInstanceId: battleState.playerTeam[idx].partyMember.instanceId }
     }
 
@@ -113,7 +101,6 @@ export default function BattleScreen() {
     const newBattleState = resolveTurn(battleState, playerAction, aiAction)
     setBattleStateLocal(newBattleState)
     setBattleState(newBattleState)
-    setSelectedAction(null)
     setError(null)
   }
 
@@ -125,7 +112,6 @@ export default function BattleScreen() {
     const updated = { ...battleState, activePlayerIndex: newIndex, phase: 'action-select' as const }
     setBattleStateLocal(updated)
     setBattleState(updated)
-    setSelectedAction(null)
     setError(null)
   }
 
@@ -289,12 +275,8 @@ export default function BattleScreen() {
                     padding: '0.5rem',
                     fontSize: '0.75rem',
                     borderRadius: '0.25rem',
-                    border: selectedAction?.type === 'move' && selectedAction?.value === move.id
-                      ? '2px solid #2d8b85'
-                      : '1px solid #e0e0e0',
-                    backgroundColor: selectedAction?.type === 'move' && selectedAction?.value === move.id
-                      ? '#e8f5f3'
-                      : '#fff',
+                    border: '1px solid #e0e0e0',
+                    backgroundColor: '#fff',
                     cursor: playerActive.currentNrg < move.nrgCost ? 'not-allowed' : 'pointer',
                     opacity: playerActive.currentNrg < move.nrgCost ? 0.5 : 1,
                   }}
@@ -310,12 +292,8 @@ export default function BattleScreen() {
                 padding: '0.5rem',
                 fontSize: '0.75rem',
                 borderRadius: '0.25rem',
-                border: selectedAction?.type === 'basic'
-                  ? '2px solid #2d8b85'
-                  : '1px solid #e0e0e0',
-                backgroundColor: selectedAction?.type === 'basic'
-                  ? '#e8f5f3'
-                  : '#fff',
+                border: '1px solid #e0e0e0',
+                backgroundColor: '#fff',
                 cursor: 'pointer',
               }}
             >
@@ -346,12 +324,8 @@ export default function BattleScreen() {
                       padding: '0.5rem',
                       fontSize: '0.75rem',
                       borderRadius: '0.25rem',
-                      border: selectedAction?.type === 'switch' && selectedAction?.value === String(index)
-                        ? '2px solid #2d8b85'
-                        : '1px solid #e0e0e0',
-                      backgroundColor: selectedAction?.type === 'switch' && selectedAction?.value === String(index)
-                        ? '#e8f5f3'
-                        : '#fff',
+                      border: '1px solid #e0e0e0',
+                      backgroundColor: '#fff',
                       cursor: 'pointer',
                     }}
                   >
@@ -380,17 +354,6 @@ export default function BattleScreen() {
             {error}
           </div>
         )}
-
-        {/* Execute button */}
-        <Button
-          variant="primary"
-          size="large"
-          onClick={handleExecuteAction}
-          disabled={!selectedAction}
-          style={{ width: '100%', marginBottom: '1rem' }}
-        >
-          Execute Action
-        </Button>
 
         {/* Turn log */}
         <Card>
