@@ -3,7 +3,27 @@ import { useGameStore, useInventory } from '../../store/gameStore'
 import { Button, Card, GameMap } from '../../components'
 import { ZONE_LIST } from '../../data/zones'
 import { searchZone, spawnWildBerry } from '../../engine/exploration'
-import { ZoneDef } from '../../data/types'
+import { ZoneDef, EvolutionStone } from '../../data/types'
+
+// Map stone names to their sprite URLs
+const STONE_SPRITES: Record<EvolutionStone, string> = {
+  'Water Stone': '/sprites/stone-water.svg',
+  'Thunder Stone': '/sprites/stone-thunder.svg',
+  'Fire Stone': '/sprites/stone-fire.svg',
+  'Sun Shard': '/sprites/stone-sun.svg',
+  'Moon Shard': '/sprites/stone-moon.svg',
+  'Leaf Stone': '/sprites/stone-leaf.svg',
+  'Ice Stone': '/sprites/stone-ice.svg',
+  'Ribbon Shard': '/sprites/stone-ribbon.svg',
+}
+
+type FindableItem = EvolutionStone | 'gold'
+
+interface FindableResult {
+  zone: ZoneDef
+  result: string
+  item?: FindableItem
+}
 
 export default function ZoneSelect() {
   const setScreen = useGameStore(state => state.setScreen)
@@ -12,7 +32,7 @@ export default function ZoneSelect() {
   const inventory = useInventory()
 
   const [searching, setSearching] = useState(false)
-  const [lastResult, setLastResult] = useState<{ zone: ZoneDef; result: string } | null>(null)
+  const [lastResult, setLastResult] = useState<FindableResult | null>(null)
 
   const handleSearch = (zone: ZoneDef) => {
     if (inventory.stamina < 1) {
@@ -39,12 +59,12 @@ export default function ZoneSelect() {
       const newStones = { ...inventory.evolutionStones, [searchResult.stone]: stoneCount }
       updateSaveState({ inventory: { ...inventory, stamina: newStamina, evolutionStones: newStones } })
       saveGame()
-      setLastResult({ zone, result: `Found ${searchResult.stone}!` })
+      setLastResult({ zone, result: `Found ${searchResult.stone}!`, item: searchResult.stone })
     } else if (searchResult.type === 'gold') {
       const newGold = inventory.goldDust + searchResult.amount
       updateSaveState({ inventory: { ...inventory, stamina: newStamina, goldDust: newGold } })
       saveGame()
-      setLastResult({ zone, result: `Found ${searchResult.amount} Gold Dust!` })
+      setLastResult({ zone, result: `Found ${searchResult.amount} Gold Dust!`, item: 'gold' })
     } else {
       setLastResult({ zone, result: 'Found nothing.' })
     }
@@ -53,6 +73,16 @@ export default function ZoneSelect() {
   }
 
   if (lastResult) {
+    const getItemImage = () => {
+      if (!lastResult.item) return null
+      if (lastResult.item === 'gold') {
+        return '/sprites/coin.svg'
+      }
+      return STONE_SPRITES[lastResult.item]
+    }
+
+    const itemImage = getItemImage()
+
     return (
       <div
         style={{
@@ -70,6 +100,15 @@ export default function ZoneSelect() {
             <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#333', margin: '0 0 0.5rem 0' }}>
               {lastResult.zone.name}
             </h2>
+            {itemImage && (
+              <div style={{ margin: '1rem 0' }}>
+                <img
+                  src={itemImage}
+                  alt={lastResult.item}
+                  style={{ width: '64px', height: '64px' }}
+                />
+              </div>
+            )}
             <p style={{ fontSize: '1.125rem', color: '#555', margin: '0 0 1rem 0' }}>
               {lastResult.result}
             </p>
