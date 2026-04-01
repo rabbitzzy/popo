@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useGameStore } from '../../store/gameStore'
-import { Button, Card, StatBar, ConfirmDialog } from '../../components'
+import { Button, Card, StatBar, ConfirmDialog, Sprite } from '../../components'
 import { BattleState, CombatantState } from '../../data/types'
 import { resolveTurn } from '../../engine/battle'
 import { getAIAction } from '../../engine/ai'
 import { getUnlockedMoves } from '../../engine/leveling'
 import { BERRYVOLUTION_LIST } from '../../data/berryvolutions'
+import { berrySkinSprite, BerrySkinId } from '../../data/berryVariants'
 
 export default function BattleScreen() {
   const setBattleState = useGameStore(state => state.setBattleState)
@@ -194,6 +195,15 @@ export default function BattleScreen() {
           {/* Player active */}
           <Card>
             <div style={{ padding: '0.75rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
+                <Sprite
+                  spriteUrl={playerActive.partyMember.defId === 'berry'
+                    ? berrySkinSprite(playerActive.partyMember.skinId as BerrySkinId)
+                    : `/sprites/${playerActive.partyMember.defId}.svg`}
+                  alt={getDefName(playerActive.partyMember.defId)}
+                  size="lg"
+                />
+              </div>
               <div style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
                 {getDefName(playerActive.partyMember.defId)}
               </div>
@@ -221,6 +231,16 @@ export default function BattleScreen() {
           {/* AI active */}
           <Card>
             <div style={{ padding: '0.75rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
+                <Sprite
+                  spriteUrl={aiActive.partyMember.defId === 'berry'
+                    ? berrySkinSprite(aiActive.partyMember.skinId as BerrySkinId)
+                    : `/sprites/${aiActive.partyMember.defId}.svg`}
+                  alt={getDefName(aiActive.partyMember.defId)}
+                  size="lg"
+                  flipped
+                />
+              </div>
               <div style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
                 {getDefName(aiActive.partyMember.defId)}
               </div>
