@@ -4,6 +4,17 @@ import { BERRYVOLUTION_LIST } from '../data/berryvolutions'
 import { TRAIT_DEFINITIONS } from '../data/config'
 import { BerryvolutionId } from '../data/types'
 
+const STONE_SPRITES: Record<string, string> = {
+  'Water Stone':   '/sprites/stone-water.svg',
+  'Thunder Stone': '/sprites/stone-thunder.svg',
+  'Fire Stone':    '/sprites/stone-fire.svg',
+  'Sun Shard':     '/sprites/stone-sun.svg',
+  'Moon Shard':    '/sprites/stone-moon.svg',
+  'Leaf Stone':    '/sprites/stone-leaf.svg',
+  'Ice Stone':     '/sprites/stone-ice.svg',
+  'Ribbon Shard':  '/sprites/stone-ribbon.svg',
+}
+
 export default function BerryLog() {
   const setScreen = useGameStore(state => state.setScreen)
   const berryLog = useBerryLog()
@@ -140,8 +151,28 @@ export default function BerryLog() {
               </div>
 
               {/* Stone hint — always shown */}
-              <div style={{ fontSize: '0.8rem', color: '#888', marginBottom: isCollected ? '0.5rem' : 0 }}>
-                {isCollected ? '✓ Obtained with' : 'Find with'}: <strong>{def.evolutionStone}</strong>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  fontSize: '0.8rem',
+                  color: isCollected ? '#555' : '#999',
+                  marginBottom: isCollected ? '0.5rem' : 0,
+                }}
+              >
+                {STONE_SPRITES[def.evolutionStone] && (
+                  <img
+                    src={STONE_SPRITES[def.evolutionStone]}
+                    width={22}
+                    height={22}
+                    alt={def.evolutionStone}
+                    style={{ imageRendering: 'pixelated', flexShrink: 0 }}
+                  />
+                )}
+                <span>
+                  {isCollected ? '✓ ' : ''}<strong>{def.evolutionStone}</strong>
+                </span>
               </div>
 
               {/* Trait — collected only */}

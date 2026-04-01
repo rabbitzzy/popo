@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="100%" height="100%" shape-rendering="crispEdges">
+  <!-- Deep water -->
+  <g fill="#0055aa">
+    <rect x="1" y="9" width="14" height="5"/>
+  </g>
+  <!-- Mid water -->
+  <g fill="#0077cc">
+    <rect x="1" y="7" width="14" height="2"/>
+  </g>
+  <!-- Shallow water / surface -->
+  <g fill="#33aaee">
+    <rect x="1" y="6" width="14" height="1"/>
+  </g>
+  <!-- Wave highlights -->
+  <g fill="#88ddff">
+    <rect x="1" y="6" width="3" height="1"/>
+    <rect x="5" y="6" width="2" height="1"/>
+    <rect x="9" y="6" width="3" height="1"/>
+    <rect x="13" y="6" width="2" height="1"/>
+    <rect x="2" y="8" width="2" height="1"/>
+    <rect x="7" y="8" width="3" height="1"/>
+    <rect x="12" y="8" width="2" height="1"/>
+    <rect x="4" y="10" width="2" height="1"/>
+    <rect x="9" y="10" width="3" height="1"/>
+  </g>
+  <!-- Sandy shore -->
+  <g fill="#c8a46a">
+    <rect x="1" y="12" width="14" height="2"/>
+  </g>
+  <g fill="#e8c07a">
+    <rect x="2" y="12" width="12" height="1"/>
+  </g>
+  <!-- Rocks -->
+  <g fill="#446688">
+    <rect x="3" y="9" width="2" height="2"/>
+    <rect x="11" y="10" width="2" height="1"/>
+  </g>
+  <g fill="#6699bb">
+    <rect x="3" y="9" width="1" height="1"/>
+    <rect x="11" y="10" width="1" height="1"/>
+  </g>
+  <!-- Left cliff / shore -->
+  <g fill="#7a6040">
+    <rect x="0" y="3" width="3" height="10"/>
+  </g>
+  <g fill="#9a8060">
+    <rect x="0" y="3" width="2" height="8"/>
+  </g>
+  <!-- Right cliff -->
+  <g fill="#7a6040">
+    <rect x="13" y="4" width="3" height="9"/>
+  </g>
+  <g fill="#9a8060">
+    <rect x="13" y="4" width="2" height="8"/>
+  </g>
+  <!-- Sky / background -->
+  <g fill="#88ccff">
+    <rect x="0" y="0" width="16" height="4"/>
+  </g>
+  <!-- Sun reflection on water -->
+  <g fill="#ffffff" opacity="0.4">
+    <rect x="6" y="7" width="1" height="1"/>
+    <rect x="8" y="6" width="1" height="1"/>
+    <rect x="10" y="8" width="1" height="1"/>
+  </g>
+</svg>

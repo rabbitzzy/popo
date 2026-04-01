@@ -109,6 +109,8 @@ export interface BerryDef {
 export interface PartyMember {
   instanceId: string; // uuid — distinguishes two Berrys
   defId: BerryvolutionId | 'berry';
+  /** Cosmetic berry skin variant — only meaningful when defId === 'berry' */
+  skinId?: string;
   level: number;
   xp: number;
   currentStats: { hp: number; atk: number; def: number; spd: number; nrg: number };

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="100%" height="100%" shape-rendering="crispEdges">
+  <!-- Shard base: rich magenta -->
+  <g fill="#992288">
+    <rect x="7" y="1" width="2" height="2"/>
+    <rect x="6" y="3" width="4" height="2"/>
+    <rect x="5" y="5" width="6" height="4"/>
+    <rect x="6" y="9" width="4" height="2"/>
+    <rect x="7" y="11" width="2" height="3"/>
+  </g>
+  <!-- Mid facets: bright pink -->
+  <g fill="#dd44bb">
+    <rect x="7" y="2" width="1" height="1"/>
+    <rect x="6" y="4" width="3" height="1"/>
+    <rect x="5" y="5" width="4" height="2"/>
+    <rect x="6" y="9" width="3" height="1"/>
+    <rect x="7" y="11" width="1" height="2"/>
+  </g>
+  <!-- Ribbon loops inside shard -->
+  <g fill="#ff88dd">
+    <!-- Left bow loop -->
+    <rect x="5" y="6" width="2" height="2"/>
+    <rect x="5" y="5" width="2" height="1"/>
+    <!-- Right bow loop -->
+    <rect x="9" y="6" width="2" height="2"/>
+    <rect x="9" y="5" width="2" height="1"/>
+    <!-- Centre knot -->
+    <rect x="7" y="6" width="2" height="2"/>
+  </g>
+  <!-- Bow highlight -->
+  <g fill="#ffccee">
+    <rect x="5" y="5" width="1" height="1"/>
+    <rect x="9" y="5" width="1" height="1"/>
+    <rect x="7" y="6" width="1" height="1"/>
+  </g>
+  <!-- Ribbon tails -->
+  <g fill="#ff66cc">
+    <rect x="6" y="8" width="1" height="1"/>
+    <rect x="5" y="9" width="1" height="1"/>
+    <rect x="9" y="8" width="1" height="1"/>
+    <rect x="10" y="9" width="1" height="1"/>
+  </g>
+  <!-- Top sparkle -->
+  <g fill="#ffffff">
+    <rect x="7" y="5" width="1" height="1"/>
+  </g>
+  <!-- Extra colour flecks (rainbow shard feel) -->
+  <g fill="#ffee44">
+    <rect x="2" y="7" width="2" height="2"/>
+    <rect x="12" y="7" width="2" height="2"/>
+  </g>
+  <g fill="#44ccff">
+    <rect x="3" y="3" width="2" height="2"/>
+    <rect x="11" y="11" width="2" height="2"/>
+  </g>
+  <g fill="#88ff44">
+    <rect x="11" y="3" width="2" height="2"/>
+    <rect x="3" y="11" width="2" height="2"/>
+  </g>
+  <!-- Outline -->
+  <g fill="#2e0a28">
+    <rect x="6" y="1" width="1" height="1"/>
+    <rect x="9" y="1" width="1" height="1"/>
+    <rect x="5" y="2" width="2" height="1"/>
+    <rect x="9" y="2" width="2" height="1"/>
+    <rect x="4" y="4" width="2" height="1"/>
+    <rect x="10" y="4" width="2" height="1"/>
+    <rect x="4" y="5" width="1" height="4"/>
+    <rect x="11" y="5" width="1" height="4"/>
+    <rect x="4" y="9" width="2" height="1"/>
+    <rect x="10" y="9" width="2" height="1"/>
+    <rect x="5" y="11" width="2" height="1"/>
+    <rect x="9" y="11" width="2" height="1"/>
+    <rect x="6" y="13" width="1" height="1"/>
+    <rect x="9" y="13" width="1" height="1"/>
+    <rect x="7" y="14" width="2" height="1"/>
+  </g>
+</svg>

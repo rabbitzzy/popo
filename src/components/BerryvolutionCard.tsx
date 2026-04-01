@@ -1,6 +1,7 @@
 import { PartyMember, BerryvolutionId, BerryvolutionDef } from '../data/types'
 import { getBerryvolutionById } from '../data/berryvolutions'
 import { BERRY } from '../data/berry'
+import { berrySkinSprite, BerrySkinId } from '../data/berryVariants'
 import Card from './Card'
 import StatBar from './StatBar'
 import TypeBadge from './TypeBadge'
@@ -23,7 +24,7 @@ export default function BerryvolutionCard({ member, onClick, selected = false, c
         <div style={{ textAlign: 'center' }}>
           <div style={{ height: '64px', display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '0.5rem' }}>
             <Sprite
-              spriteUrl={`/sprites/${member.defId}.svg`}
+              spriteUrl={member.defId === 'berry' ? berrySkinSprite(member.skinId as BerrySkinId) : `/sprites/${member.defId}.svg`}
               alt={def.name}
               size="md"
             />
@@ -44,7 +45,7 @@ export default function BerryvolutionCard({ member, onClick, selected = false, c
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
         <div style={{ height: '96px', flexShrink: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Sprite
-            spriteUrl={`/sprites/${member.defId}.svg`}
+            spriteUrl={member.defId === 'berry' ? berrySkinSprite(member.skinId as BerrySkinId) : `/sprites/${member.defId}.svg`}
             alt={def.name}
             size="lg"
           />

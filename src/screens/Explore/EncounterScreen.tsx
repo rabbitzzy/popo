@@ -3,6 +3,7 @@ import { useGameStore, useParty } from '../../store/gameStore'
 import { Button, Card, Sprite } from '../../components'
 import { StatBar } from '../../components'
 import { ZoneDef, PartyMember } from '../../data/types'
+import { berrySkinSprite, BerrySkinId } from '../../data/berryVariants'
 
 interface EncounterScreenProps {
   zone: ZoneDef
@@ -120,7 +121,7 @@ export default function EncounterScreen({ zone, wildBerry }: EncounterScreenProp
           <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
             <div style={{ height: '80px', flexShrink: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Sprite
-                spriteUrl={`/sprites/${wildBerry.defId}.svg`}
+                spriteUrl={wildBerry.defId === 'berry' ? berrySkinSprite(wildBerry.skinId as BerrySkinId) : `/sprites/${wildBerry.defId}.svg`}
                 alt="Wild Berry"
                 size="lg"
               />

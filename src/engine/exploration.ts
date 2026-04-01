@@ -1,5 +1,6 @@
 import { ZoneDef, PartyMember, SearchResult } from '../data/types'
 import { computeStats } from './leveling'
+import { randomBerrySkin } from '../data/berryVariants'
 
 // ============================================================================
 // Zone Search
@@ -69,6 +70,7 @@ export function spawnWildBerry(zone: ZoneDef): PartyMember {
   return {
     instanceId: generateUuid(),
     defId: 'berry',
+    skinId: randomBerrySkin(),
     level,
     xp: 0,
     currentStats: stats,

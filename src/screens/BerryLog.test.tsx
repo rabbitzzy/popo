@@ -119,9 +119,11 @@ describe('BerryLog', () => {
 
   it('renders 8 log entries', () => {
     ReactDOM.render(<BerryLog />, container)
-    // Each entry has a stone hint with "Find with:"
-    const hints = container.textContent?.split('Find with:') ?? []
-    expect(hints.length - 1).toBe(8)
+    // Each entry shows an evolution stone name; count stone images
+    const stoneImgs = Array.from(container.querySelectorAll('img')).filter(
+      img => img.src.includes('stone-')
+    )
+    expect(stoneImgs.length).toBe(8)
   })
 
   it('always shows evolution stone names', () => {
@@ -141,10 +143,11 @@ describe('BerryLog', () => {
     expect(container.textContent).toContain('Hypereon')
   })
 
-  it('shows "Obtained with" for collected entry', () => {
+  it('shows stone name with check for collected entry', () => {
     resetStore(['emberon'])
     ReactDOM.render(<BerryLog />, container)
-    expect(container.textContent).toContain('Obtained with')
+    expect(container.textContent).toContain('✓')
+    expect(container.textContent).toContain('Fire Stone')
   })
 
   it('shows trait name for collected entry', () => {
@@ -194,9 +197,10 @@ describe('BerryLog', () => {
     expect(container.textContent).not.toContain('Hydration')
   })
 
-  it('shows "Find with" for uncollected entries', () => {
+  it('shows stone name for uncollected entries', () => {
     ReactDOM.render(<BerryLog />, container)
-    expect(container.textContent).toContain('Find with')
+    expect(container.textContent).toContain('Water Stone')
+    expect(container.textContent).toContain('Fire Stone')
   })
 
   // ── Mixed state ───────────────────────────────────────────────────────────
