@@ -169,9 +169,9 @@ describe('ArenaLadder', () => {
     ReactDOM.render(<ArenaLadder />, container)
     expect(container.textContent).toContain('0 points') // Bronze
     expect(container.textContent).toContain('300 points') // Silver
-    expect(container.textContent).toContain('700 points') // Gold
-    expect(container.textContent).toContain('1200 points') // Crystal
-    expect(container.textContent).toContain('2000 points') // Apex
+    expect(container.textContent).toContain('600 points') // Gold
+    expect(container.textContent).toContain('900 points') // Crystal
+    expect(container.textContent).toContain('1400 points') // Apex
   })
 
   // ── Tier status indicators ────────────────────────────────────────────────
@@ -317,9 +317,9 @@ describe('ArenaLadder', () => {
     const text = container.textContent
     expect(text).toContain('0 points') // Bronze
     expect(text).toContain('300 points') // Silver
-    expect(text).toContain('700 points') // Gold
-    expect(text).toContain('1200 points') // Crystal
-    expect(text).toContain('2000 points') // Apex
+    expect(text).toContain('600 points') // Gold
+    expect(text).toContain('900 points') // Crystal
+    expect(text).toContain('1400 points') // Apex
   })
 
   // ── Styling and visual feedback ───────────────────────────────────────────

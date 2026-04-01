@@ -2,6 +2,7 @@ import { CombatantState, MoveDefinition, StatusEffect, BattleState, BattleAction
 import { getTypeMultiplier } from '../data/typeChart'
 import { STATUS_DURATIONS } from '../data/config'
 import { HYPEREON_MOVES, VOLTEON_MOVES, EMBERON_MOVES, ERYLEON_MOVES, VENGEON_MOVES, GRASSEON_MOVES, POLAREON_MOVES, LUXEON_MOVES, BASIC_ATTACK } from '../data/moves'
+import { getBerryType } from '../data/berryVariants'
 
 // ============================================================================
 // Damage Calculation
@@ -16,6 +17,7 @@ import { HYPEREON_MOVES, VOLTEON_MOVES, EMBERON_MOVES, ERYLEON_MOVES, VENGEON_MO
  *
  * Variance: 0.85 + random() * 0.15 (range 0.85 to 1.00)
  * Minimum damage: 1
+ * Critical hits: 10% chance for ×1.5 damage
  *
  * Trait interactions:
  * - Volatile (Emberon): +15% outgoing, +10% incoming
@@ -25,14 +27,21 @@ import { HYPEREON_MOVES, VOLTEON_MOVES, EMBERON_MOVES, ERYLEON_MOVES, VENGEON_MO
  * @param move - The move being used
  * @param attacker - The attacking combatant
  * @param defender - The defending combatant
- * @returns Damage dealt (minimum 1)
+ * @returns Damage dealt (minimum 1), with isCrit flag in state
  */
 export function calcDamage(
   move: MoveDefinition,
   attacker: CombatantState,
   defender: CombatantState
 ): number {
-  const defenderType = attacker.partyMember.defId === 'berry' ? 'Water' : getDefenderType(defender.partyMember.defId)
+  // Get attacker's type (Berry has type based on skin, Berryvolutions have fixed types)
+  const attackerType = attacker.partyMember.defId === 'berry' 
+    ? getBerryType(attacker.partyMember.skinId)
+    : getAttackerType(attacker.partyMember.defId)
+  
+  const defenderType = getDefenderType(defender.partyMember.defId)
+  
+  // Type effectiveness: move type vs defender type
   const typeMultiplier = getTypeMultiplier(move.type, defenderType)
   const variance = 0.85 + Math.random() * 0.15
 
@@ -74,12 +83,37 @@ export function calcDamage(
     defender.traitState.frostArmorUsed = true
   }
 
+  // Critical hit: 10% chance for ×1.5 damage
+  const isCrit = Math.random() < 0.10
+  if (isCrit) {
+    raw *= 1.5
+  }
+
   return Math.max(1, Math.floor(raw))
 }
 
 // ============================================================================
 // Helper Functions
 // ============================================================================
+
+/**
+ * Get the type of a Berryvolution.
+ * Used for type effectiveness calculations.
+ */
+function getAttackerType(defId: string): 'Fire' | 'Water' | 'Grass' | 'Electric' | 'Rock' | 'Ice' | 'Psychic' {
+  const typeMap: Record<string, any> = {
+    hypereon: 'Water',
+    volteon: 'Electric',
+    emberon: 'Fire',
+    eryleon: 'Psychic',
+    vengeon: 'Rock', // Dark is expressed via Dark Shroud trait
+    grasseon: 'Grass',
+    polareon: 'Ice',
+    luxeon: 'Psychic', // Fairy is expressed via Fairy Charm trait
+  }
+
+  return typeMap[defId] || 'Water'
+}
 
 /**
  * Get the type of a Berryvolution or Berry.

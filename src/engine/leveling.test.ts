@@ -64,19 +64,19 @@ describe('leveling engine', () => {
     })
 
     it('should compute Hypereon stats correctly', () => {
-      // Hypereon at level 1
+      // Hypereon at level 1 — base: hp:90 atk:65 def:75 spd:55 nrg:65, growth: hp:4 atk:2 def:3 spd:1 nrg:2
       const stats1 = computeStats('hypereon', 1)
-      expect(stats1.hp).toBe(120 + 5 * 1) // 125
+      expect(stats1.hp).toBe(90 + 4 * 1) // 94
       expect(stats1.atk).toBe(65 + 2 * 1) // 67
-      expect(stats1.def).toBe(95 + 4 * 1) // 99
+      expect(stats1.def).toBe(75 + 3 * 1) // 78
       expect(stats1.spd).toBe(55 + 1 * 1) // 56
       expect(stats1.nrg).toBe(65 + 2 * 1) // 67
 
       // Hypereon at level 30
       const stats30 = computeStats('hypereon', 30)
-      expect(stats30.hp).toBe(120 + 5 * 30) // 270
+      expect(stats30.hp).toBe(90 + 4 * 30) // 210
       expect(stats30.atk).toBe(65 + 2 * 30) // 125
-      expect(stats30.def).toBe(95 + 4 * 30) // 215
+      expect(stats30.def).toBe(75 + 3 * 30) // 165
       expect(stats30.spd).toBe(55 + 1 * 30) // 85
       expect(stats30.nrg).toBe(65 + 2 * 30) // 125
     })

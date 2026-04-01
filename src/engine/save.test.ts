@@ -235,8 +235,10 @@ describe('Save & Load Engine', () => {
       }
       vi.stubGlobal('document', mockDocument)
 
-      vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:mock-url')
-      vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {})
+      vi.stubGlobal('URL', {
+        createObjectURL: vi.fn().mockReturnValue('blob:mock-url'),
+        revokeObjectURL: vi.fn(),
+      })
 
       exportSave(state)
 

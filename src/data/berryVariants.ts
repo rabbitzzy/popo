@@ -26,3 +26,20 @@ export function berrySkinSprite(skinId: BerrySkinId | undefined): string {
 export function randomBerrySkin(): BerrySkinId {
   return BERRY_SKIN_IDS[Math.floor(Math.random() * BERRY_SKIN_IDS.length)]
 }
+
+/**
+ * Get the elemental type for a Berry skin.
+ * Different colored Berrys have different types, affecting battle effectiveness.
+ */
+export function getBerryType(skinId: BerrySkinId | undefined): 'Fire' | 'Water' | 'Grass' | 'Electric' | 'Psychic' | 'Ice' | 'Rock' {
+  const typeMap: Record<BerrySkinId, 'Fire' | 'Water' | 'Grass' | 'Electric' | 'Psychic' | 'Ice' | 'Rock'> = {
+    'default': 'Water',   // Blue berry - Water type
+    'crimson': 'Fire',    // Red berry - Fire type
+    'sapphire': 'Water',  // Blue berry - Water type
+    'citrus': 'Electric', // Yellow berry - Electric type
+    'jade': 'Grass',      // Green berry - Grass type
+    'lilac': 'Psychic',   // Purple berry - Psychic type
+    'coral': 'Ice',       // Pink berry - Ice type
+  }
+  return typeMap[skinId || 'default']
+}
