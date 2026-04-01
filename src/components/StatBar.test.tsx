@@ -80,14 +80,10 @@ describe('StatBar', () => {
     expect(found).toBe(true)
   })
 
-  it('shows percentage text for visible widths', () => {
+  it('shows current/max values above the bar when showValues is true', () => {
     ReactDOM.render(<StatBar label="HP" current={50} max={100} />, container)
-    const spans = container.querySelectorAll('span')
-    let found = false
-    spans.forEach(span => {
-      if (span.textContent?.includes('%')) found = true
-    })
-    expect(found).toBe(true)
+    expect(container.textContent).toContain('50')
+    expect(container.textContent).toContain('100')
   })
 
   it('has transition effect', () => {

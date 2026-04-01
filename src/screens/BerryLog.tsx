@@ -139,9 +139,9 @@ export default function BerryLog() {
                   <span
                     style={{
                       fontSize: '0.75rem',
-                      color: '#bbb',
+                      color: '#888',
                       padding: '0.2rem 0.5rem',
-                      border: '1px solid #ddd',
+                      border: '1px solid #ccc',
                       borderRadius: '0.25rem',
                     }}
                   >

@@ -133,7 +133,7 @@ export default function ZoneSelect() {
       >
         <span style={{ color: '#666' }}>Stamina: </span>
         <strong>{inventory.stamina}</strong>
-        <span style={{ color: '#aaa' }}> / ∞</span>
+        <span style={{ color: '#777' }}> / ∞</span>
       </div>
 
       {/* Game Map */}

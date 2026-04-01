@@ -5,29 +5,29 @@ interface TypeBadgeProps {
   size?: 'small' | 'medium' | 'large'
 }
 
-// Type color mapping
-const typeColors: Record<ElementType, string> = {
-  Fire: '#FF6B6B',
-  Water: '#4ECDC4',
-  Grass: '#95E77D',
-  Electric: '#FFE66D',
-  Rock: '#A0A0A0',
-  Ice: '#A0E7E5',
-  Psychic: '#D4B8FF',
+// Background colour per type
+const typeBg: Record<ElementType, string> = {
+  Fire:     '#e84040',
+  Water:    '#2a9d9a',
+  Grass:    '#3a9a30',
+  Electric: '#c49000',
+  Rock:     '#7a7060',
+  Ice:      '#2e8fbf',
+  Psychic:  '#8855cc',
 }
 
 export default function TypeBadge({ type, size = 'medium' }: TypeBadgeProps) {
   const sizeStyles = {
-    small: { padding: '0.25rem 0.5rem', fontSize: '0.75rem' },
+    small:  { padding: '0.25rem 0.5rem',  fontSize: '0.75rem'  },
     medium: { padding: '0.375rem 0.75rem', fontSize: '0.875rem' },
-    large: { padding: '0.5rem 1rem', fontSize: '1rem' },
+    large:  { padding: '0.5rem 1rem',      fontSize: '1rem'     },
   }
 
   return (
     <span
       style={{
         display: 'inline-block',
-        backgroundColor: typeColors[type],
+        backgroundColor: typeBg[type],
         color: '#fff',
         borderRadius: '0.25rem',
         fontWeight: 'bold',

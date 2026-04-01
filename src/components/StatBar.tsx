@@ -31,13 +31,8 @@ export default function StatBar({ label, current, max, color = '#4ECDC4', showVa
             width: `${percentage}%`,
             backgroundColor: color,
             transition: 'width 0.3s ease',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
           }}
-        >
-          {percentage > 20 && <span style={{ color: '#fff', fontSize: '0.75rem', fontWeight: 'bold' }}>{Math.floor(percentage)}%</span>}
-        </div>
+        />
       </div>
     </div>
   )

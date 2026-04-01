@@ -71,7 +71,7 @@ export default function PartyScreen() {
           </span>
         ))}
         {ownedStones.length === 0 && (
-          <span style={{ color: '#aaa' }}>No evolution stones</span>
+          <span style={{ color: '#777' }}>No evolution stones</span>
         )}
       </div>
 
