@@ -6,36 +6,36 @@ import { EvolutionStone, ZoneId } from './types'
 
 export const BERRYVOLUTION_STATS = {
   hypereon: {
-    baseStats: { hp: 120, atk: 65, def: 95, spd: 55, nrg: 65 },
-    statGrowth: { hp: 5, atk: 2, def: 4, spd: 1, nrg: 2 },
+    baseStats: { hp: 90, atk: 65, def: 75, spd: 55, nrg: 65 },
+    statGrowth: { hp: 4, atk: 2, def: 3, spd: 1, nrg: 2 },
   },
   volteon: {
-    baseStats: { hp: 60, atk: 95, def: 50, spd: 130, nrg: 60 },
+    baseStats: { hp: 55, atk: 95, def: 45, spd: 130, nrg: 60 },
     statGrowth: { hp: 1, atk: 4, def: 1, spd: 5, nrg: 2 },
   },
   emberon: {
-    baseStats: { hp: 70, atk: 130, def: 45, spd: 80, nrg: 50 },
+    baseStats: { hp: 60, atk: 130, def: 40, spd: 80, nrg: 50 },
     statGrowth: { hp: 2, atk: 5, def: 1, spd: 3, nrg: 1 },
   },
   eryleon: {
-    baseStats: { hp: 65, atk: 55, def: 60, spd: 110, nrg: 110 },
+    baseStats: { hp: 55, atk: 55, def: 50, spd: 110, nrg: 110 },
     statGrowth: { hp: 2, atk: 1, def: 2, spd: 4, nrg: 5 },
   },
   vengeon: {
-    baseStats: { hp: 115, atk: 55, def: 110, spd: 45, nrg: 70 },
-    statGrowth: { hp: 5, atk: 1, def: 5, spd: 1, nrg: 2 },
+    baseStats: { hp: 95, atk: 55, def: 90, spd: 45, nrg: 70 },
+    statGrowth: { hp: 4, atk: 1, def: 4, spd: 1, nrg: 2 },
   },
   grasseon: {
-    baseStats: { hp: 85, atk: 95, def: 90, spd: 70, nrg: 60 },
+    baseStats: { hp: 70, atk: 95, def: 75, spd: 70, nrg: 60 },
     statGrowth: { hp: 3, atk: 3, def: 3, spd: 2, nrg: 2 },
   },
   polareon: {
-    baseStats: { hp: 75, atk: 90, def: 65, spd: 75, nrg: 100 },
+    baseStats: { hp: 65, atk: 90, def: 55, spd: 75, nrg: 100 },
     statGrowth: { hp: 2, atk: 3, def: 2, spd: 2, nrg: 4 },
   },
   luxeon: {
-    baseStats: { hp: 130, atk: 55, def: 75, spd: 60, nrg: 95 },
-    statGrowth: { hp: 5, atk: 1, def: 2, spd: 2, nrg: 4 },
+    baseStats: { hp: 100, atk: 55, def: 65, spd: 60, nrg: 95 },
+    statGrowth: { hp: 4, atk: 1, def: 2, spd: 2, nrg: 4 },
   },
 } as const
 
