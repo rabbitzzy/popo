@@ -52,8 +52,8 @@ function resetStore(partyOverride: PartyMember[] = [], arenaPoints = 150) {
       result: {
         outcome: 'win',
         xpEarned: {},
-        arenaPointsChange: 10,
-        resourcesEarned: { goldDust: 50, stamina: 0 },
+        arenaPointsChange: 25,
+        resourcesEarned: { goldDust: 50, stamina: 3 },
       },
     },
     initGame: store.initGame,
@@ -97,7 +97,7 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'win',
       xpEarned: {},
-      arenaPointsChange: 10,
+      arenaPointsChange: 25,
       resourcesEarned: { goldDust: 50, stamina: 5 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
@@ -109,8 +109,8 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'loss',
       xpEarned: {},
-      arenaPointsChange: 0,
-      resourcesEarned: { goldDust: 0, stamina: 5 },
+      arenaPointsChange: -15,
+      resourcesEarned: { goldDust: 25, stamina: 1 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
     expect(container.textContent).toContain('Defeat')
@@ -123,11 +123,11 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'win',
       xpEarned: {},
-      arenaPointsChange: 10,
+      arenaPointsChange: 25,
       resourcesEarned: { goldDust: 50, stamina: 5 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
-    expect(container.textContent).toContain('+10')
+    expect(container.textContent).toContain('+25')
   })
 
   it('shows 0 arena points change on defeat', () => {
@@ -135,8 +135,8 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'loss',
       xpEarned: {},
-      arenaPointsChange: 0,
-      resourcesEarned: { goldDust: 0, stamina: 5 },
+      arenaPointsChange: -15,
+      resourcesEarned: { goldDust: 25, stamina: 1 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
     expect(container.textContent).toContain('Arena Points')
@@ -149,7 +149,7 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'win',
       xpEarned: {},
-      arenaPointsChange: 10,
+      arenaPointsChange: 25,
       resourcesEarned: { goldDust: 50, stamina: 5 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
@@ -162,7 +162,7 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'win',
       xpEarned: {},
-      arenaPointsChange: 10,
+      arenaPointsChange: 25,
       resourcesEarned: { goldDust: 50, stamina: 5 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
@@ -177,7 +177,7 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'win',
       xpEarned: { 'em-1': 50 },
-      arenaPointsChange: 10,
+      arenaPointsChange: 25,
       resourcesEarned: { goldDust: 50, stamina: 5 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
@@ -189,7 +189,7 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'win',
       xpEarned: { 'em-1': 75 },
-      arenaPointsChange: 10,
+      arenaPointsChange: 25,
       resourcesEarned: { goldDust: 50, stamina: 5 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
@@ -202,7 +202,7 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'win',
       xpEarned: { 'em-1': 60, 'hy-1': 40 },
-      arenaPointsChange: 10,
+      arenaPointsChange: 25,
       resourcesEarned: { goldDust: 50, stamina: 5 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
@@ -217,8 +217,8 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'loss',
       xpEarned: {},
-      arenaPointsChange: 0,
-      resourcesEarned: { goldDust: 0, stamina: 5 },
+      arenaPointsChange: -15,
+      resourcesEarned: { goldDust: 25, stamina: 1 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
     expect(container.textContent).not.toContain('Experience Gained')
@@ -232,7 +232,7 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'win',
       xpEarned: {},
-      arenaPointsChange: 10,
+      arenaPointsChange: 25,
       resourcesEarned: { goldDust: 50, stamina: 5 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
@@ -245,7 +245,7 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'win',
       xpEarned: {},
-      arenaPointsChange: 10,
+      arenaPointsChange: 25,
       resourcesEarned: { goldDust: 50, stamina: 5 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
@@ -263,7 +263,7 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'win',
       xpEarned: {},
-      arenaPointsChange: 10,
+      arenaPointsChange: 25,
       resourcesEarned: { goldDust: 50, stamina: 5 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
@@ -277,8 +277,8 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'loss',
       xpEarned: {},
-      arenaPointsChange: 0,
-      resourcesEarned: { goldDust: 0, stamina: 5 },
+      arenaPointsChange: -15,
+      resourcesEarned: { goldDust: 25, stamina: 1 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)
     expect(container.textContent).toContain('😔')
@@ -289,7 +289,7 @@ describe('PostBattle', () => {
     const result: BattleResult = {
       outcome: 'win',
       xpEarned: {},
-      arenaPointsChange: 10,
+      arenaPointsChange: 25,
       resourcesEarned: { goldDust: 50, stamina: 5 },
     }
     ReactDOM.render(<PostBattle result={result} />, container)

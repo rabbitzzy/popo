@@ -7,6 +7,7 @@ import { getAIAction } from '../../engine/ai'
 import { getUnlockedMoves } from '../../engine/leveling'
 import { BERRYVOLUTION_LIST } from '../../data/berryvolutions'
 import { berrySkinSprite, BerrySkinId } from '../../data/berryVariants'
+import { XP_CONFIG, ARENA_REWARDS } from '../../data/config'
 
 export default function BattleScreen() {
   const setBattleState = useGameStore(state => state.setBattleState)
@@ -117,15 +118,24 @@ export default function BattleScreen() {
 
   const handleBattleEnd = () => {
     const isPlayerVictory = battleState.outcome === 'win'
-    const points = isPlayerVictory ? 10 : 0
+    
+    // Calculate XP for each participating party member
+    // Base XP: 30 for participation, +20 bonus for winning = 50 total for win
+    const xpPerMember = XP_CONFIG.basePerBattle + (isPlayerVictory ? XP_CONFIG.winBonus : 0)
+
+    // Distribute XP to all team members
+    const xpEarned: Record<string, number> = {}
+    battleState.playerTeam.forEach((combatant) => {
+      xpEarned[combatant.partyMember.instanceId] = xpPerMember
+    })
 
     const result = {
       outcome: isPlayerVictory ? ('win' as const) : ('loss' as const),
-      xpEarned: {},
-      arenaPointsChange: points,
+      xpEarned,
+      arenaPointsChange: isPlayerVictory ? ARENA_REWARDS.winArenaPoints : ARENA_REWARDS.lossArenaPoints,
       resourcesEarned: {
-        goldDust: isPlayerVictory ? 50 : 0,
-        stamina: 5,
+        goldDust: isPlayerVictory ? ARENA_REWARDS.winGoldDust : ARENA_REWARDS.lossGoldDust,
+        stamina: isPlayerVictory ? ARENA_REWARDS.winStamina : ARENA_REWARDS.lossStamina,
       },
     }
     setScreen({ id: 'post-battle', result })

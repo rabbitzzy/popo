@@ -457,7 +457,7 @@ describe('BattleScreen', () => {
     continueBtn?.click()
     const screen = useGameStore.getState().screen
     expect(screen.id).toBe('post-battle')
-    expect((screen as any).result?.arenaPointsChange).toBe(10)
+    expect((screen as any).result?.arenaPointsChange).toBe(25)
   })
 
   it('passes zero arena points change on defeat', () => {
@@ -472,6 +472,6 @@ describe('BattleScreen', () => {
     continueBtn?.click()
     const screen = useGameStore.getState().screen
     expect(screen.id).toBe('post-battle')
-    expect((screen as any).result?.arenaPointsChange).toBe(0)
+    expect((screen as any).result?.arenaPointsChange).toBe(-15)
   })
 })

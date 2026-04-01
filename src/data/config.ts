@@ -54,8 +54,8 @@ export const BERRY_STATS = {
 // ============================================================================
 
 export const XP_CONFIG = {
-  basePerBattle: 30,
-  winBonus: 20,
+  basePerBattle: 30,      // Base XP for participation
+  winBonus: 20,           // Bonus XP for winning (total: 50 XP)
   xpToNextLevel: (level: number): number => 20 + level * 10,
 } as const
 
@@ -64,11 +64,18 @@ export const XP_CONFIG = {
 // ============================================================================
 
 export const ARENA_REWARDS = {
-  winGoldDust: 15,
-  winStamina: 3,
+  // Arena Points
   winArenaPoints: 25,
   lossArenaPoints: -15,
   drawArenaPoints: 0,
+  
+  // Gold Dust
+  winGoldDust: 50,
+  lossGoldDust: 25,       // Consolation reward
+  
+  // Stamina
+  winStamina: 3,
+  lossStamina: 1,         // Small consolation
 } as const
 
 // ============================================================================
