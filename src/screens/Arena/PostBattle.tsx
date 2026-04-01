@@ -16,7 +16,7 @@ export default function PostBattle({ result }: PostBattleProps) {
   const party = useParty()
   const [applied, setApplied] = useState(false)
 
-  // Apply rewards on mount
+  // Apply rewards on mount (only once)
   useEffect(() => {
     if (applied) return
 
@@ -44,7 +44,8 @@ export default function PostBattle({ result }: PostBattleProps) {
 
     saveGame()
     setApplied(true)
-  }, [applied, result, party, updateSaveState, saveGame])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const isVictory = result.outcome === 'win'
 
