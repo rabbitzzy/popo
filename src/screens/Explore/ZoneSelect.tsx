@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useGameStore, useInventory } from '../../store/gameStore'
-import { Button, Card, TypeBadge } from '../../components'
+import { Button, Card, GameMap } from '../../components'
 import { ZONE_LIST } from '../../data/zones'
 import { searchZone, spawnWildBerry } from '../../engine/exploration'
 import { ZoneDef } from '../../data/types'
@@ -136,62 +136,8 @@ export default function ZoneSelect() {
         <span style={{ color: '#aaa' }}> / ∞</span>
       </div>
 
-      {/* Zones Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-          gap: '1rem',
-        }}
-      >
-        {ZONE_LIST.map(zone => (
-          <Card key={zone.id}>
-            <div style={{ marginBottom: '0.75rem' }}>
-              <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1.125rem', fontWeight: 'bold', color: '#2d8b85' }}>
-                {zone.name}
-              </h3>
-              <p style={{ margin: 0, fontSize: '0.8rem', color: '#888' }}>
-                Search for resources and wild Berrys
-              </p>
-            </div>
-
-            {/* Berry rate */}
-            <div style={{ marginBottom: '0.75rem', fontSize: '0.875rem' }}>
-              <span style={{ color: '#666' }}>🫐 Wild Berry:</span> <strong>{Math.round(zone.berryEncounterRate * 100)}%</strong>
-            </div>
-
-            {/* Stones */}
-            <div style={{ marginBottom: '0.75rem' }}>
-              <div style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.25rem' }}>
-                💎 Evolution Stones:
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
-                {zone.stoneDrops.map(drop => (
-                  <span key={drop.stone} style={{ fontSize: '0.75rem', color: '#666' }}>
-                    {drop.stone}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Gold */}
-            <div style={{ marginBottom: '1rem', fontSize: '0.875rem' }}>
-              <span style={{ color: '#666' }}>✨ Gold Dust:</span> <strong>{zone.goldDustRange[0]}-{zone.goldDustRange[1]}</strong>
-            </div>
-
-            {/* Search button */}
-            <Button
-              variant="primary"
-              size="medium"
-              onClick={() => handleSearch(zone)}
-              disabled={searching || inventory.stamina < 1}
-              style={{ width: '100%' }}
-            >
-              {searching ? 'Searching...' : 'Search'}
-            </Button>
-          </Card>
-        ))}
-      </div>
+      {/* Game Map */}
+      <GameMap zones={ZONE_LIST} onZoneClick={handleSearch} />
     </div>
   )
 }

@@ -1,0 +1,256 @@
+/* ── Container ──────────────────────────────────────────────────────────── */
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── SVG canvas ─────────────────────────────────────────────────────────── */
+
+.svg {
+  display: block;
+  width: 100%;
+  background: linear-gradient(160deg, #e8f4f3 0%, #d4eff0 50%, #dce8fa 100%);
+  border-radius: 1rem;
+  border: 2px solid #b2d8d8;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Edges ───────────────────────────────────────────────────────────────── */
+
+.edge {
+  stroke: #9fc5c4;
+  stroke-width: 3;
+  stroke-dasharray: 8 5;
+  stroke-linecap: round;
+  opacity: 0.7;
+}
+
+/* ── Node groups ─────────────────────────────────────────────────────────── */
+
+.nodeGroup {
+  cursor: pointer;
+  outline: none;
+}
+
+.nodeGroup:focus .nodeDot {
+  stroke-width: 4;
+}
+
+/* Main circle */
+.nodeDot {
+  transition: r 0.15s ease, filter 0.15s ease;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+}
+
+.nodeDotHovered {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35)) brightness(1.1);
+}
+
+/* Glow ring */
+.glowRing {
+  animation: glowPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.15; }
+  50%       { opacity: 0.35; }
+}
+
+/* Pulse ring */
+.pulseRing {
+  animation: ringExpand 2.2s ease-out infinite;
+}
+
+@keyframes ringExpand {
+  0%   { r: 40; opacity: 0.5; }
+  60%  { r: 52; opacity: 0.1; }
+  100% { r: 40; opacity: 0.5; }
+}
+
+/* ── Node labels ─────────────────────────────────────────────────────────── */
+
+.nodeLabel {
+  font-size: 11px;
+  font-weight: 600;
+  fill: #2d5a5a;
+  paint-order: stroke;
+  stroke: #e8f4f3;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  pointer-events: none;
+  user-select: none;
+}
+
+.nodeLabelHovered {
+  fill: #1a3a3a;
+  font-weight: 700;
+}
+
+/* Stat lines shown on hover */
+.statLine {
+  font-size: 9px;
+  font-weight: 500;
+  fill: #444;
+  paint-order: stroke;
+  stroke: #e8f4f3;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Modal backdrop ──────────────────────────────────────────────────────── */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Modal ───────────────────────────────────────────────────────────────── */
+
+.modal {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  width: min(90vw, 420px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e0f0ef;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d8b85;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem;
+  transition: color 0.15s;
+}
+
+.closeBtn:hover { color: #2d8b85; }
+
+/* ── Info grid ───────────────────────────────────────────────────────────── */
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: #f5fbfa;
+  border: 1px solid #cce6e4;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.infoLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.infoValue {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2d8b85;
+}
+
+/* ── Stone tags ──────────────────────────────────────────────────────────── */
+
+.stoneList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.stoneTag {
+  font-size: 0.78rem;
+  background: #eef6f5;
+  border: 1px solid #b2d8d4;
+  border-radius: 99px;
+  padding: 0.2rem 0.65rem;
+  color: #2d8b85;
+  font-weight: 500;
+}
+
+/* ── Modal footer ────────────────────────────────────────────────────────── */
+
+.modalFooter {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.exploreBtn,
+.cancelBtn {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.exploreBtn {
+  background: #2d8b85;
+  color: #fff;
+}
+
+.exploreBtn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.cancelBtn {
+  background: #eee;
+  color: #555;
+}
+
+.cancelBtn:hover {
+  background: #ddd;
+}
