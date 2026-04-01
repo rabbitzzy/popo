@@ -46,7 +46,12 @@ export function calcDamage(
   if (move.category === 'Physical') {
     const atkStat = attacker.partyMember.currentStats.atk * attacker.statModifiers.atk
     const defStat = defender.partyMember.currentStats.def * defender.statModifiers.def
-    raw = (move.power / 50) * atkStat * typeMultiplier * variance - defStat * 0.5
+    // FIXED: Defense reduces damage by percentage instead of flat subtraction
+    // This prevents damage from being reduced to 1 against higher-level opponents
+    // Formula: (power/50 * ATK * typeMult * variance) * (1 - DEF/200)
+    const baseDamage = (move.power / 50) * atkStat * typeMultiplier * variance
+    const defenseMultiplier = Math.max(0.2, 1 - (defStat / 200)) // Min 20% damage
+    raw = baseDamage * defenseMultiplier
   } else {
     // Special move uses NRG stat (current NRG, not base)
     const nrgStat = attacker.currentNrg
