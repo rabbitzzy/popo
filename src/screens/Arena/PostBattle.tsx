@@ -12,6 +12,7 @@ interface PostBattleProps {
 export default function PostBattle({ result }: PostBattleProps) {
   const setScreen = useGameStore(state => state.setScreen)
   const updateSaveState = useGameStore(state => state.updateSaveState)
+  const saveGame = useGameStore(state => state.saveGame)
   const party = useParty()
   const [applied, setApplied] = useState(false)
 
@@ -41,8 +42,9 @@ export default function PostBattle({ result }: PostBattleProps) {
       },
     })
 
+    saveGame()
     setApplied(true)
-  }, [applied, result, party, updateSaveState])
+  }, [applied, result, party, updateSaveState, saveGame])
 
   const isVictory = result.outcome === 'win'
 

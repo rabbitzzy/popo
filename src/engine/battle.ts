@@ -462,7 +462,7 @@ export function resolveTurn(
   }
 
   // =========================================================================
-  // 8. Check win/loss/draw
+  // 8. Check win/loss/draw, then handle faint replacements
   // =========================================================================
 
   const playerTeamFainted = state.playerTeam.every(c => c.currentHp <= 0)
@@ -477,6 +477,20 @@ export function resolveTurn(
   } else if (aiTeamFainted) {
     state.outcome = 'win'
     state.phase = 'ended'
+  } else {
+    // Battle continues — handle faint replacements
+    if (aiFainted) {
+      // Auto-switch AI to the first alive member
+      const nextAiIndex = state.aiTeam.findIndex(c => c.currentHp > 0)
+      if (nextAiIndex !== -1) {
+        state.activeAiIndex = nextAiIndex
+        state.log.push(`AI sends out ${state.aiTeam[nextAiIndex].partyMember.defId}!`)
+      }
+    }
+    if (playerFainted) {
+      // Player must choose a replacement before the next action
+      state.phase = 'post-faint'
+    }
   }
 
   state.turn += 1

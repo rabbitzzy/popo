@@ -238,6 +238,12 @@ export default function MainMenu() {
                 onClick={() => setScreen({ id: 'berry-log' })}
               />
               <NavCard
+                label="Ladder"
+                icon="🏆"
+                description="Arena Rankings"
+                onClick={() => setScreen({ id: 'ladder' })}
+              />
+              <NavCard
                 label="Shop"
                 icon="🛒"
                 description="Spend Gold Dust"

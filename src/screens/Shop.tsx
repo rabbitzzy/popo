@@ -8,6 +8,7 @@ type ShopItem = 'crystalOrb' | 'staminaPotion'
 export default function Shop() {
   const setScreen = useGameStore(state => state.setScreen)
   const updateSaveState = useGameStore(state => state.updateSaveState)
+  const saveGame = useGameStore(state => state.saveGame)
   const inventory = useInventory()
 
   const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null)
@@ -63,6 +64,7 @@ export default function Shop() {
       })
     }
 
+    saveGame()
     setSelectedItem(null)
     setShowConfirm(false)
     setError(null)

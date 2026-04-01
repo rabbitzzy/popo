@@ -453,33 +453,33 @@ describe('BattleScreen', () => {
     expect(screen.id).toBe('post-battle')
   })
 
-  it('updates arena points on victory', () => {
+  it('navigates to post-battle on continue (victory)', () => {
     const battleState = initializeBattle([makeEmberon()], 'Silver')
     battleState.phase = 'ended' as const
     battleState.outcome = 'win'
     resetStore(battleState)
-    const initialPoints = useGameStore.getState().saveState.arena.points
     ReactDOM.render(<BattleScreen />, container)
     const continueBtn = Array.from(container.querySelectorAll('button')).find(
       b => b.textContent?.includes('Continue')
     )
     continueBtn?.click()
-    const newPoints = useGameStore.getState().saveState.arena.points
-    expect(newPoints).toBe(initialPoints + 10)
+    const screen = useGameStore.getState().screen
+    expect(screen.id).toBe('post-battle')
+    expect((screen as any).result?.arenaPointsChange).toBe(10)
   })
 
-  it('does not update points on defeat', () => {
+  it('passes zero arena points change on defeat', () => {
     const battleState = initializeBattle([makeEmberon()], 'Silver')
     battleState.phase = 'ended' as const
     battleState.outcome = 'loss'
     resetStore(battleState)
-    const initialPoints = useGameStore.getState().saveState.arena.points
     ReactDOM.render(<BattleScreen />, container)
     const continueBtn = Array.from(container.querySelectorAll('button')).find(
       b => b.textContent?.includes('Continue')
     )
     continueBtn?.click()
-    const newPoints = useGameStore.getState().saveState.arena.points
-    expect(newPoints).toBe(initialPoints)
+    const screen = useGameStore.getState().screen
+    expect(screen.id).toBe('post-battle')
+    expect((screen as any).result?.arenaPointsChange).toBe(0)
   })
 })

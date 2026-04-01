@@ -98,8 +98,18 @@ export default function BattleScreen() {
       return
     }
 
+    let playerAction: import('../../data/types').BattleAction
+    if (selectedAction.type === 'basic') {
+      playerAction = { type: 'move', moveId: 'basic-attack' }
+    } else if (selectedAction.type === 'move') {
+      playerAction = { type: 'move', moveId: selectedAction.value! }
+    } else {
+      const idx = Number(selectedAction.value)
+      playerAction = { type: 'switch', toInstanceId: battleState.playerTeam[idx].partyMember.instanceId }
+    }
+
     const aiAction = getAIAction(battleState)
-    const newBattleState = resolveTurn(battleState, selectedAction, aiAction)
+    const newBattleState = resolveTurn(battleState, playerAction, aiAction)
     setBattleStateLocal(newBattleState)
     setBattleState(newBattleState)
     setSelectedAction(null)
@@ -121,16 +131,6 @@ export default function BattleScreen() {
   const handleBattleEnd = () => {
     const isPlayerVictory = battleState.outcome === 'win'
     const points = isPlayerVictory ? 10 : 0
-
-    if (isPlayerVictory) {
-      const currentArena = storeState.saveState.arena
-      updateSaveState({
-        arena: {
-          ...currentArena,
-          points: currentArena.points + points,
-        },
-      })
-    }
 
     const result = {
       outcome: isPlayerVictory ? ('win' as const) : ('loss' as const),

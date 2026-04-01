@@ -54,7 +54,7 @@ export default function Settings() {
           const parsed = JSON.parse(content)
 
           // Validate that it has the expected structure
-          if (!parsed.version || !parsed.party === undefined || !parsed.inventory === undefined) {
+          if (!parsed.version || parsed.party === undefined || parsed.inventory === undefined) {
             setImportError('Invalid save file format')
             return
           }
