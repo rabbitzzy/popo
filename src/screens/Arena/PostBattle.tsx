@@ -50,6 +50,9 @@ export default function PostBattle({ result }: PostBattleProps) {
   const isVictory = result.outcome === 'win'
 
   const getDefName = (defId: string) => {
+    // Handle unevolved Berry
+    if (defId === 'berry') return 'Berry'
+    
     const def = BERRYVOLUTION_LIST.find(d => d.id === defId) || { id: defId, name: '?' }
     return def.name
   }
