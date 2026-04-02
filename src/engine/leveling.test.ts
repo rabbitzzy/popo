@@ -48,19 +48,19 @@ describe('leveling engine', () => {
     it('should compute Berry stats correctly', () => {
       // Berry at level 1: base stats
       const stats1 = computeStats('berry', 1)
-      expect(stats1.hp).toBe(45 + 2 * 1) // 47
-      expect(stats1.atk).toBe(40 + 2 * 1) // 42
-      expect(stats1.def).toBe(40 + 2 * 1) // 42
-      expect(stats1.spd).toBe(45 + 2 * 1) // 47
-      expect(stats1.nrg).toBe(30 + 1 * 1) // 31
+      expect(stats1.hp).toBe(45 + 3 * 1) // 47
+      expect(stats1.atk).toBe(40 + 3 * 1) // 42
+      expect(stats1.def).toBe(40 + 3 * 1) // 42
+      expect(stats1.spd).toBe(45 + 3 * 1) // 47
+      expect(stats1.nrg).toBe(30 + 2 * 1) // 31
 
       // Berry at level 10
       const stats10 = computeStats('berry', 10)
-      expect(stats10.hp).toBe(45 + 2 * 10) // 65
-      expect(stats10.atk).toBe(40 + 2 * 10) // 60
-      expect(stats10.def).toBe(40 + 2 * 10) // 60
-      expect(stats10.spd).toBe(45 + 2 * 10) // 65
-      expect(stats10.nrg).toBe(30 + 1 * 10) // 40
+      expect(stats10.hp).toBe(45 + 3 * 10) // 65
+      expect(stats10.atk).toBe(40 + 3 * 10) // 60
+      expect(stats10.def).toBe(40 + 3 * 10) // 60
+      expect(stats10.spd).toBe(45 + 3 * 10) // 65
+      expect(stats10.nrg).toBe(30 + 2 * 10) // 40
     })
 
     it('should compute Hypereon stats correctly', () => {

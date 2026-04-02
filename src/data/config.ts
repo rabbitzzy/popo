@@ -45,7 +45,7 @@ export const BERRYVOLUTION_STATS = {
 
 export const BERRY_STATS = {
   baseStats: { hp: 45, atk: 40, def: 40, spd: 45, nrg: 30 },
-  statGrowth: { hp: 2, atk: 2, def: 2, spd: 2, nrg: 1 },
+  statGrowth: { hp: 3, atk: 3, def: 3, spd: 3, nrg: 2 },  // Increased from 2/2/2/2/1 for better progression
   levelCap: 10,
 } as const
 
