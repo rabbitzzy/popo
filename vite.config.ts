@@ -8,4 +8,11 @@ export default defineConfig({
       localsConvention: 'camelCase',
     },
   },
+  build: {
+    rollupOptions: {
+      input: {
+        main: './index.html',
+      },
+    },
+  },
 })

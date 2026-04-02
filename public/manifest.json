@@ -1,0 +1,24 @@
+{
+  "name": "Berry's Evolution",
+  "short_name": "Berry Evo",
+  "description": "Collect all 8 evolutions. Conquer the Arena.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0f9f8",
+  "theme_color": "#2d8b85",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

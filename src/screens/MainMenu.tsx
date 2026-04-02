@@ -98,6 +98,13 @@ export default function MainMenu() {
     >
       {/* Title Block */}
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+        <div style={{ marginBottom: '1rem' }}>
+          <img
+            src="/sprites/berry.svg"
+            alt="Berry"
+            style={{ width: '96px', height: '96px' }}
+          />
+        </div>
         <h1
           style={{
             fontSize: '2.75rem',
