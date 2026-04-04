@@ -4,6 +4,7 @@ import { Button, Card, StatBar } from '../../components'
 import { BattleResult } from '../../data/types'
 import { applyXp } from '../../engine/leveling'
 import { BERRYVOLUTION_LIST } from '../../data/berryvolutions'
+import { computeArenaTier } from '../../data/config'
 
 interface PostBattleProps {
   result: BattleResult
@@ -29,11 +30,17 @@ export default function PostBattle({ result }: PostBattleProps) {
       return updated
     })
 
+    const newPoints = saveState.arena.points + result.arenaPointsChange
+    const uniqueBerryvolutionCount = new Set(
+      saveState.party.filter(m => m.defId !== 'berry').map(m => m.defId)
+    ).size
+    const newTier = computeArenaTier(newPoints, uniqueBerryvolutionCount)
+
     updateSaveState({
       party: updatedParty,
       arena: {
-        ...saveState.arena,
-        points: saveState.arena.points + result.arenaPointsChange,
+        points: newPoints,
+        tier: newTier,
       },
       inventory: {
         ...saveState.inventory,
