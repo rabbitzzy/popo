@@ -1,4 +1,4 @@
-import { EvolutionStone, ZoneId } from './types'
+import { ArenaTier, EvolutionStone, ZoneId } from './types'
 
 // ============================================================================
 // Berryvolution Base Stats & Growth
@@ -139,6 +139,24 @@ export const ARENA_TIERS = {
   crystal: { tier: 'Crystal' as const, pointsRequired: 900, aiDifficulty: 'Trainer' as const }, // Reduced from 1200
   apex: { tier: 'Apex' as const, pointsRequired: 1400, aiDifficulty: 'Champion' as const }, // Reduced from 2000
 } as const
+
+/**
+ * Compute the correct arena tier for a given points total.
+ *
+ * Tiers are awarded from highest to lowest. Apex additionally requires
+ * the player to own all 8 Berryvolutions.
+ *
+ * @param points - Current arena points (clamped to 0 if negative)
+ * @param uniqueBerryvolutionCount - Number of distinct Berryvolution species owned
+ */
+export function computeArenaTier(points: number, uniqueBerryvolutionCount: number): ArenaTier {
+  const p = Math.max(0, points)
+  if (p >= ARENA_TIERS.apex.pointsRequired && uniqueBerryvolutionCount >= 8) return 'Apex'
+  if (p >= ARENA_TIERS.crystal.pointsRequired) return 'Crystal'
+  if (p >= ARENA_TIERS.gold.pointsRequired) return 'Gold'
+  if (p >= ARENA_TIERS.silver.pointsRequired) return 'Silver'
+  return 'Bronze'
+}
 
 // ============================================================================
 // Status Effect Durations (in turns)
