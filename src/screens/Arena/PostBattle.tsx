@@ -5,6 +5,7 @@ import { BattleResult } from '../../data/types'
 import { applyXp } from '../../engine/leveling'
 import { BERRYVOLUTION_LIST } from '../../data/berryvolutions'
 import { computeArenaTier } from '../../data/config'
+import { berrySkinSprite } from '../../data/berryVariants'
 
 interface PostBattleProps {
   result: BattleResult
@@ -185,11 +186,18 @@ export default function PostBattle({ result }: PostBattleProps) {
                         fontSize: '0.875rem',
                       }}
                     >
-                      <div>
-                        <div style={{ fontWeight: 'bold', color: '#333' }}>
-                          {getDefName(member.defId)}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <img
+                          src={berrySkinSprite(member.skinId)}
+                          alt={getDefName(member.defId)}
+                          style={{ width: '48px', height: '48px' }}
+                        />
+                        <div>
+                          <div style={{ fontWeight: 'bold', color: '#333' }}>
+                            {getDefName(member.defId)}
+                          </div>
+                          <div style={{ fontSize: '0.75rem', color: '#888' }}>Lv {member.level}</div>
                         </div>
-                        <div style={{ fontSize: '0.75rem', color: '#888' }}>Lv {member.level}</div>
                       </div>
                       <div style={{ color: '#2d8b85', fontWeight: 'bold' }}>+{xp} XP</div>
                     </div>
