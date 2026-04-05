@@ -1,0 +1,23 @@
+/* Lunge animations for battle sprites */
+
+@keyframes playerLunge {
+  0%   { transform: translateX(0); }
+  35%  { transform: translateX(48px); }
+  65%  { transform: translateX(40px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes enemyLunge {
+  0%   { transform: translateX(0); }
+  35%  { transform: translateX(-48px); }
+  65%  { transform: translateX(-40px); }
+  100% { transform: translateX(0); }
+}
+
+.playerLunge {
+  animation: playerLunge 0.45s ease-in-out forwards;
+}
+
+.enemyLunge {
+  animation: enemyLunge 0.45s ease-in-out forwards;
+}

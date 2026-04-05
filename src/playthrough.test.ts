@@ -168,8 +168,10 @@ describe('TASK-30: End-to-End Playthrough Analysis', () => {
         if (result.type === 'stone') {
           stones[result.stone] = (stones[result.stone] || 0) + 1
         } else if (result.type === 'encounter') {
-          // Battle! (assume win for simulation)
-          xp += XP_CONFIG.basePerBattle + XP_CONFIG.winBonus
+          // Battle! (assume win vs level-5 wild enemy for simulation)
+          const simEnemyLevel = 5
+          const simXpBase = Math.max(Math.floor(simEnemyLevel * XP_CONFIG.xpPerEnemyLevel), XP_CONFIG.xpBaseMin)
+          xp += simXpBase + XP_CONFIG.winBonus
           stamina += ARENA_REWARDS.winStamina
           wins++
           

@@ -354,9 +354,15 @@ const NOT_EFFECTIVE: Record<ElementType, ElementType[]> = {
 xpToNextLevel(level) = 20 + level * 10
 
 xpAwarded(battle) = {
-  base: 30 per participating Berryvolution
-  winBonus: +20
+  base: max(floor(avgEnemyLevel × 5), 10)   // scales with enemy strength
+  winBonus: +20                              // added only on victory
 }
+
+// Examples:
+//   vs level 5 enemy (lose):  max(25, 10) = 25 XP
+//   vs level 5 enemy (win):   25 + 20     = 45 XP
+//   vs level 15 enemy (win):  75 + 20     = 95 XP
+//   vs level 30 enemy (win):  150 + 20    = 170 XP
 ```
 
 Stat growth per level is flat, defined per Berryvolution in `statGrowth`.
@@ -598,8 +604,9 @@ export const SHOP_PRICES = {
 ```ts
 // config.ts
 export const XP_CONFIG = {
-  basePerBattle:  30,
-  winBonus:       20,
+  xpPerEnemyLevel: 5,   // multiplied by avg enemy level for base XP
+  xpBaseMin:      10,   // floor so even trivial fights give some XP
+  winBonus:       20,   // added on top when winning
   xpToNextLevel: (level: number) => 20 + level * 10,
 };
 

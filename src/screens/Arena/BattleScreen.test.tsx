@@ -283,7 +283,8 @@ describe('BattleScreen', () => {
 
   // ── Direct Action Execution ─────────────────────────────────────────────────
 
-  it('executes basic attack immediately on click', () => {
+  it('executes basic attack on click (state applied after animation)', () => {
+    vi.useFakeTimers()
     const battleState = initializeBattle([makeEmberon()], 'Silver')
     const initialTurn = battleState.turn
     resetStore(battleState)
@@ -292,12 +293,15 @@ describe('BattleScreen', () => {
       b => b.textContent?.includes('Basic Attack')
     )
     basicBtn?.click()
-    // Action executes immediately, turn should increment
+    // State is applied after animation completes (1500ms)
+    vi.runAllTimers()
     const state = useGameStore.getState().battleState
     expect(state?.turn).toBeGreaterThan(initialTurn)
+    vi.useRealTimers()
   })
 
-  it('executes move immediately on click', () => {
+  it('executes move on click (state applied after animation)', () => {
+    vi.useFakeTimers()
     const battleState = initializeBattle([makeEmberon()], 'Silver')
     const initialTurn = battleState.turn
     resetStore(battleState)
@@ -306,9 +310,11 @@ describe('BattleScreen', () => {
       b => b.textContent?.includes('Ember')
     )
     moveBtn?.click()
-    // Action executes immediately, turn should increment
+    // State is applied after animation completes (1500ms)
+    vi.runAllTimers()
     const state = useGameStore.getState().battleState
     expect(state?.turn).toBeGreaterThan(initialTurn)
+    vi.useRealTimers()
   })
 
   // ── Error messages ────────────────────────────────────────────────────────

@@ -54,8 +54,9 @@ export const BERRY_STATS = {
 // ============================================================================
 
 export const XP_CONFIG = {
-  basePerBattle: 30,      // Base XP for participation
-  winBonus: 20,           // Bonus XP for winning (total: 50 XP)
+  xpPerEnemyLevel: 5,     // XP multiplier per average enemy level
+  xpBaseMin: 10,          // Minimum base XP regardless of enemy level
+  winBonus: 20,           // Bonus XP added on top when winning
   xpToNextLevel: (level: number): number => 20 + level * 10,
 } as const
 

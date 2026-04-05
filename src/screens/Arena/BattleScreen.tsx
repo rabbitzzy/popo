@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useGameStore } from '../../store/gameStore'
 import { Button, Card, StatBar, ConfirmDialog, Sprite } from '../../components'
+import type { SpriteAnimState } from '../../components/Sprite'
 import { BattleState, CombatantState } from '../../data/types'
 import { resolveTurn } from '../../engine/battle'
 import { getAIAction } from '../../engine/ai'
@@ -8,6 +9,7 @@ import { getUnlockedMoves } from '../../engine/leveling'
 import { BERRYVOLUTION_LIST } from '../../data/berryvolutions'
 import { berrySkinSprite, BerrySkinId } from '../../data/berryVariants'
 import { XP_CONFIG, ARENA_REWARDS } from '../../data/config'
+import styles from './BattleScreen.module.css'
 
 export default function BattleScreen() {
   const setBattleState = useGameStore(state => state.setBattleState)
@@ -19,6 +21,12 @@ export default function BattleScreen() {
   const [battleState, setBattleStateLocal] = useState<BattleState | null>(initialBattleState)
   const [error, setError] = useState<string | null>(null)
   const [showExitConfirm, setShowExitConfirm] = useState(false)
+
+  // Animation state
+  type AnimPhase = 'idle' | 'first-lunge' | 'first-hit' | 'second-lunge' | 'second-hit'
+  const [animPhase, setAnimPhase] = useState<AnimPhase>('idle')
+  const [animOrder, setAnimOrder] = useState<'player-first' | 'enemy-first'>('player-first')
+  const [animKey, setAnimKey] = useState(0) // force re-mount to replay CSS animations
 
   if (!battleState) {
     return (
@@ -88,6 +96,8 @@ export default function BattleScreen() {
   }
 
   const executeAction = (action: { type: 'move' | 'basic' | 'switch'; value?: string }) => {
+    if (animPhase !== 'idle') return // prevent input during animation
+
     let playerAction: import('../../data/types').BattleAction
     if (action.type === 'basic') {
       playerAction = { type: 'move', moveId: 'basic-attack' }
@@ -95,14 +105,42 @@ export default function BattleScreen() {
       playerAction = { type: 'move', moveId: action.value! }
     } else {
       const idx = Number(action.value)
-      playerAction = { type: 'switch', toInstanceId: battleState.playerTeam[idx].partyMember.instanceId }
+      playerAction = { type: 'switch', toInstanceId: battleState!.playerTeam[idx].partyMember.instanceId }
     }
 
-    const aiAction = getAIAction(battleState)
-    const newBattleState = resolveTurn(battleState, playerAction, aiAction)
-    setBattleStateLocal(newBattleState)
-    setBattleState(newBattleState)
-    setError(null)
+    const currentBattle = battleState!
+    const aiAction = getAIAction(currentBattle)
+    const newBattleState = resolveTurn(currentBattle, playerAction, aiAction)
+
+    // Switches have no attack animation — apply immediately
+    if (playerAction.type === 'switch' || aiAction.type === 'switch') {
+      setBattleStateLocal(newBattleState)
+      setBattleState(newBattleState)
+      setError(null)
+      return
+    }
+
+    // Determine who attacks first by comparing effective speed
+    const pActive = currentBattle.playerTeam[currentBattle.activePlayerIndex]
+    const aActive = currentBattle.aiTeam[currentBattle.activeAiIndex]
+    const pSpeed = pActive.partyMember.currentStats.spd * pActive.statModifiers.spd
+    const aSpeed = aActive.partyMember.currentStats.spd * aActive.statModifiers.spd
+    const order: 'player-first' | 'enemy-first' = pSpeed >= aSpeed ? 'player-first' : 'enemy-first'
+
+    setAnimOrder(order)
+    setAnimKey(k => k + 1)
+    setAnimPhase('first-lunge')
+
+    // first-lunge → first-hit → second-lunge → second-hit → idle + apply state
+    setTimeout(() => setAnimPhase('first-hit'), 450)
+    setTimeout(() => setAnimPhase('second-lunge'), 750)
+    setTimeout(() => setAnimPhase('second-hit'), 1200)
+    setTimeout(() => {
+      setAnimPhase('idle')
+      setBattleStateLocal(newBattleState)
+      setBattleState(newBattleState)
+      setError(null)
+    }, 1500)
   }
 
   const alivePlayerTeammates = battleState.playerTeam
@@ -119,9 +157,15 @@ export default function BattleScreen() {
   const handleBattleEnd = () => {
     const isPlayerVictory = battleState.outcome === 'win'
     
-    // Calculate XP for each participating party member
-    // Base XP: 30 for participation, +20 bonus for winning = 50 total for win
-    const xpPerMember = XP_CONFIG.basePerBattle + (isPlayerVictory ? XP_CONFIG.winBonus : 0)
+    // Calculate XP based on average enemy level — stronger enemies yield more XP
+    const avgEnemyLevel =
+      battleState.aiTeam.reduce((sum, c) => sum + c.partyMember.level, 0) /
+      Math.max(battleState.aiTeam.length, 1)
+    const xpBase = Math.max(
+      Math.floor(avgEnemyLevel * XP_CONFIG.xpPerEnemyLevel),
+      XP_CONFIG.xpBaseMin
+    )
+    const xpPerMember = xpBase + (isPlayerVictory ? XP_CONFIG.winBonus : 0)
 
     // Distribute XP to all team members
     const xpEarned: Record<string, number> = {}
@@ -148,6 +192,29 @@ export default function BattleScreen() {
     const def = BERRYVOLUTION_LIST.find(d => d.id === defId) || { id: defId, name: '?' }
     return def.name
   }
+
+  // ── Derive animation props ───────────────────────────────────────────────
+
+  const isAnimating = animPhase !== 'idle'
+
+  const playerLunging =
+    (animPhase === 'first-lunge' && animOrder === 'player-first') ||
+    (animPhase === 'second-lunge' && animOrder === 'enemy-first')
+
+  const playerHit =
+    (animPhase === 'first-hit' && animOrder === 'enemy-first') ||
+    (animPhase === 'second-hit' && animOrder === 'player-first')
+
+  const enemyLunging =
+    (animPhase === 'first-lunge' && animOrder === 'enemy-first') ||
+    (animPhase === 'second-lunge' && animOrder === 'player-first')
+
+  const enemyHit =
+    (animPhase === 'first-hit' && animOrder === 'player-first') ||
+    (animPhase === 'second-hit' && animOrder === 'enemy-first')
+
+  const playerAnimState: SpriteAnimState = playerHit ? 'attack' : 'idle'
+  const enemyAnimState: SpriteAnimState = enemyHit ? 'attack' : 'idle'
 
   // ── Render Battle ────────────────────────────────────────────────────────
 
@@ -195,13 +262,19 @@ export default function BattleScreen() {
           <Card>
             <div style={{ padding: '0.75rem' }}>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
-                <Sprite
-                  spriteUrl={playerActive.partyMember.defId === 'berry'
-                    ? berrySkinSprite(playerActive.partyMember.skinId as BerrySkinId)
-                    : `/sprites/${playerActive.partyMember.defId}.svg`}
-                  alt={getDefName(playerActive.partyMember.defId)}
-                  size="lg"
-                />
+                <div
+                  key={`player-${animKey}`}
+                  className={playerLunging ? styles.playerLunge : undefined}
+                >
+                  <Sprite
+                    spriteUrl={playerActive.partyMember.defId === 'berry'
+                      ? berrySkinSprite(playerActive.partyMember.skinId as BerrySkinId)
+                      : `/sprites/${playerActive.partyMember.defId}.svg`}
+                    alt={getDefName(playerActive.partyMember.defId)}
+                    size="lg"
+                    animState={playerAnimState}
+                  />
+                </div>
               </div>
               <div style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
                 {getDefName(playerActive.partyMember.defId)}
@@ -231,14 +304,20 @@ export default function BattleScreen() {
           <Card>
             <div style={{ padding: '0.75rem' }}>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.5rem' }}>
-                <Sprite
-                  spriteUrl={aiActive.partyMember.defId === 'berry'
-                    ? berrySkinSprite(aiActive.partyMember.skinId as BerrySkinId)
-                    : `/sprites/${aiActive.partyMember.defId}.svg`}
-                  alt={getDefName(aiActive.partyMember.defId)}
-                  size="lg"
-                  flipped
-                />
+                <div
+                  key={`enemy-${animKey}`}
+                  className={enemyLunging ? styles.enemyLunge : undefined}
+                >
+                  <Sprite
+                    spriteUrl={aiActive.partyMember.defId === 'berry'
+                      ? berrySkinSprite(aiActive.partyMember.skinId as BerrySkinId)
+                      : `/sprites/${aiActive.partyMember.defId}.svg`}
+                    alt={getDefName(aiActive.partyMember.defId)}
+                    size="lg"
+                    flipped
+                    animState={enemyAnimState}
+                  />
+                </div>
               </div>
               <div style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
                 {getDefName(aiActive.partyMember.defId)}
@@ -266,10 +345,10 @@ export default function BattleScreen() {
         </div>
 
         {/* Move selection */}
-        <Card style={{ marginBottom: '1rem' }}>
+        <Card style={{ marginBottom: '1rem', opacity: isAnimating ? 0.5 : 1 }}>
           <div style={{ padding: '0.75rem' }}>
             <div style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-              Choose Action
+              {isAnimating ? '...' : 'Choose Action'}
             </div>
             <div
               style={{
@@ -283,15 +362,15 @@ export default function BattleScreen() {
                 <button
                   key={move.id}
                   onClick={() => handleSelectMove(move.id)}
-                  disabled={playerActive.currentNrg < move.nrgCost}
+                  disabled={isAnimating || playerActive.currentNrg < move.nrgCost}
                   style={{
                     padding: '0.5rem',
                     fontSize: '0.75rem',
                     borderRadius: '0.25rem',
                     border: '1px solid #e0e0e0',
                     backgroundColor: '#fff',
-                    cursor: playerActive.currentNrg < move.nrgCost ? 'not-allowed' : 'pointer',
-                    opacity: playerActive.currentNrg < move.nrgCost ? 0.5 : 1,
+                    cursor: (isAnimating || playerActive.currentNrg < move.nrgCost) ? 'not-allowed' : 'pointer',
+                    opacity: (isAnimating || playerActive.currentNrg < move.nrgCost) ? 0.5 : 1,
                   }}
                 >
                   {move.name} ({move.nrgCost} NRG)
@@ -300,6 +379,7 @@ export default function BattleScreen() {
             </div>
             <button
               onClick={handleSelectBasicAttack}
+              disabled={isAnimating}
               style={{
                 width: '100%',
                 padding: '0.5rem',
@@ -307,7 +387,8 @@ export default function BattleScreen() {
                 borderRadius: '0.25rem',
                 border: '1px solid #e0e0e0',
                 backgroundColor: '#fff',
-                cursor: 'pointer',
+                cursor: isAnimating ? 'not-allowed' : 'pointer',
+                opacity: isAnimating ? 0.5 : 1,
               }}
             >
               Basic Attack (0 NRG)
@@ -333,13 +414,15 @@ export default function BattleScreen() {
                   <button
                     key={index}
                     onClick={() => handleSelectSwitch(index)}
+                    disabled={isAnimating}
                     style={{
                       padding: '0.5rem',
                       fontSize: '0.75rem',
                       borderRadius: '0.25rem',
                       border: '1px solid #e0e0e0',
                       backgroundColor: '#fff',
-                      cursor: 'pointer',
+                      cursor: isAnimating ? 'not-allowed' : 'pointer',
+                      opacity: isAnimating ? 0.5 : 1,
                     }}
                   >
                     {getDefName(combatant.partyMember.defId)} Lv{combatant.partyMember.level}

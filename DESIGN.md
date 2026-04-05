@@ -152,7 +152,7 @@ range across all 8 forms to give a sense of scale:
 - Berryvolutions level from **1 to 30** after evolution (Berry caps at level 10).
 - Each level grants flat stat growth according to the evolution's growth profile.
 - New moves are unlocked at fixed levels: **1, 8, 15, 22**.
-- XP is earned from every battle (win or lose), with a win bonus.
+- XP is earned from every battle (win or lose), scaled by the average level of the enemy team, with an additional win bonus. Defeating stronger enemies yields more XP.
 
 ---
 
