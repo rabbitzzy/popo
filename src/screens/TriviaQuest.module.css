@@ -1,0 +1,330 @@
+/* TriviaQuest — full-screen overlay with a floating quest card */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, #0d1b2a 0%, #1a0533 50%, #0d1b2a 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+/* Ambient particle dots */
+.overlay::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(78,205,196,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(155,89,182,0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────── */
+
+.card {
+  background: linear-gradient(160deg, #1e1e2e 0%, #16213e 100%);
+  border: 1px solid rgba(78, 205, 196, 0.25);
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px rgba(78,205,196,0.08),
+    0 8px 32px rgba(0,0,0,0.6),
+    0 0 80px rgba(78,205,196,0.08);
+  padding: 2rem;
+  width: 100%;
+  max-width: 560px;
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+/* ── Header ───────────────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.25rem;
+}
+
+.icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #4ECDC4;
+  margin: 0;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid rgba(78,205,196,0.15);
+  margin: 0.75rem 0 1rem;
+}
+
+/* ── Action label ─────────────────────────────────────────────────────── */
+
+.actionLabel {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.45);
+  margin: 0 0 1.25rem;
+  font-style: italic;
+}
+
+/* ── Meta row (difficulty + category) ────────────────────────────────── */
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.diffBadge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+}
+
+.diffEasy   { background: rgba(76,175,80,0.2);  color: #81c784; border: 1px solid rgba(76,175,80,0.3); }
+.diffMedium { background: rgba(255,193,7,0.15); color: #ffd54f; border: 1px solid rgba(255,193,7,0.25); }
+.diffHard   { background: rgba(244,67,54,0.15); color: #ef9a9a; border: 1px solid rgba(244,67,54,0.25); }
+
+.categoryLabel {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.05em;
+}
+
+/* ── Question text ────────────────────────────────────────────────────── */
+
+.question {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #f0f0f0;
+  line-height: 1.55;
+  margin: 0 0 1.5rem;
+}
+
+/* ── Options grid ─────────────────────────────────────────────────────── */
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 0.9rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.35;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.option:hover:not(.optionDisabled) {
+  background: rgba(78,205,196,0.1);
+  border-color: rgba(78,205,196,0.35);
+  transform: translateY(-1px);
+}
+
+.optionDisabled {
+  cursor: default;
+}
+
+.optionLetter {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+/* Selected states */
+.optionCorrect {
+  background: rgba(76,175,80,0.18) !important;
+  border-color: #4caf50 !important;
+  color: #a5d6a7 !important;
+  animation: correctPop 0.4s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.optionCorrect .optionLetter {
+  background: #4caf50;
+  border-color: #4caf50;
+  color: #fff;
+}
+
+.optionWrong {
+  background: rgba(244,67,54,0.18) !important;
+  border-color: #f44336 !important;
+  color: #ef9a9a !important;
+  animation: shake 0.4s ease both;
+}
+
+.optionWrong .optionLetter {
+  background: #f44336;
+  border-color: #f44336;
+  color: #fff;
+}
+
+/* The correct answer highlighted after a wrong pick */
+.optionRevealCorrect {
+  background: rgba(76,175,80,0.1) !important;
+  border-color: rgba(76,175,80,0.5) !important;
+  color: #a5d6a7 !important;
+}
+
+.optionRevealCorrect .optionLetter {
+  background: rgba(76,175,80,0.4);
+  border-color: #4caf50;
+  color: #a5d6a7;
+}
+
+@keyframes correctPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-5px); }
+  40%       { transform: translateX(5px); }
+  60%       { transform: translateX(-3px); }
+  80%       { transform: translateX(3px); }
+}
+
+/* ── Result banner ────────────────────────────────────────────────────── */
+
+.result {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
+  animation: fadeIn 0.3s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.resultPass {
+  background: rgba(76,175,80,0.12);
+  border: 1px solid rgba(76,175,80,0.3);
+}
+
+.resultFail {
+  background: rgba(244,67,54,0.1);
+  border: 1px solid rgba(244,67,54,0.25);
+}
+
+.resultIcon {
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+.resultText {
+  flex: 1;
+}
+
+.resultHeadline {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+}
+
+.resultPass .resultHeadline { color: #81c784; }
+.resultFail .resultHeadline { color: #ef9a9a; }
+
+.resultExplanation {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* ── Footer buttons ───────────────────────────────────────────────────── */
+
+.footer {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+}
+
+.btn {
+  padding: 0.65rem 1.3rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  letter-spacing: 0.02em;
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btnSecondary {
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.btnSecondary:hover { background: rgba(255,255,255,0.12); }
+
+.btnPrimary {
+  background: #4ECDC4;
+  color: #0d1b2a;
+}
+
+.btnPrimary:hover {
+  background: #3dbdb5;
+  box-shadow: 0 4px 16px rgba(78,205,196,0.35);
+  transform: translateY(-1px);
+}
+
+.btnDanger {
+  background: rgba(244,67,54,0.15);
+  color: #ef9a9a;
+  border: 1px solid rgba(244,67,54,0.3);
+}
+
+.btnDanger:hover { background: rgba(244,67,54,0.25); }

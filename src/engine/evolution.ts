@@ -109,12 +109,14 @@ export function applyEvolution(member: PartyMember, stone: EvolutionStone): Part
 
   // Create the evolved member
   const evolved: PartyMember = {
-    instanceId: member.instanceId, // Keep the same instance ID
+    instanceId: member.instanceId,
     defId: targetFormId,
-    level: evolvedLevel, // Keep level!
-    xp: 0, // Reset XP for new level progression
+    level: evolvedLevel,
+    xp: 0,
     currentStats: levelStats,
-    maxHp: levelStats.hp,
+    maxHp:      levelStats.hp,
+    currentHp:  levelStats.hp,   // evolution fully heals
+    currentNrg: levelStats.nrg,
     unlockedMoveIds,
   }
 

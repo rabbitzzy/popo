@@ -22,6 +22,7 @@ function resetStore(overrides: Record<string, unknown> = {}) {
       berryLog: [],
       tutorialComplete: false,
       gameWon: false,
+    currentLocation: 'verdant-vale' as const,
       ...overrides,
     },
     battleState: null,

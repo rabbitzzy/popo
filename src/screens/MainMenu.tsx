@@ -38,7 +38,9 @@ export default function MainMenu() {
         level: 1,
         xp: 0,
         currentStats: berryStats,
-        maxHp: berryStats.hp,
+        maxHp:      berryStats.hp,
+        currentHp:  berryStats.hp,
+        currentNrg: berryStats.nrg,
         unlockedMoveIds: [],
       }],
       inventory: {

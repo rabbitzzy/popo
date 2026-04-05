@@ -25,6 +25,7 @@ function resetStore(partyOverride: PartyMember[] = [], inventoryOverride = {}, b
       berryLog: berryLogOverride,
       tutorialComplete: true,
       gameWon: false,
+    currentLocation: 'verdant-vale' as const,
     },
     battleState: null,
     screen: { id: 'berryvolution-detail', instanceId: 'berry-1' },

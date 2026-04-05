@@ -1,6 +1,7 @@
 import { create } from 'zustand'
-import { SaveState, BattleState, Screen } from '../data/types'
+import { SaveState, BattleState, Screen, LocationId } from '../data/types'
 import { save as persistSave, load as persistLoad, clearSave as persistClearSave } from '../engine/save'
+import { HOME_LOCATION } from '../data/mapGraph'
 
 // ============================================================================
 // Game Store Types
@@ -50,6 +51,8 @@ function getDefaultSaveState(): SaveState {
     berryLog: [],
     tutorialComplete: false,
     gameWon: false,
+    currentLocation: HOME_LOCATION as LocationId,
+    zoneLastExploredAt: {},
   }
 }
 

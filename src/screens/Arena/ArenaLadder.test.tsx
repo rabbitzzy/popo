@@ -36,6 +36,7 @@ function resetStore(
       berryLog: [],
       tutorialComplete: true,
       gameWon: false,
+    currentLocation: 'verdant-vale' as const,
     },
     battleState: null,
     screen: { id: 'ladder' },

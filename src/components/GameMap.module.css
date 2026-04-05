@@ -3,19 +3,15 @@
 .wrapper {
   position: relative;
   width: 100%;
-  max-width: 560px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  /* react-zoom-pan-pinch fills this box */
 }
 
 /* ── SVG canvas ─────────────────────────────────────────────────────────── */
 
 .svg {
   display: block;
-  width: 100%;
-  height: calc(100vh - 180px);
-  max-height: 650px;
   background: linear-gradient(160deg, #e8f4f3 0%, #d4eff0 50%, #dce8fa 100%);
   border-radius: 1rem;
   border: 2px solid #b2d8d8;
@@ -32,6 +28,14 @@
   opacity: 0.7;
 }
 
+.edgeActive {
+  stroke: #2d8b85;
+  stroke-width: 3.5;
+  stroke-dasharray: 8 5;
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+
 /* ── Node groups ─────────────────────────────────────────────────────────── */
 
 .nodeGroup {
@@ -39,7 +43,10 @@
   outline: none;
 }
 
-/* Invisible touch target for better mobile interaction */
+.nodeGroupLocked {
+  cursor: not-allowed;
+}
+
 .touchTarget {
   cursor: pointer;
 }
@@ -48,41 +55,44 @@
   stroke-width: 4;
 }
 
-/* Main circle */
 .nodeDot {
   transition: r 0.15s ease, filter 0.15s ease;
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
 }
 
-.nodeDotHovered {
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35)) brightness(1.1);
+/* ── Animations ──────────────────────────────────────────────────────────── */
+
+.berryWalking {
+  animation: berryWalk 0.28s ease-in-out infinite;
 }
 
-/* Glow ring */
-.glowRing {
-  animation: glowPulse 1.4s ease-in-out infinite;
+@keyframes berryWalk {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-5px); }
 }
 
-@keyframes glowPulse {
-  0%, 100% { opacity: 0.15; }
-  50%       { opacity: 0.35; }
+.currentGlowRing {
+  animation: currentGlow 1.8s ease-in-out infinite;
 }
 
-/* Pulse ring */
-.pulseRing {
-  animation: ringExpand 2.2s ease-out infinite;
+@keyframes currentGlow {
+  0%, 100% { opacity: 0.3; r: 50; }
+  50%       { opacity: 0.7; r: 54; }
 }
 
-@keyframes ringExpand {
-  0%   { r: 40; opacity: 0.5; }
-  60%  { r: 52; opacity: 0.1; }
-  100% { r: 40; opacity: 0.5; }
+.currentPulseRing {
+  animation: currentPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes currentPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1.0; }
 }
 
 /* ── Node labels ─────────────────────────────────────────────────────────── */
 
 .nodeLabel {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   fill: #2d5a5a;
   paint-order: stroke;
@@ -98,7 +108,15 @@
   font-weight: 700;
 }
 
-/* Stat lines shown on hover */
+.berryMarker {
+  animation: berryBounce 1.1s ease-in-out infinite;
+}
+
+@keyframes berryBounce {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-5px); }
+}
+
 .statLine {
   font-size: 11px;
   font-weight: 500;
@@ -238,6 +256,18 @@
   gap: 0.75rem;
 }
 
+.cooldownBanner {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  background: #f0ece8;
+  color: #888;
+  text-align: center;
+  border: 1px dashed #ccc;
+}
+
 .exploreBtn,
 .cancelBtn {
   flex: 1;
@@ -265,35 +295,11 @@
   color: #555;
 }
 
-.cancelBtn:hover {
-  background: #ddd;
-}
+.cancelBtn:hover { background: #ddd; }
 
-/* ── Mobile Optimizations ───────────────────────────────────────────────── */
+/* ── Mobile ──────────────────────────────────────────────────────────────── */
 
 @media (max-width: 480px) {
-  .wrapper {
-    max-width: none;
-    height: calc(100vh - 140px);
-  }
-
-  .svg {
-    height: 100%;
-    max-height: none;
-    border-radius: 0.75rem;
-    border-width: 1.5px;
-  }
-
-  .nodeLabel {
-    font-size: 12px;
-    stroke-width: 3px;
-  }
-
-  .statLine {
-    font-size: 10px;
-    stroke-width: 2px;
-  }
-
   .modal {
     width: 95vw;
     max-width: none;
@@ -301,9 +307,7 @@
     max-height: 90vh;
   }
 
-  .modalHeader {
-    flex-wrap: wrap;
-  }
+  .modalHeader { flex-wrap: wrap; }
 
   .modalTitle {
     font-size: 1.1rem;
@@ -311,25 +315,11 @@
     min-width: 0;
   }
 
-  .infoGrid {
-    gap: 0.4rem;
-  }
-
-  .infoItem {
-    padding: 0.4rem 0.6rem;
-  }
-
-  .infoLabel {
-    font-size: 0.6rem;
-  }
-
-  .infoValue {
-    font-size: 0.85rem;
-  }
-
-  .stoneList {
-    gap: 0.3rem;
-  }
+  .infoGrid  { gap: 0.4rem; }
+  .infoItem  { padding: 0.4rem 0.6rem; }
+  .infoLabel { font-size: 0.6rem; }
+  .infoValue { font-size: 0.85rem; }
+  .stoneList { gap: 0.3rem; }
 
   .stoneTag {
     font-size: 0.7rem;
@@ -345,28 +335,5 @@
   .closeBtn {
     font-size: 1.1rem;
     padding: 0.5rem;
-  }
-}
-
-/* Extra small screens (iPhone SE, etc.) */
-@media (max-width: 375px) {
-  .svg {
-    border-radius: 0.5rem;
-  }
-
-  .nodeLabel {
-    font-size: 11px;
-  }
-
-  .statLine {
-    font-size: 9px;
-  }
-
-  .modal {
-    padding: 1rem;
-  }
-
-  .modalTitle {
-    font-size: 1rem;
   }
 }

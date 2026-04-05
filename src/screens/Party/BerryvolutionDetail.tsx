@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useGameStore, useParty, useInventory } from '../../store/gameStore'
 import { Button, BerryvolutionCard, MoveCard, StatBar } from '../../components'
+import QuestGate from '../../components/QuestGate'
 import { canEvolve, applyEvolution, getEvolutionForm } from '../../engine/evolution'
 import { getUnlockedMoves, getNextUnlockingMove, xpToNextLevel } from '../../engine/leveling'
 import { EvolutionStone, BerryvolutionId } from '../../data/types'
+import { QUEST_CONFIG } from '../../data/questConfig'
 import { TRAIT_DEFINITIONS } from '../../data/config'
 import { getBerryvolutionById } from '../../data/berryvolutions'
 
@@ -31,6 +33,10 @@ export default function BerryvolutionDetail({ instanceId }: BerryvolutionDetailP
   const saveState = useGameStore(state => state.saveState)
 
   const [evolveError, setEvolveError] = useState<string | null>(null)
+  const [pendingEvolveQuest, setPendingEvolveQuest] = useState<{
+    stone: EvolutionStone
+    targetName: string
+  } | null>(null)
 
   const member = party.find(m => m.instanceId === instanceId)
 
@@ -74,7 +80,7 @@ export default function BerryvolutionDetail({ instanceId }: BerryvolutionDetailP
         .map(([stone]) => stone)
     : []
 
-  const handleEvolve = (stone: EvolutionStone) => {
+  const doEvolve = (stone: EvolutionStone) => {
     setEvolveError(null)
     try {
       const evolved = applyEvolution(member, stone)
@@ -101,6 +107,18 @@ export default function BerryvolutionDetail({ instanceId }: BerryvolutionDetailP
       setScreen({ id: 'berryvolution-detail', instanceId })
     } catch {
       setEvolveError('Evolution failed. Please try again.')
+    }
+  }
+
+  const handleEvolve = (stone: EvolutionStone) => {
+    const targetId = getEvolutionForm(stone)
+    const targetName = targetId
+      ? targetId.charAt(0).toUpperCase() + targetId.slice(1)
+      : 'Unknown'
+    if (QUEST_CONFIG.gateEvolve) {
+      setPendingEvolveQuest({ stone, targetName })
+    } else {
+      doEvolve(stone)
     }
   }
 
@@ -297,6 +315,16 @@ export default function BerryvolutionDetail({ instanceId }: BerryvolutionDetailP
           </div>
         )}
       </div>
+
+      {/* Quest gate overlay — shown when player taps an evolution button */}
+      {pendingEvolveQuest && (
+        <QuestGate
+          questContext="evolve"
+          actionLabel={`Before Berry evolves into ${pendingEvolveQuest.targetName}…`}
+          onPass={() => { const s = pendingEvolveQuest.stone; setPendingEvolveQuest(null); doEvolve(s) }}
+          onFail={() => setPendingEvolveQuest(null)}
+        />
+      )}
     </div>
   )
 }

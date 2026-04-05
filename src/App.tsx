@@ -15,6 +15,7 @@ import PostBattle from './screens/Arena/PostBattle'
 import ArenaLadder from './screens/Arena/ArenaLadder'
 import Shop from './screens/Shop'
 import Settings from './screens/Settings'
+import TriviaQuest from './screens/TriviaQuest'
 
 function App() {
   const screen = useGameStore(state => state.screen)
@@ -53,6 +54,15 @@ function App() {
       content = <Shop />; break
     case 'settings':
       content = <Settings />; break
+    case 'trivia-quest':
+      content = (
+        <TriviaQuest
+          questContext={screen.questContext}
+          onPass={screen.onPass}
+          onFail={screen.onFail}
+          actionLabel={screen.actionLabel}
+        />
+      ); break
     case 'victory':
     default:
       content = <MainMenu />

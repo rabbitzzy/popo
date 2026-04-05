@@ -16,6 +16,7 @@ function resetStore() {
       berryLog: ['emberon', 'hypereon'],
       tutorialComplete: true,
       gameWon: false,
+    currentLocation: 'verdant-vale' as const,
     },
     battleState: null,
     screen: { id: 'main-menu' },

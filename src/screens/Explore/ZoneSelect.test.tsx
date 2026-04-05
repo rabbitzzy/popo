@@ -18,6 +18,7 @@ function resetStore(stamina = 10) {
       berryLog: [],
       tutorialComplete: true,
       gameWon: false,
+    currentLocation: 'verdant-vale' as const,
     },
     battleState: null,
     screen: { id: 'zone-select' },

@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { useGameStore, useParty, useArenaStatus } from '../../store/gameStore'
 import { Button, Card, BerryvolutionCard } from '../../components'
+import QuestGate from '../../components/QuestGate'
 import { BattleState } from '../../data/types'
 import { initializeBattle } from '../../engine/battleSetup'
+import { QUEST_CONFIG } from '../../data/questConfig'
 
 export default function TeamBuilder() {
   const setScreen = useGameStore(state => state.setScreen)
@@ -12,6 +14,7 @@ export default function TeamBuilder() {
 
   const [selectedInstanceIds, setSelectedInstanceIds] = useState<string[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [questPending, setQuestPending] = useState(false)
 
   const isSelected = (instanceId: string) => selectedInstanceIds.includes(instanceId)
 
@@ -29,20 +32,26 @@ export default function TeamBuilder() {
     }
   }
 
-  const handleStartBattle = () => {
-    if (selectedInstanceIds.length === 0) {
-      setError('Select at least 1 team member')
-      return
-    }
-
+  const doStartBattle = () => {
     const selectedParty = party.filter(m => selectedInstanceIds.includes(m.instanceId))
-
     try {
       const battleState: BattleState = initializeBattle(selectedParty, arena.tier)
       setBattleState(battleState)
       setScreen({ id: 'battle', battleState })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to start battle')
+    }
+  }
+
+  const handleStartBattle = () => {
+    if (selectedInstanceIds.length === 0) {
+      setError('Select at least 1 team member')
+      return
+    }
+    if (QUEST_CONFIG.gateBattle) {
+      setQuestPending(true)
+    } else {
+      doStartBattle()
     }
   }
 
@@ -203,6 +212,16 @@ export default function TeamBuilder() {
           Start Battle
         </Button>
       </div>
+
+      {/* Quest gate overlay */}
+      {questPending && (
+        <QuestGate
+          questContext="battle"
+          actionLabel={`Before you enter the ${arena.tier} Arena…`}
+          onPass={() => { setQuestPending(false); doStartBattle() }}
+          onFail={() => setQuestPending(false)}
+        />
+      )}
     </div>
   )
 }

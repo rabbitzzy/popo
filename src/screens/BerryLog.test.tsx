@@ -17,6 +17,7 @@ function resetStore(berryLogOverride: string[] = []) {
       berryLog: berryLogOverride as import('../data/types').BerryvolutionId[],
       tutorialComplete: true,
       gameWon: false,
+    currentLocation: 'verdant-vale' as const,
     },
     battleState: null,
     screen: { id: 'berry-log' },

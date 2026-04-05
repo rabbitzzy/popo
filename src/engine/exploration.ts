@@ -74,7 +74,9 @@ export function spawnWildBerry(zone: ZoneDef): PartyMember {
     level,
     xp: 0,
     currentStats: stats,
-    maxHp: stats.hp,
+    maxHp:      stats.hp,
+    currentHp:  stats.hp,
+    currentNrg: stats.nrg,
     unlockedMoveIds: [],
   }
 }

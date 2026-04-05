@@ -70,8 +70,10 @@ export function initializeBattle(playerTeam: PartyMember[], arenaTier: ArenaTier
 function createCombatant(member: PartyMember): CombatantState {
   return {
     partyMember: member,
-    currentHp: member.maxHp,
-    currentNrg: member.currentStats.nrg,
+    // Use persisted HP/NRG so damage from previous battles carries over until healed at Home.
+    // Fall back to max for AI members and any save-state without the new fields.
+    currentHp:  member.currentHp  ?? member.maxHp,
+    currentNrg: member.currentNrg ?? member.currentStats.nrg,
     status: null,
     statusTurnsLeft: 0,
     traitState: {},
@@ -120,7 +122,9 @@ function generateAiTeam(teamSize: number, aiDifficulty: string): CombatantState[
       xp: 0,
       currentStats: stats,
       maxHp: stats.hp,
-      unlockedMoveIds: [], // AI moves are determined by combat logic
+      currentHp:  stats.hp,
+      currentNrg: stats.nrg,
+      unlockedMoveIds: [],
     }
 
     return createCombatant(aiMember)

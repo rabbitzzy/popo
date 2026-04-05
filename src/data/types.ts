@@ -40,7 +40,34 @@ export type TraitId =
   | 'frost-armor'
   | 'fairy-charm';
 
-export type ZoneId = 'ember-crater' | 'tide-basin' | 'verdant-vale' | 'frostpeak-zone' | 'wandering-path';
+export type ZoneId =
+  // ── Original five ──────────────────────────────────────────────────────────
+  | 'ember-crater'
+  | 'tide-basin'
+  | 'verdant-vale'
+  | 'frostpeak-zone'
+  | 'wandering-path'
+  // ── Northern plateau ───────────────────────────────────────────────────────
+  | 'ashfall-summit'    // fire/rock  — connected to Ember Crater + Stormcliff Ridge
+  | 'crystal-spire'     // ice/psychic — peninsula tip: Ember Crater + Glacial Rift
+  | 'stormcliff-ridge'  // electric   — bridge: Ashfall Summit ↔ Tide Basin
+  // ── Eastern coast ──────────────────────────────────────────────────────────
+  | 'coral-shallows'    // water      — chain: Tide Basin → Wandering Path
+  // ── Central heartlands ─────────────────────────────────────────────────────
+  | 'thornwood'         // grass      — triangle with Verdant Vale + Dusty Badlands
+  | 'dusty-badlands'    // rock       — hub: Verdant Vale, Thornwood, Shadowmere Bog, Wandering Path
+  // ── Western reaches ────────────────────────────────────────────────────────
+  | 'glacial-rift'      // ice        — chain: Crystal Spire → Frostpeak Zone
+  | 'shadowmere-bog'    // psychic    — links west chain to central + south
+  // ── Southern basin ─────────────────────────────────────────────────────────
+  | 'mossy-cavern'      // grass/rock — peninsula: Shadowmere Bog + Home
+  | 'sunbaked-dunes'    // fire       — peninsula tip: Home + Wandering Path
+  ;
+
+/** Superset of ZoneId that includes non-explorable map locations (e.g. Home hub). */
+export type LocationId = ZoneId | 'home';
+
+export type QuestContext = 'explore' | 'battle' | 'evolve' | 'capture' | 'arena' | 'any';
 
 export type Screen =
   | { id: 'main-menu' }
@@ -56,7 +83,17 @@ export type Screen =
   | { id: 'berry-log' }
   | { id: 'shop' }
   | { id: 'settings' }
-  | { id: 'victory' };
+  | { id: 'victory' }
+  | {
+      id: 'trivia-quest';
+      questContext: QuestContext;
+      /** Screen to navigate to when the player answers correctly. */
+      onPass: Screen;
+      /** Screen to navigate to when the player answers wrong or skips. */
+      onFail: Screen;
+      /** Short label shown on the quest card, e.g. "Before you search Frostpeak Zone…" */
+      actionLabel: string;
+    };
 
 // ============================================================================
 // Move System
@@ -115,6 +152,10 @@ export interface PartyMember {
   xp: number;
   currentStats: { hp: number; atk: number; def: number; spd: number; nrg: number };
   maxHp: number;
+  /** Persistent HP between battles — restored to maxHp at Home. */
+  currentHp: number;
+  /** Persistent NRG between battles — restored to currentStats.nrg at Home. */
+  currentNrg: number;
   unlockedMoveIds: string[];
 }
 
@@ -180,6 +221,8 @@ export interface ZoneDef {
     dropRate: number;
   }>;
   goldDustRange: [min: number, max: number];
+  /** Milliseconds before this zone can be searched again after an exploration. */
+  exploreCooldownMs: number;
 }
 
 export type SearchResult =
@@ -208,6 +251,9 @@ export interface SaveState {
   berryLog: BerryvolutionId[];
   tutorialComplete: boolean;
   gameWon: boolean;
+  currentLocation: LocationId;
+  /** Unix timestamp (ms) of the last exploration per zone — used for cooldown. */
+  zoneLastExploredAt: Partial<Record<ZoneId, number>>;
 }
 
 // ============================================================================

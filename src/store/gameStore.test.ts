@@ -34,6 +34,7 @@ describe('Game Store (Zustand)', () => {
         berryLog: [],
         tutorialComplete: false,
         gameWon: false,
+    currentLocation: 'verdant-vale' as const,
       },
       battleState: null,
       screen: { id: 'main-menu' },
@@ -67,6 +68,7 @@ describe('Game Store (Zustand)', () => {
         berryLog: ['hypereon'],
         tutorialComplete: true,
         gameWon: false,
+    currentLocation: 'verdant-vale' as const,
       }
       mockLocalStorage.setItem('popo_save', JSON.stringify(savedState))
 
@@ -125,6 +127,7 @@ describe('Game Store (Zustand)', () => {
         berryLog: ['hypereon', 'volteon'],
         tutorialComplete: true,
         gameWon: false,
+    currentLocation: 'verdant-vale' as const,
       }
       mockLocalStorage.setItem('popo_save', JSON.stringify(savedState))
 

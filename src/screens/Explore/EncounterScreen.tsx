@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { useGameStore, useParty } from '../../store/gameStore'
 import { Button, Card, Sprite } from '../../components'
 import { StatBar } from '../../components'
+import QuestGate from '../../components/QuestGate'
 import { ZoneDef, PartyMember } from '../../data/types'
 import { berrySkinSprite, BerrySkinId } from '../../data/berryVariants'
+import { QUEST_CONFIG } from '../../data/questConfig'
 
 interface EncounterScreenProps {
   zone: ZoneDef
@@ -18,12 +20,21 @@ export default function EncounterScreen({ zone, wildBerry }: EncounterScreenProp
   const saveState = useGameStore(state => state.saveState)
 
   const [captured, setCaptured] = useState(false)
+  const [questPending, setQuestPending] = useState(false)
 
-  const handleCapture = () => {
+  const doCapture = () => {
     const newParty = [...party, wildBerry]
     updateSaveState({ party: newParty })
     saveGame()
     setCaptured(true)
+  }
+
+  const handleCapture = () => {
+    if (QUEST_CONFIG.gateCapture) {
+      setQuestPending(true)
+    } else {
+      doCapture()
+    }
   }
 
   const handleFlee = () => {
@@ -176,6 +187,16 @@ export default function EncounterScreen({ zone, wildBerry }: EncounterScreenProp
           </Button>
         </div>
       </div>
+
+      {/* Quest gate overlay */}
+      {questPending && (
+        <QuestGate
+          questContext="capture"
+          actionLabel="Before you attempt to capture this Berry…"
+          onPass={() => { setQuestPending(false); doCapture() }}
+          onFail={() => setQuestPending(false)}
+        />
+      )}
     </div>
   )
 }

@@ -45,6 +45,7 @@ function resetStore(partyOverride: PartyMember[] = [], arenaPoints = 150) {
       berryLog: [],
       tutorialComplete: true,
       gameWon: false,
+    currentLocation: 'verdant-vale' as const,
     },
     battleState: null,
     screen: {

@@ -43,6 +43,7 @@ describe('Save & Load Engine', () => {
     berryLog: [],
     tutorialComplete: false,
     gameWon: false,
+    currentLocation: 'verdant-vale' as const,
   })
 
   beforeEach(() => {

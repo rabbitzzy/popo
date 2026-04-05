@@ -22,13 +22,24 @@ export default function PostBattle({ result }: PostBattleProps) {
   useEffect(() => {
     if (applied) return
 
-    const saveState = useGameStore.getState().saveState
+    const saveState  = useGameStore.getState().saveState
+    const battleState = useGameStore.getState().battleState
+
     const updatedParty = party.map(member => {
       const xpEarned = result.xpEarned[member.instanceId] || 0
-      if (xpEarned === 0) return member
+      const { member: withXp } = xpEarned > 0 ? applyXp(member, xpEarned) : { member }
 
-      const { member: updated } = applyXp(member, xpEarned)
-      return updated
+      // Persist HP/NRG from the battle's final state so damage carries to next battle.
+      // Level-ups restore to new max (good game feel).
+      const combatant = battleState?.playerTeam.find(
+        c => c.partyMember.instanceId === member.instanceId
+      )
+      const didLevelUp = withXp.level > member.level
+      return {
+        ...withXp,
+        currentHp:  didLevelUp ? withXp.maxHp              : Math.max(1, combatant?.currentHp  ?? withXp.maxHp),
+        currentNrg: didLevelUp ? withXp.currentStats.nrg   : (combatant?.currentNrg ?? withXp.currentStats.nrg),
+      }
     })
 
     const newPoints = saveState.arena.points + result.arenaPointsChange

@@ -1,4 +1,5 @@
 import { SaveState } from '../data/types'
+import { HOME_LOCATION } from '../data/mapGraph'
 
 // ============================================================================
 // Save/Load Constants & Keys
@@ -46,6 +47,25 @@ export function load(): SaveState | null {
 
     if (parsed.version !== SAVE_VERSION) {
       return migrate(parsed)
+    }
+
+    // Backfill currentLocation for saves created before this field existed
+    if (!parsed.currentLocation) {
+      parsed.currentLocation = HOME_LOCATION
+    }
+
+    // Backfill zoneLastExploredAt for saves created before TTL was introduced
+    if (!parsed.zoneLastExploredAt) {
+      parsed.zoneLastExploredAt = {}
+    }
+
+    // Backfill persistent HP/NRG on each party member
+    if (Array.isArray(parsed.party)) {
+      parsed.party = parsed.party.map((m: any) => ({
+        ...m,
+        currentHp:  m.currentHp  ?? m.maxHp,
+        currentNrg: m.currentNrg ?? m.currentStats?.nrg ?? 0,
+      }))
     }
 
     return parsed as SaveState

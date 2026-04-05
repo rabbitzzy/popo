@@ -20,6 +20,7 @@ function resetStore(partyOverride: PartyMember[] = []) {
       berryLog: [],
       tutorialComplete: true,
       gameWon: false,
+    currentLocation: 'verdant-vale' as const,
     },
     battleState: null,
     screen: { id: 'encounter', zone: EMBER_CRATER, wildBerry: {} as any },
