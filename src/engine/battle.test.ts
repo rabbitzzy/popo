@@ -870,7 +870,7 @@ describe('battle engine', () => {
       const newState = resolveTurn(state, { type: 'move', moveId: 'hypereon-splash-shot' }, { type: 'move', moveId: 'volteon-spark' })
 
       // AI should not have acted (log should show freeze message in lowercase)
-      expect(newState.log.some(line => line.includes('freeze') && line.includes('Cannot act'))).toBe(true)
+      expect(newState.log.some(line => line.includes('frozen') && line.includes('Cannot act'))).toBe(true)
       // Player HP should be unchanged (AI didn't attack)
       expect(newState.playerTeam[0].currentHp).toBe(player.currentHp)
     })
@@ -889,7 +889,7 @@ describe('battle engine', () => {
         const state = createBattleState([player], [ai], 0, 0)
 
         const result = resolveTurn(state, { type: 'move', moveId: 'hypereon-splash-shot' }, { type: 'move', moveId: 'volteon-spark' })
-        if (result.log.some(line => line.includes('confuse') && line.includes('Cannot act'))) {
+        if (result.log.some(line => line.includes('confused and hurt itself'))) {
           failCount++
         }
       }

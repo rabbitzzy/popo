@@ -388,8 +388,13 @@ export function resolveTurn(
 
     // 4a. Check if can act (Freeze, Confuse)
     if (!canAct(combatant)) {
-      const status = combatant.status === 'Freeze' ? 'Freeze' : 'Confuse'
-      state.log.push(`${combatant.partyMember.defId} ${status.toLowerCase()}! Cannot act.`)
+      if (combatant.status === 'Confuse') {
+        const selfDamage = Math.max(1, Math.floor(combatant.partyMember.maxHp * 0.1))
+        combatant.currentHp -= selfDamage
+        state.log.push(`${combatant.partyMember.defId} is confused and hurt itself for ${selfDamage} damage!`)
+      } else {
+        state.log.push(`${combatant.partyMember.defId} is frozen! Cannot act.`)
+      }
       continue
     }
 
