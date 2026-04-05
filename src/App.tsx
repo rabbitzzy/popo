@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { useGameStore } from './store/gameStore'
 import { initDebug } from './debug'
 import MainMenu from './screens/MainMenu'
@@ -24,38 +25,39 @@ function App() {
     initGame()
   }, [initGame])
 
+  let content: React.ReactElement
   switch (screen.id) {
     case 'main-menu':
-      return <MainMenu />
+      content = <MainMenu />; break
     case 'tutorial':
-      return <Tutorial />
+      content = <Tutorial />; break
     case 'party':
-      return <PartyScreen />
+      content = <PartyScreen />; break
     case 'berryvolution-detail':
-      return <BerryvolutionDetail instanceId={screen.instanceId} />
+      content = <BerryvolutionDetail instanceId={screen.instanceId} />; break
     case 'berry-log':
-      return <BerryLog />
+      content = <BerryLog />; break
     case 'zone-select':
-      return <ZoneSelect />
+      content = <ZoneSelect />; break
     case 'encounter':
-      return <EncounterScreen zone={screen.zone} wildBerry={screen.wildBerry} />
+      content = <EncounterScreen zone={screen.zone} wildBerry={screen.wildBerry} />; break
     case 'team-builder':
-      return <TeamBuilder />
+      content = <TeamBuilder />; break
     case 'battle':
-      return <BattleScreen />
+      content = <BattleScreen />; break
     case 'post-battle':
-      return <PostBattle result={screen.result} />
+      content = <PostBattle result={screen.result} />; break
     case 'ladder':
-      return <ArenaLadder />
+      content = <ArenaLadder />; break
     case 'shop':
-      return <Shop />
+      content = <Shop />; break
     case 'settings':
-      return <Settings />
+      content = <Settings />; break
     case 'victory':
-      return <MainMenu />
     default:
-      return <MainMenu />
+      content = <MainMenu />
   }
+  return <>{content}<Analytics /></>
 }
 
 export default App
