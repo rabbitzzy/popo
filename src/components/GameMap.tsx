@@ -28,13 +28,12 @@ const TRAVEL_MS   = 1400
 const BERRY_SIZE  = 30
 const BERRY_HALF  = BERRY_SIZE / 2
 
-// Minimum logical canvas — prevents nodes being crammed on small screens.
-// On mobile the canvas can exceed the viewport; react-zoom-pan-pinch handles panning.
-// Minimum logical canvas size. On mobile the canvas can exceed the viewport;
-// the user pans to explore. On desktop the canvas matches the larger container.
-const MIN_CANVAS_W = 520
-const MIN_CANVAS_H = 640
-// Padding from canvas edge to outermost node centres
+// World map dimensions — the map's coordinate space, independent of device.
+// The window is a viewport into this world; users pan to explore on any screen.
+// Increase these values as more zones are added.
+const MAP_W = 1200
+const MAP_H = 900
+// Padding from map edge to outermost node centres
 const EDGE_PAD = 80
 
 type NodeRelation = 'current' | 'reachable' | 'locked'
@@ -147,42 +146,22 @@ function HomeIcon({ size }: { size: number }) {
 export default function GameMap({
   zones, currentLocationId, reachableIds, cooldownUntil, onSearch, onTravel,
 }: GameMapProps) {
-  const outerRef      = useRef<HTMLDivElement>(null)
   const travelImgRef  = useRef<SVGImageElement>(null)
   const animKeyRef    = useRef(0)
   const posRef        = useRef<Record<string, NodePos>>({})
 
-  const [containerDims, setContainerDims] = useState({ w: 0, h: 0 })
   const [nodePositions, setNodePositions] = useState<Record<string, NodePos>>({})
   const [hoveredId,    setHoveredId]    = useState<string | null>(null)
   const [selectedZone, setSelectedZone] = useState<ZoneDef | null>(null)
   const [travelAnim,   setTravelAnim]   = useState<TravelAnim | null>(null)
   const [now,          setNow]          = useState(() => Date.now())
 
-  // ── Measure container ──────────────────────────────────────────────────────
+  // ── Run force layout once on mount against the fixed world dimensions ──────
   useEffect(() => {
-    const el = outerRef.current
-    if (!el) return
-    const ro = new ResizeObserver(entries => {
-      const { width, height } = entries[0].contentRect
-      setContainerDims({ w: Math.floor(width), h: Math.floor(height) })
-    })
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
-
-  // Canvas: at least MIN size so nodes aren't crammed; grows to fill desktop.
-  // On mobile the canvas often exceeds the viewport — the user pans to explore.
-  const canvasW = Math.max(containerDims.w, MIN_CANVAS_W)
-  const canvasH = Math.max(containerDims.h, MIN_CANVAS_H)
-
-  // ── Run force layout whenever canvas size changes ──────────────────────────
-  useEffect(() => {
-    if (!containerDims.w || !containerDims.h) return
-    const positions = runForceLayout(canvasW, canvasH)
+    const positions = runForceLayout(MAP_W, MAP_H)
     posRef.current  = positions
     setNodePositions(positions)
-  }, [canvasW, canvasH])
+  }, [])
 
   // ── Cooldown ticker ────────────────────────────────────────────────────────
   useEffect(() => {
@@ -249,7 +228,7 @@ export default function GameMap({
   const hasLayout = Object.keys(nodePositions).length > 0
 
   return (
-    <div ref={outerRef} className={styles.wrapper}>
+    <div className={styles.wrapper}>
       {hasLayout && (
         <TransformWrapper
           initialScale={1}
@@ -264,12 +243,12 @@ export default function GameMap({
         >
           <TransformComponent
             wrapperStyle={{ width: '100%', height: '100%' }}
-            contentStyle={{ width: canvasW, height: canvasH }}
+            contentStyle={{ width: MAP_W, height: MAP_H }}
           >
             <svg
-              width={canvasW}
-              height={canvasH}
-              viewBox={`0 0 ${canvasW} ${canvasH}`}
+              width={MAP_W}
+              height={MAP_H}
+              viewBox={`0 0 ${MAP_W} ${MAP_H}`}
               className={styles.svg}
               aria-label="World map"
             >
