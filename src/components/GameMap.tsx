@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import {
   forceSimulation,
   forceLink,
@@ -29,8 +30,8 @@ const BERRY_HALF  = BERRY_SIZE / 2
 
 // Minimum logical canvas — prevents nodes being crammed on small screens.
 // On mobile the canvas can exceed the viewport; react-zoom-pan-pinch handles panning.
-// Fixed logical canvas — node positions are computed in this coordinate space.
-// The SVG viewBox scales it to fit any container without zoom or pan.
+// Minimum logical canvas size. On mobile the canvas can exceed the viewport;
+// the user pans to explore. On desktop the canvas matches the larger container.
 const MIN_CANVAS_W = 520
 const MIN_CANVAS_H = 640
 // Padding from canvas edge to outermost node centres
@@ -146,25 +147,42 @@ function HomeIcon({ size }: { size: number }) {
 export default function GameMap({
   zones, currentLocationId, reachableIds, cooldownUntil, onSearch, onTravel,
 }: GameMapProps) {
+  const outerRef      = useRef<HTMLDivElement>(null)
   const travelImgRef  = useRef<SVGImageElement>(null)
   const animKeyRef    = useRef(0)
   const posRef        = useRef<Record<string, NodePos>>({})
 
+  const [containerDims, setContainerDims] = useState({ w: 0, h: 0 })
   const [nodePositions, setNodePositions] = useState<Record<string, NodePos>>({})
   const [hoveredId,    setHoveredId]    = useState<string | null>(null)
   const [selectedZone, setSelectedZone] = useState<ZoneDef | null>(null)
   const [travelAnim,   setTravelAnim]   = useState<TravelAnim | null>(null)
   const [now,          setNow]          = useState(() => Date.now())
 
-  // ── Fixed logical canvas — run layout once on mount ────────────────────────
-  const canvasW = MIN_CANVAS_W
-  const canvasH = MIN_CANVAS_H
-
+  // ── Measure container ──────────────────────────────────────────────────────
   useEffect(() => {
+    const el = outerRef.current
+    if (!el) return
+    const ro = new ResizeObserver(entries => {
+      const { width, height } = entries[0].contentRect
+      setContainerDims({ w: Math.floor(width), h: Math.floor(height) })
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  // Canvas: at least MIN size so nodes aren't crammed; grows to fill desktop.
+  // On mobile the canvas often exceeds the viewport — the user pans to explore.
+  const canvasW = Math.max(containerDims.w, MIN_CANVAS_W)
+  const canvasH = Math.max(containerDims.h, MIN_CANVAS_H)
+
+  // ── Run force layout whenever canvas size changes ──────────────────────────
+  useEffect(() => {
+    if (!containerDims.w || !containerDims.h) return
     const positions = runForceLayout(canvasW, canvasH)
     posRef.current  = positions
     setNodePositions(positions)
-  }, [])
+  }, [canvasW, canvasH])
 
   // ── Cooldown ticker ────────────────────────────────────────────────────────
   useEffect(() => {
@@ -231,16 +249,30 @@ export default function GameMap({
   const hasLayout = Object.keys(nodePositions).length > 0
 
   return (
-    <div className={styles.wrapper}>
+    <div ref={outerRef} className={styles.wrapper}>
       {hasLayout && (
-        <svg
-          width="100%"
-          height="100%"
-          viewBox={`0 0 ${canvasW} ${canvasH}`}
-          preserveAspectRatio="xMidYMid meet"
-          className={styles.svg}
-          aria-label="World map"
+        <TransformWrapper
+          initialScale={1}
+          minScale={1}
+          maxScale={1}
+          centerOnInit
+          limitToBounds
+          panning={{ velocityDisabled: false }}
+          wheel={{ disabled: true }}
+          pinch={{ disabled: true }}
+          doubleClick={{ disabled: true }}
         >
+          <TransformComponent
+            wrapperStyle={{ width: '100%', height: '100%' }}
+            contentStyle={{ width: canvasW, height: canvasH }}
+          >
+            <svg
+              width={canvasW}
+              height={canvasH}
+              viewBox={`0 0 ${canvasW} ${canvasH}`}
+              className={styles.svg}
+              aria-label="World map"
+            >
               <defs>
                 <filter id="nodeShadow"      x="-40%" y="-40%" width="180%" height="180%">
                   <feDropShadow dx="0" dy="3"  stdDeviation="4"  floodOpacity="0.22" />
@@ -404,6 +436,8 @@ export default function GameMap({
                 className={styles.berryWalking}
               />
             </svg>
+          </TransformComponent>
+        </TransformWrapper>
       )}
 
       {/* ── Zone modal ──────────────────────────────────────────── */}
