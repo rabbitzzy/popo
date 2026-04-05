@@ -127,12 +127,25 @@ export default function BattleScreen() {
     const aSpeed = aActive.partyMember.currentStats.spd * aActive.statModifiers.spd
     const order: 'player-first' | 'enemy-first' = pSpeed >= aSpeed ? 'player-first' : 'enemy-first'
 
+    // Intermediate display state: only the first attacker's HP change is applied.
+    // This lets the HP bar deduct immediately after that attack, before the second one.
+    const intermediateState = JSON.parse(JSON.stringify(currentBattle)) as BattleState
+    if (order === 'player-first') {
+      intermediateState.aiTeam[currentBattle.activeAiIndex].currentHp =
+        newBattleState.aiTeam[newBattleState.activeAiIndex].currentHp
+    } else {
+      intermediateState.playerTeam[currentBattle.activePlayerIndex].currentHp =
+        newBattleState.playerTeam[newBattleState.activePlayerIndex].currentHp
+    }
+
     setAnimOrder(order)
     setAnimKey(k => k + 1)
     setAnimPhase('first-lunge')
 
-    // first-lunge → first-hit → second-lunge → second-hit → idle + apply state
-    setTimeout(() => setAnimPhase('first-hit'), 450)
+    setTimeout(() => {
+      setAnimPhase('first-hit')
+      setBattleStateLocal(intermediateState) // show first hit's HP change immediately
+    }, 450)
     setTimeout(() => setAnimPhase('second-lunge'), 750)
     setTimeout(() => setAnimPhase('second-hit'), 1200)
     setTimeout(() => {

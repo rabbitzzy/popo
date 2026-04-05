@@ -19,14 +19,20 @@ export default function Sprite({
   animState = 'idle',
   flipped = false,
 }: SpriteProps) {
+  // Transform class (flip / faint) and attack flash are independent — compute separately
+  // so flipped + attack can apply both classes simultaneously.
+  const transformClass =
+    animState === 'faint'
+      ? styles.faintFlipped
+      : flipped
+      ? styles.flipped
+      : ''
+
   const classes = [
     styles.sprite,
     styles[size],
-    flipped && animState === 'faint' ? styles.faintFlipped
-      : flipped ? styles.flipped
-      : animState === 'faint' ? styles.faintFlipped
-      : animState === 'attack' ? styles.attack
-      : '',
+    transformClass,
+    animState === 'attack' ? styles.attack : '',
   ]
     .filter(Boolean)
     .join(' ')
