@@ -1286,5 +1286,53 @@ describe('battle engine', () => {
       expect(grassBerryDamage).toBeLessThan(50) // Reduced damage
       expect(fireBerryDamage).toBeLessThan(50)
     })
+
+    // =========================================================================
+    // NRG Management Tests
+    // =========================================================================
+
+    it('should deduct NRG cost when a special move is used', () => {
+      const player = createCombatant('hypereon', 10)
+      const ai = createCombatant('volteon', 10)
+      const nrgBefore = player.currentNrg
+
+      const state = createBattleState([player], [ai], 0, 0)
+      vi.spyOn(Math, 'random').mockReturnValue(0.5)
+
+      // hypereon-splash-shot costs 20 NRG
+      const newState = resolveTurn(state, { type: 'move', moveId: 'hypereon-splash-shot' }, { type: 'move', moveId: 'basic-attack' })
+
+      expect(newState.playerTeam[0].currentNrg).toBe(nrgBefore - 20)
+    })
+
+    it('should restore +8 NRG when Basic Attack is used', () => {
+      const player = createCombatant('hypereon', 10)
+      const ai = createCombatant('volteon', 10)
+      // Spend some NRG first so restoration is visible
+      player.currentNrg = player.partyMember.currentStats.nrg - 20
+      const nrgBefore = player.currentNrg
+
+      const state = createBattleState([player], [ai], 0, 0)
+      vi.spyOn(Math, 'random').mockReturnValue(0.5)
+
+      const newState = resolveTurn(state, { type: 'move', moveId: 'basic-attack' }, { type: 'move', moveId: 'basic-attack' })
+
+      expect(newState.playerTeam[0].currentNrg).toBe(nrgBefore + 8)
+    })
+
+    it('should not exceed max NRG when Basic Attack restores NRG', () => {
+      const player = createCombatant('hypereon', 10)
+      const ai = createCombatant('volteon', 10)
+      // Set NRG to max already
+      player.currentNrg = player.partyMember.currentStats.nrg
+      const maxNrg = player.partyMember.currentStats.nrg
+
+      const state = createBattleState([player], [ai], 0, 0)
+      vi.spyOn(Math, 'random').mockReturnValue(0.5)
+
+      const newState = resolveTurn(state, { type: 'move', moveId: 'basic-attack' }, { type: 'move', moveId: 'basic-attack' })
+
+      expect(newState.playerTeam[0].currentNrg).toBe(maxNrg)
+    })
   })
 })

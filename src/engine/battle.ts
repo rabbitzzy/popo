@@ -398,7 +398,17 @@ export function resolveTurn(
       continue
     }
 
-    // 4b. Check accuracy roll
+    // 4b. Deduct NRG cost (Basic Attack restores +8 instead)
+    if (move.id === 'basic-attack') {
+      combatant.currentNrg = Math.min(
+        combatant.partyMember.currentStats.nrg,
+        combatant.currentNrg + 8
+      )
+    } else {
+      combatant.currentNrg = Math.max(0, combatant.currentNrg - move.nrgCost)
+    }
+
+    // 4c. Check accuracy roll
     const accuracyRoll = Math.random() * 100
     if (accuracyRoll > move.accuracy) {
       state.log.push(`${combatant.partyMember.defId}'s ${move.name} missed!`)
