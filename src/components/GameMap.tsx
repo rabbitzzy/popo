@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import {
   forceSimulation,
   forceLink,
@@ -27,13 +28,12 @@ const TRAVEL_MS   = 1400
 const BERRY_SIZE  = 30
 const BERRY_HALF  = BERRY_SIZE / 2
 
-// Minimum logical canvas — prevents nodes being crammed on small screens.
-// On mobile the canvas can exceed the viewport; react-zoom-pan-pinch handles panning.
-// Fixed logical canvas — node positions are computed in this coordinate space.
-// The SVG viewBox scales it to fit any container without zoom or pan.
-const MIN_CANVAS_W = 520
-const MIN_CANVAS_H = 640
-// Padding from canvas edge to outermost node centres
+// World map dimensions — the map's coordinate space, independent of device.
+// The window is a viewport into this world; users pan to explore on any screen.
+// Increase these values as more zones are added.
+const MAP_W = 1200
+const MAP_H = 900
+// Padding from map edge to outermost node centres
 const EDGE_PAD = 80
 
 type NodeRelation = 'current' | 'reachable' | 'locked'
@@ -156,12 +156,9 @@ export default function GameMap({
   const [travelAnim,   setTravelAnim]   = useState<TravelAnim | null>(null)
   const [now,          setNow]          = useState(() => Date.now())
 
-  // ── Fixed logical canvas — run layout once on mount ────────────────────────
-  const canvasW = MIN_CANVAS_W
-  const canvasH = MIN_CANVAS_H
-
+  // ── Run force layout once on mount against the fixed world dimensions ──────
   useEffect(() => {
-    const positions = runForceLayout(canvasW, canvasH)
+    const positions = runForceLayout(MAP_W, MAP_H)
     posRef.current  = positions
     setNodePositions(positions)
   }, [])
@@ -233,14 +230,28 @@ export default function GameMap({
   return (
     <div className={styles.wrapper}>
       {hasLayout && (
-        <svg
-          width="100%"
-          height="100%"
-          viewBox={`0 0 ${canvasW} ${canvasH}`}
-          preserveAspectRatio="xMidYMid meet"
-          className={styles.svg}
-          aria-label="World map"
+        <TransformWrapper
+          initialScale={1}
+          minScale={1}
+          maxScale={1}
+          centerOnInit
+          limitToBounds
+          panning={{ velocityDisabled: false }}
+          wheel={{ disabled: true }}
+          pinch={{ disabled: true }}
+          doubleClick={{ disabled: true }}
         >
+          <TransformComponent
+            wrapperStyle={{ width: '100%', height: '100%' }}
+            contentStyle={{ width: MAP_W, height: MAP_H }}
+          >
+            <svg
+              width={MAP_W}
+              height={MAP_H}
+              viewBox={`0 0 ${MAP_W} ${MAP_H}`}
+              className={styles.svg}
+              aria-label="World map"
+            >
               <defs>
                 <filter id="nodeShadow"      x="-40%" y="-40%" width="180%" height="180%">
                   <feDropShadow dx="0" dy="3"  stdDeviation="4"  floodOpacity="0.22" />
@@ -404,6 +415,8 @@ export default function GameMap({
                 className={styles.berryWalking}
               />
             </svg>
+          </TransformComponent>
+        </TransformWrapper>
       )}
 
       {/* ── Zone modal ──────────────────────────────────────────── */}
