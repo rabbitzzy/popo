@@ -188,7 +188,11 @@ export default function PostBattle({ result }: PostBattleProps) {
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                         <img
-                          src={berrySkinSprite(member.skinId)}
+                          src={
+                            member.defId === 'berry'
+                              ? berrySkinSprite(member.skinId)
+                              : (BERRYVOLUTION_LIST.find(d => d.id === member.defId)?.spriteUrl ?? berrySkinSprite(member.skinId))
+                          }
                           alt={getDefName(member.defId)}
                           style={{ width: '48px', height: '48px' }}
                         />
