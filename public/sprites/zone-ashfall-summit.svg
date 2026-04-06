@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="100%" height="100%" shape-rendering="crispEdges">
+  <!-- Ashen sky -->
+  <g fill="#444444">
+    <rect x="0" y="0" width="16" height="5"/>
+  </g>
+  <g fill="#555555">
+    <rect x="0" y="0" width="16" height="2"/>
+  </g>
+  <!-- Ash particles falling -->
+  <g fill="#777777">
+    <rect x="2" y="1" width="1" height="1"/>
+    <rect x="6" y="2" width="1" height="1"/>
+    <rect x="10" y="1" width="1" height="1"/>
+    <rect x="14" y="3" width="1" height="1"/>
+    <rect x="4" y="4" width="1" height="1"/>
+    <rect x="12" y="4" width="1" height="1"/>
+  </g>
+  <g fill="#aaaaaa">
+    <rect x="1" y="3" width="1" height="1"/>
+    <rect x="8" y="2" width="1" height="1"/>
+    <rect x="15" y="1" width="1" height="1"/>
+  </g>
+  <!-- Mountain body (dark volcanic rock) -->
+  <g fill="#2a2a2a">
+    <rect x="0" y="7" width="16" height="9"/>
+  </g>
+  <g fill="#3a3a3a">
+    <rect x="0" y="7" width="16" height="2"/>
+  </g>
+  <!-- Mountain peak shape -->
+  <g fill="#2a2a2a">
+    <rect x="3" y="5" width="10" height="3"/>
+    <rect x="5" y="4" width="6" height="2"/>
+    <rect x="6" y="3" width="4" height="2"/>
+  </g>
+  <g fill="#3a3a3a">
+    <rect x="3" y="6" width="10" height="1"/>
+    <rect x="5" y="5" width="6" height="1"/>
+    <rect x="6" y="4" width="4" height="1"/>
+  </g>
+  <!-- Caldera opening -->
+  <g fill="#cc2200">
+    <rect x="5" y="3" width="6" height="2"/>
+    <rect x="4" y="4" width="8" height="2"/>
+  </g>
+  <!-- Lava glow in caldera -->
+  <g fill="#ff4400">
+    <rect x="5" y="4" width="6" height="1"/>
+    <rect x="6" y="3" width="4" height="1"/>
+  </g>
+  <g fill="#ff8800">
+    <rect x="6" y="4" width="4" height="1"/>
+    <rect x="7" y="3" width="2" height="1"/>
+  </g>
+  <g fill="#ffcc00">
+    <rect x="7" y="4" width="2" height="1"/>
+  </g>
+  <!-- Lava eruption/smoke -->
+  <g fill="#cc4400" opacity="0.8">
+    <rect x="7" y="1" width="2" height="3"/>
+    <rect x="6" y="0" width="1" height="2"/>
+    <rect x="9" y="0" width="1" height="2"/>
+  </g>
+  <g fill="#ff6600" opacity="0.6">
+    <rect x="7" y="0" width="2" height="2"/>
+  </g>
+  <!-- Rock highlights -->
+  <g fill="#555555">
+    <rect x="3" y="7" width="2" height="2"/>
+    <rect x="11" y="7" width="2" height="2"/>
+    <rect x="6" y="6" width="1" height="1"/>
+    <rect x="9" y="6" width="1" height="1"/>
+  </g>
+  <!-- Lava rivers down mountain -->
+  <g fill="#dd3300">
+    <rect x="4" y="8" width="1" height="4"/>
+    <rect x="11" y="9" width="1" height="4"/>
+  </g>
+  <g fill="#ff6600">
+    <rect x="4" y="8" width="1" height="1"/>
+    <rect x="11" y="9" width="1" height="1"/>
+  </g>
+</svg>

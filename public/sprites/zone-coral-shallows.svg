@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="100%" height="100%" shape-rendering="crispEdges">
+  <!-- Sky -->
+  <g fill="#b0e0ff">
+    <rect x="0" y="0" width="16" height="3"/>
+  </g>
+  <!-- Shallow water surface -->
+  <g fill="#44aadd">
+    <rect x="0" y="3" width="16" height="2"/>
+  </g>
+  <g fill="#66ccee">
+    <rect x="0" y="3" width="16" height="1"/>
+  </g>
+  <!-- Water body -->
+  <g fill="#2288bb">
+    <rect x="0" y="5" width="16" height="8"/>
+  </g>
+  <!-- Water shimmer -->
+  <g fill="#44aadd" opacity="0.6">
+    <rect x="2" y="6" width="3" height="1"/>
+    <rect x="8" y="7" width="2" height="1"/>
+    <rect x="12" y="6" width="3" height="1"/>
+    <rect x="5" y="9" width="2" height="1"/>
+  </g>
+  <!-- Sandy floor -->
+  <g fill="#ccaa55">
+    <rect x="0" y="13" width="16" height="3"/>
+  </g>
+  <g fill="#ddbb66">
+    <rect x="0" y="13" width="16" height="1"/>
+  </g>
+  <!-- Coral left (orange-pink) -->
+  <g fill="#ee5533">
+    <rect x="2" y="10" width="2" height="3"/>
+    <rect x="1" y="9" width="1" height="2"/>
+    <rect x="4" y="9" width="1" height="2"/>
+    <rect x="2" y="8" width="1" height="2"/>
+    <rect x="3" y="9" width="1" height="1"/>
+  </g>
+  <g fill="#ff8866">
+    <rect x="2" y="8" width="1" height="1"/>
+    <rect x="4" y="9" width="1" height="1"/>
+  </g>
+  <!-- Coral center (bright pink) -->
+  <g fill="#cc3366">
+    <rect x="7" y="9" width="2" height="4"/>
+    <rect x="6" y="10" width="1" height="2"/>
+    <rect x="9" y="10" width="1" height="2"/>
+    <rect x="7" y="8" width="1" height="2"/>
+    <rect x="8" y="8" width="1" height="2"/>
+  </g>
+  <g fill="#ee5588">
+    <rect x="7" y="7" width="2" height="2"/>
+  </g>
+  <!-- Coral right (orange) -->
+  <g fill="#ee8822">
+    <rect x="12" y="10" width="2" height="3"/>
+    <rect x="11" y="9" width="1" height="3"/>
+    <rect x="14" y="9" width="1" height="2"/>
+    <rect x="12" y="9" width="1" height="1"/>
+  </g>
+  <g fill="#ffaa44">
+    <rect x="12" y="8" width="1" height="2"/>
+  </g>
+  <!-- Seaweed -->
+  <g fill="#228833">
+    <rect x="5" y="11" width="1" height="2"/>
+    <rect x="10" y="10" width="1" height="3"/>
+  </g>
+  <g fill="#33aa44">
+    <rect x="5" y="10" width="1" height="1"/>
+    <rect x="10" y="9" width="1" height="1"/>
+  </g>
+</svg>

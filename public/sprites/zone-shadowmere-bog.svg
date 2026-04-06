@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="100%" height="100%" shape-rendering="crispEdges">
+  <!-- Dark stormy sky -->
+  <g fill="#2a2a3a">
+    <rect x="0" y="0" width="16" height="4"/>
+  </g>
+  <!-- Moon -->
+  <g fill="#ccccaa">
+    <rect x="12" y="1" width="3" height="3"/>
+  </g>
+  <g fill="#2a2a3a">
+    <rect x="13" y="1" width="2" height="2"/>
+  </g>
+  <!-- Mist -->
+  <g fill="#667766" opacity="0.6">
+    <rect x="0" y="3" width="16" height="2"/>
+    <rect x="0" y="7" width="5" height="1"/>
+    <rect x="11" y="7" width="5" height="1"/>
+  </g>
+  <!-- Dark ground/peat -->
+  <g fill="#1a2a10">
+    <rect x="0" y="5" width="16" height="11"/>
+  </g>
+  <!-- Murky water pools -->
+  <g fill="#2a3a18">
+    <rect x="0" y="8" width="6" height="4"/>
+    <rect x="10" y="9" width="6" height="4"/>
+  </g>
+  <g fill="#3a4a22">
+    <rect x="1" y="8" width="4" height="1"/>
+    <rect x="11" y="9" width="4" height="1"/>
+  </g>
+  <!-- Water shimmer (sickly green) -->
+  <g fill="#445533" opacity="0.7">
+    <rect x="2" y="9" width="2" height="1"/>
+    <rect x="11" y="10" width="2" height="1"/>
+  </g>
+  <!-- Gnarled tree trunk -->
+  <g fill="#1a0a00">
+    <rect x="7" y="4" width="2" height="6"/>
+    <rect x="5" y="5" width="2" height="2"/>
+    <rect x="9" y="6" width="2" height="2"/>
+  </g>
+  <!-- Bare branches -->
+  <g fill="#2a1500">
+    <rect x="4" y="4" width="2" height="1"/>
+    <rect x="10" y="5" width="2" height="1"/>
+    <rect x="6" y="3" width="1" height="2"/>
+    <rect x="9" y="4" width="1" height="2"/>
+  </g>
+  <!-- Dead leaves/wisps on tree -->
+  <g fill="#3a4a18">
+    <rect x="5" y="2" width="2" height="2"/>
+    <rect x="9" y="3" width="2" height="2"/>
+    <rect x="7" y="1" width="2" height="2"/>
+  </g>
+  <!-- Bog grass tufts -->
+  <g fill="#2a4a18">
+    <rect x="0" y="7" width="1" height="2"/>
+    <rect x="3" y="6" width="1" height="2"/>
+    <rect x="12" y="7" width="1" height="2"/>
+    <rect x="15" y="6" width="1" height="2"/>
+  </g>
+</svg>
