@@ -30,7 +30,7 @@ export default function EncounterScreen({ zone, wildBerry }: EncounterScreenProp
   }
 
   const handleCapture = () => {
-    if (QUEST_CONFIG.gateCapture) {
+    if (Math.random() < QUEST_CONFIG.gateCapture) {
       setQuestPending(true)
     } else {
       doCapture()

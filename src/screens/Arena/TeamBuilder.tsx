@@ -48,7 +48,7 @@ export default function TeamBuilder() {
       setError('Select at least 1 team member')
       return
     }
-    if (QUEST_CONFIG.gateBattle) {
+    if (Math.random() < QUEST_CONFIG.gateBattle) {
       setQuestPending(true)
     } else {
       doStartBattle()

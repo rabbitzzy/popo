@@ -1,29 +1,29 @@
 // ============================================================================
 // Quest Gate Configuration
 // ============================================================================
-// Each flag controls whether a Knowledge Quest is shown before that action.
-// Set to false to bypass the quest and let the action proceed immediately.
+// Each value is a probability (0–1) that a Knowledge Quest is shown before
+// that action. 0 = never show a quest, 1 = always show a quest.
 //
 // Usage in code:
 //   import { QUEST_CONFIG } from '../../data/questConfig'
-//   if (QUEST_CONFIG.gateExplore) { /* show quest */ } else { /* run action */ }
+//   if (Math.random() < QUEST_CONFIG.gateExplore) { /* show quest */ } else { /* run action */ }
 
 export const QUEST_CONFIG = {
-  /** Show a quest before searching a zone (costs Stamina). */
-  gateExplore: false,
+  /** Probability of showing a quest before searching a zone (costs Stamina). */
+  gateExplore: 0,
 
-  /** Show a quest before travelling to a new zone. Off by default (high-frequency action). */
-  gateTravel: false,
+  /** Probability of showing a quest before travelling to a new zone. Low by default (high-frequency action). */
+  gateTravel: 0.1,
 
-  /** Show a quest before entering an Arena battle. */
-  gateBattle: true,
+  /** Probability of showing a quest before entering an Arena battle. */
+  gateBattle: 0.3,
 
-  /** Show a quest before evolving a Berry. */
-  gateEvolve: true,
+  /** Probability of showing a quest before evolving a Berry. */
+  gateEvolve: 0.7,
 
-  /** Show a quest before attempting to capture a wild Berry. */
-  gateCapture: false,
+  /** Probability of showing a quest before attempting to capture a wild Berry. */
+  gateCapture: 0.3,
 
-  /** Show a quest before making a Shop purchase. Off by default. */
-  gateShop: false,
+  /** Probability of showing a quest before making a Shop purchase. */
+  gateShop: 0,
 } as const

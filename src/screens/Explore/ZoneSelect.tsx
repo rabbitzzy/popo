@@ -100,7 +100,7 @@ export default function ZoneSelect() {
     if (locationId === HOME_LOCATION) { doTravel(locationId); return }
     const dest = ZONE_LIST.find(z => z.id === locationId)
     withQuest(
-      QUEST_CONFIG.gateTravel && dest !== undefined,
+      Math.random() < QUEST_CONFIG.gateTravel && dest !== undefined,
       'explore',
       `Before you travel to ${dest?.name ?? locationId}…`,
       () => doTravel(locationId),
@@ -115,7 +115,7 @@ export default function ZoneSelect() {
       return
     }
     withQuest(
-      QUEST_CONFIG.gateExplore,
+      Math.random() < QUEST_CONFIG.gateExplore,
       'explore',
       `Before you search ${zone.name}…`,
       () => doSearch(zone),

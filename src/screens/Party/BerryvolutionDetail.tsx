@@ -115,7 +115,7 @@ export default function BerryvolutionDetail({ instanceId }: BerryvolutionDetailP
     const targetName = targetId
       ? targetId.charAt(0).toUpperCase() + targetId.slice(1)
       : 'Unknown'
-    if (QUEST_CONFIG.gateEvolve) {
+    if (Math.random() < QUEST_CONFIG.gateEvolve) {
       setPendingEvolveQuest({ stone, targetName })
     } else {
       doEvolve(stone)
