@@ -251,6 +251,8 @@ export default function GameMap({
               viewBox={`0 0 ${MAP_W} ${MAP_H}`}
               className={styles.svg}
               aria-label="World map"
+              draggable={false}
+              onDragStart={e => e.preventDefault()}
             >
               <defs>
                 <filter id="nodeShadow"      x="-40%" y="-40%" width="180%" height="180%">
